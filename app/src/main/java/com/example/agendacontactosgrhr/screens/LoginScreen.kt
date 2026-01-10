@@ -63,7 +63,7 @@ fun LoginScreen(navController: NavHostController) {
         ) {
 
             HorizontalDivider()
-
+            //Texto de Usuario
             var textName by rememberSaveable { mutableStateOf("") }
 
             OutlinedTextField(
@@ -74,19 +74,7 @@ fun LoginScreen(navController: NavHostController) {
                 singleLine = true
             )
 
-
-            /* OutlinedTextField(): trailingIcon para mostrar u ocultar contraseña.
-            * Puede ser de diferentes tipos pero lo normal es que sea un
-            * IconButton()
-            * Para poder ocultar y mostrar la contraseña:
-            * 1) Necesitamos otro estado:
-            * var showPassword by remember { mutableStateOf(false) }
-            * 2) Configuramos el trailinIcon con la acción
-            * 3) Modificamos los elementos que Jetpack Compose pinta:
-            * - trailingIcon
-            * - visualTransformation del texto
-            */
-
+            //Contraseña
             var textPassword by rememberSaveable { mutableStateOf("") }
 
             //Variable que controla si mostramos u ocultamos contraseña
