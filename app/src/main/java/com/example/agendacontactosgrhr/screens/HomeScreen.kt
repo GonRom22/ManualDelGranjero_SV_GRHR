@@ -26,7 +26,7 @@ fun HomeScreen(navController: NavHostController) {
     Scaffold (
         topBar = {
             TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(Color.Blue),
+                colors = TopAppBarDefaults.topAppBarColors(Color.Gray),
                 title = {
                     Text("Home",
                         color = Color.White)

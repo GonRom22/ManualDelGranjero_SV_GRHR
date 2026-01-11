@@ -1,6 +1,8 @@
 package com.example.agendacontactosgrhr.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,11 +26,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lint.kotlin.metadata.Visibility
 import androidx.navigation.NavHostController
 
@@ -38,7 +42,7 @@ fun LoginScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(Color.Gray),
+                colors = TopAppBarDefaults.topAppBarColors(Color.DarkGray),
                 title = { Text("Login Screen",
                     color = Color.White) },
                 navigationIcon = {
@@ -59,10 +63,19 @@ fun LoginScreen(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
+                .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row(modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically){
+
+            Text("Inicio de sesión",
+                fontSize = 24.sp,
+                color = Color.Black)
+            }
 
             HorizontalDivider()
+
             //Texto de Usuario
             var textName by rememberSaveable { mutableStateOf("") }
 
