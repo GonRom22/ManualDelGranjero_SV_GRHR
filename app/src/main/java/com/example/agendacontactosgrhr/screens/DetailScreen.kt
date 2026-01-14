@@ -28,7 +28,7 @@ fun DetailScreen(
     nombre : String?,
     viewModel: DetailViewModel = viewModel()
     ) {
-        //Solo la primera vez que entra
+        //Solo la primera vez que entra.
         androidx.compose.runtime.LaunchedEffect(nombre) {
             viewModel.cargarNombre(nombre)
         }

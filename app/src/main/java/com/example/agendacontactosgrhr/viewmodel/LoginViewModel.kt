@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-
+//View model de Login
 class LoginViewModel : ViewModel(){
 
     var userName by mutableStateOf("")

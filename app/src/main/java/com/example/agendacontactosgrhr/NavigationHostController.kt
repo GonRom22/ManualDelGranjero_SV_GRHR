@@ -14,7 +14,7 @@ import com.example.agendacontactosgrhr.screens.LoginScreen
 
 @Composable
 fun NavigatorHostController() {
-    val navController = rememberNavController()//Controlador de navegación.
+    val navController = rememberNavController()//Controlador de navegación..
     //Aquí definimos todas las rutas de la app.
     NavHost(
         navController = navController,

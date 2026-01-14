@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-
+//View model de DetailScreen
 class DetailViewModel : ViewModel(){
 
     var nombre by mutableStateOf("")

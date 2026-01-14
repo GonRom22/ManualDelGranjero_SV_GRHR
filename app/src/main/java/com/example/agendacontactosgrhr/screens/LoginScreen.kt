@@ -126,7 +126,7 @@ fun LoginScreen(
                 //Mostramos texto visible u oculto según estado de showPassword
                 //visualTransformation =
                   //  if (showPassword) VisualTransformation.None
-                    //else PasswordVisualTransformation()
+                    //else PasswordVisualTransformation().
             IconButton(onClick = {
                 viewModel.login {
                     navController.navigate("home")

@@ -20,7 +20,7 @@ import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-//Le pasamos el controlador de navegación y el view model entre ()
+//Le pasamos el controlador de navegación y el view model entre ().
 fun HomeScreen(navController: NavHostController,
                viewModel: ContactosViewModel = viewModel()
 ) {

@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.agendacontactosgrhr.model.Contacto
 
-//Creamos una clase ContactoViewModel que hereda de la clase ViewModel()
+//Creamos una clase ContactoViewModel que hereda de la clase ViewModel().
 class ContactosViewModel : ViewModel() {
 
     var contactos by mutableStateOf<List<Contacto>>(emptyList())

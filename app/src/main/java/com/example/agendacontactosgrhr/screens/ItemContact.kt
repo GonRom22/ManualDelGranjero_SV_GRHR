@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun ItemContact( name:String, phone:String, navController: NavHostController) {
-    //Esta fila muestra un nombre y un teléfono.
+    //Esta fila muestra un nombre y un teléfono..
     Row (modifier = Modifier.padding(16.dp).
     fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
