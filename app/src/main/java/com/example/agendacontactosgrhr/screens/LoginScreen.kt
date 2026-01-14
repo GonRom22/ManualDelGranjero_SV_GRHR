@@ -1,12 +1,10 @@
 package com.example.agendacontactosgrhr.screens
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bungalow
 import androidx.compose.material.icons.filled.Chalet
 import androidx.compose.material.icons.filled.Visibility
@@ -18,14 +16,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,12 +26,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lint.kotlin.metadata.Visibility
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.agendacontactosgrhr.viewmodel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(
+    navController: NavHostController,
+    viewModel : LoginViewModel = viewModel()
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -77,52 +74,66 @@ fun LoginScreen(navController: NavHostController) {
             HorizontalDivider()
 
             //Texto de Usuario
-            var textName by rememberSaveable { mutableStateOf("") }
+           // var textName by rememberSaveable { mutableStateOf("") }
 
             OutlinedTextField(
+                value = viewModel.userName,
+                onValueChange = viewModel::onUserNameChange,
                 modifier = Modifier.padding(16.dp),
                 label = { Text("Introduce tu nombre") },
-                value = textName,
-                onValueChange = { newValue: String -> textName = newValue },
+                //value = textName,
+                //onValueChange = { newValue: String -> textName = newValue },
                 singleLine = true
             )
 
             //Contraseña
-            var textPassword by rememberSaveable { mutableStateOf("") }
+            //var textPassword by rememberSaveable { mutableStateOf("") }
 
             //Variable que controla si mostramos u ocultamos contraseña
-            var showPassword by rememberSaveable { mutableStateOf(false) }
+            //var showPassword by rememberSaveable { mutableStateOf(false) }
 
             OutlinedTextField(
+                value = viewModel.password,
+                onValueChange = viewModel::onPasswordChange,
+                label = {Text("Password")},
+                modifier = Modifier.padding(16.dp),
+                singleLine = true,
+                visualTransformation =
+                if(viewModel.showPassword) VisualTransformation.None
+                else PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(onClick = {
                         //Si showPassword es true cambia a false y viceversa
-                        showPassword = !showPassword
+                        //showPassword = !showPassword
+                        viewModel.togglePasswordVisibility()
                     }) {
                         //Seleccionamos iconos diferentes para mostrar u ocultar
                         // contraseña
-                        if (showPassword) {
-                            Icon(
-                                Icons.Default.Visibility,
-                                contentDescription = "Contraseña visible"
-                            )
-                        } else
-                            Icon(
-                                Icons.Default.VisibilityOff,
-                                "Contraseña oculta"
-                            )
+                        //if (showPassword) {
+                        Icon(
+                            if (viewModel.showPassword)
+                                Icons.Default.Visibility
+                            else Icons.Default.VisibilityOff,
+                            contentDescription = "Mostrar contraseña"
+                        )
                     }
-                },
-                modifier = Modifier.padding(16.dp),
-                label = { Text("Password") },
-                value = textPassword,
-                onValueChange = { newValue: String -> textPassword = newValue },
-                singleLine = true,
-                //Mostramos texto visible u oculto según estado de showPassword
-                visualTransformation =
-                    if (showPassword) VisualTransformation.None
-                    else PasswordVisualTransformation()
+                }
             )
+
+
+                //value = textPassword,
+                //onValueChange = { newValue: String -> textPassword = newValue },
+                //Mostramos texto visible u oculto según estado de showPassword
+                //visualTransformation =
+                  //  if (showPassword) VisualTransformation.None
+                    //else PasswordVisualTransformation()
+            IconButton(onClick = {
+                viewModel.login {
+                    navController.navigate("home")
+                }
+            }){
+                Icon(Icons.Default.Bungalow, contentDescription = "Login")
+            }
 
             HorizontalDivider()
         }

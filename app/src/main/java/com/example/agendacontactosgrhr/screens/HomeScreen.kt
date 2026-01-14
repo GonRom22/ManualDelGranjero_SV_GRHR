@@ -1,13 +1,10 @@
 package com.example.agendacontactosgrhr.screens
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Bungalow
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -17,12 +14,18 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+//Le pasamos el controlador de navegación y el view model entre ()
+fun HomeScreen(navController: NavHostController,
+               viewModel: ContactosViewModel = viewModel()
+) {
+    val contactos = viewModel.contactos
+
     Scaffold (
         topBar = {
             TopAppBar(
@@ -46,13 +49,13 @@ fun HomeScreen(navController: NavHostController) {
         }
     ){
             paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            Column {
-                ItemContact("Gonzalo Romero", "+34888888888", navController)
-                ItemContact("Héctor Ronquillo", "+34777777777", navController)
-                ItemContact("Luke Skywalker", "+34999999999", navController)
-                ItemContact("Princesa Leia", "+342222222222", navController)
-                ItemContact("Darth Vader", "+34555555555", navController)
+        Column(modifier = Modifier.padding(paddingValues)) {
+            contactos.forEach { contacto ->
+                ItemContact(
+                    name = contacto.nombre,
+                    phone = contacto.telefono,
+                    navController = navController
+                )
             }
         }
     }
