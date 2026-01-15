@@ -8,11 +8,14 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.09.00"
-
+roomV = "2.7.2"
 hiltV = "2.56.2"
-#hiltViewModel. Con esta dependencia no necesita agregar la dependencia de ViewModel
 hiltNavigationComposeV = "1.2.0"
 kspV = "2.0.21-1.0.27"
+navigationComposeV = "2.9.6"
+uiText = "1.10.0"
+
+
 
 navigation-compose = "2.9.6"
 animationCoreLint = "1.10.0"
@@ -42,6 +45,11 @@ hilt-android = { group = "com.google.dagger", name="hilt-android", version.ref =
 hilt-compiler = { group = "com.google.dagger", name="hilt-compiler", version.ref = "hiltV" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationComposeV"}
 androidx-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
+androix-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationComposeV" }
+androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.ref = "uiText" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomV" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomV" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomV" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

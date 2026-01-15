@@ -1,6 +1,10 @@
 package com.example.agendacontactosgrhr.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.agendacontactosgrhr.data.RepositorioContactos
+import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
+import com.example.agendacontactosgrhr.data.local.database.ContactoDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -68,7 +72,19 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
+    fun provideDatabase(app: Application): ContactoDataBase {
+        return Room.databaseBuilder(
+            app,
+            ContactoDataBase::class.java,
+            "contacto_database"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDao(db: ContactoDataBase): ContactoDao = db.contactoDao()
+    /*
     fun provideRepositorioContactos(): RepositorioContactos {
         return RepositorioContactos()
-    }
+    }*/
 }

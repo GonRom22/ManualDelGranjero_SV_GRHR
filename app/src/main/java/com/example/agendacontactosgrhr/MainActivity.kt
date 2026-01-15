@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.agendacontactosgrhr.navigation.AppNavigation
 import com.example.agendacontactosgrhr.ui.theme.AgendaContactosGRHRTheme
-import com.example.agendacontactosgrhr.view.NavigatorHostController
 import dagger.hilt.android.AndroidEntryPoint
 
 //Main
@@ -16,7 +16,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AgendaContactosGRHRTheme {
-                NavigatorHostController()
+                //NavigatorHostController()
+                AppNavigation()
             }
         }
     }

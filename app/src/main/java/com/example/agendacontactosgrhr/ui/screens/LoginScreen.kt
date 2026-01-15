@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr.view.screens
+package com.example.agendacontactosgrhr.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.agendacontactosgrhr.navigation.Screens
 import com.example.agendacontactosgrhr.viewmodel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,18 +42,7 @@ fun LoginScreen(
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(Color.DarkGray),
                 title = { Text("Login Screen",
-                    color = Color.White) },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.navigate("home")
-                    }) {
-                        Icon(
-                            Icons.Default.Chalet,
-                            contentDescription = "",
-                            tint = Color.White
-                        )
-                    }
-                }
+                    color = Color.White) }
             )
         }
     )
@@ -129,7 +119,9 @@ fun LoginScreen(
                     //else PasswordVisualTransformation().
             IconButton(onClick = {
                 viewModel.login {
-                    navController.navigate("home")
+                    navController.navigate(Screens.ListaContactos.route) {
+                        popUpTo(Screens.Login.route) { inclusive = true }
+                    }
                 }
             }){
                 Icon(Icons.Default.Bungalow, contentDescription = "Login")
