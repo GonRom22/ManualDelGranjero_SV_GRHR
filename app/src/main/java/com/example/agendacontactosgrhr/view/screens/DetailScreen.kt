@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr.screens
+package com.example.agendacontactosgrhr.view.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -20,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.viewmodel.DetailViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,10 +34,13 @@ fun DetailScreen(
     nombre : String?,
     viewModel: DetailViewModel = viewModel()
     ) {
+    var isLoading by remember { mutableStateOf(true) }
         //Solo la primera vez que entra.
-        androidx.compose.runtime.LaunchedEffect(nombre) {
-            viewModel.cargarNombre(nombre)
-        }
+    LaunchedEffect(nombre) {
+        delay(1000)//Simulamos un tiempo de carga
+        viewModel.cargarNombre(nombre)
+        isLoading = false
+    }
 
     Scaffold (
         topBar = {
@@ -56,11 +65,16 @@ fun DetailScreen(
         }
     ){  paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)){
-            Row(modifier = Modifier.padding(16.dp)){
-                Text(
-                    "Nombre:  ${viewModel.nombre}",
-                    fontSize = 24.sp,
-                    color = Color.Black)//Aquí se muestra el nombre que recibe.
+            if(isLoading){
+                Text("Cargando...", fontSize = 24.sp, color= Color.Gray, modifier = Modifier.padding(16.dp))
+            }else {
+                Row(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        "Teléfono:  ${viewModel.telefono}",
+                        fontSize = 24.sp,
+                        color = Color.Black
+                    )//Aquí se muestra el nombre que recibe.
+                }
             }
         }
     }

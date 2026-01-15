@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -50,11 +52,24 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+
+    //Nav compose
     implementation(libs.androidx.navigation.compose)
+
+    //Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    //Hilt Nav Compose
+    implementation(libs.hilt.navigation.compose)
+
+
+    //Coil
+    implementation(libs.androidx.coil)
+
     implementation(libs.androidx.compose.animation.core.lint)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.benchmark.traceprocessor)
-    implementation(libs.androidx.coil)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

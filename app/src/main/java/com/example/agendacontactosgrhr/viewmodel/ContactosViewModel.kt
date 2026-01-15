@@ -2,8 +2,10 @@ package com.example.agendacontactosgrhr.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.agendacontactosgrhr.data.RepositorioContactos
 import com.example.agendacontactosgrhr.model.Contacto
-import kotlinx.coroutines.delay
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -12,7 +14,10 @@ import kotlinx.coroutines.launch
 
 //Creamos una clase ContactoViewModel que hereda de la clase ViewModel().
 //ViewModel que gestiona la lista de contactos usando StateFLow
-class ContactosViewModel : ViewModel() {
+@HiltViewModel
+class ContactosViewModel @Inject constructor(
+    private val repositorio: RepositorioContactos
+): ViewModel() {
 
     //STATE (Estado Persistente)
     //----------------------------
@@ -48,14 +53,8 @@ class ContactosViewModel : ViewModel() {
         //Todas las corrutinas lanzada dentro de este scope serán canceladas cuando el ViewModel sea destruido.
         //Aquí estamos simulando traer la información de la API y guardarla en la base de datos local
         viewModelScope.launch {
-            delay(1500)//Esto simula un tiempo de llamada a la red o base de datos
-            _contactosFLow.value = listOf(
-                Contacto("Gonzalo Romero", "+34888888888"),
-                Contacto("Héctor Ronquillo", "+34777777777"),
-                Contacto("Luke Skywalker", "+34999999999"),
-                Contacto("Princesa Leia", "+342222222222"),
-                Contacto("Darth Vader", "+34555555555")
-            )
+            val contactos = repositorio.obtenerContactos()
+            _contactosFLow.value = contactos
         }
     }
 

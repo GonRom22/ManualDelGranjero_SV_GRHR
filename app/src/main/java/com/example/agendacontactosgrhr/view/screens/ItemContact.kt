@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr.screens
+package com.example.agendacontactosgrhr.view.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.agendacontactosgrhr.view.navegarConSnackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -32,17 +33,18 @@ fun ItemContact(
 ) {
     val scope = rememberCoroutineScope ()//para que se recuerde
 
-    //Función para mostrar el snackbar y trtansición
+    //Función  suspendida para mostrar el snackbar y trtansición
     fun mostrarMensajeYNavegar(){
         scope.launch{
             //Avisamos al ViewModel
             onClick()
-            //Mostramos el Snackbar
-            snackbarHostState.showSnackbar(message= "Navegando a pantalla detalle de: $name")
-            //Esperamos un poco para que de tiempop a ser leído
-            delay(1500)//segundo y medio
-            //navegamos a la pantalla detalle
-            navController.navigate("detail/$name")
+            //Pasamos los parámetros a la función suspendida en NavigationHelpers
+            navegarConSnackbar(
+                navController,
+                snackbarHostState,
+                "Navegando a pantalla detalle de: $phone",
+                "detail/$phone"
+            )
         }
     }
 

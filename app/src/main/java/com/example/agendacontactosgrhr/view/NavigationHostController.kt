@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr
+package com.example.agendacontactosgrhr.view
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.TweenSpec
@@ -8,9 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.agendacontactosgrhr.screens.DetailScreen
-import com.example.agendacontactosgrhr.screens.HomeScreen
-import com.example.agendacontactosgrhr.screens.LoginScreen
+import com.example.agendacontactosgrhr.view.screens.DetailScreen
+import com.example.agendacontactosgrhr.view.screens.HomeScreen
+import com.example.agendacontactosgrhr.view.screens.LoginScreen
 
 @Composable
 fun NavigatorHostController() {
@@ -38,7 +38,10 @@ fun NavigatorHostController() {
     ) {
         //Rutas.
         composable ("login"){LoginScreen(navController)}
-        composable ("home"){HomeScreen(navController)}//Ruta home lleva a la función homescreen
+        composable ("home"){HomeScreen(navController, onContactoClick = {
+            nombre ->
+            navController.navigate("detail/$nombre")
+        })}//Ruta home lleva a la función homescreen
         composable (
             "detail/{nombre}",
             arguments = listOf(
