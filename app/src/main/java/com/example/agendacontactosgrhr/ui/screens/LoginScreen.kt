@@ -31,12 +31,20 @@ import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.navigation.Screens
 import com.example.agendacontactosgrhr.viewmodel.LoginViewModel
 
+/**
+ * Pantalla de Login
+ *
+ * Recibe:
+ * - navController: para navegar a la lista de contactos cuando el login es correcto
+ * - viewModel: contiene los datos de usuario, contraseña y funciones de login
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavHostController,
     viewModel : LoginViewModel = viewModel()
 ) {
+    //Scaffold para diseñar y distribuir la pantalla
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,6 +61,7 @@ fun LoginScreen(
                 .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            //Título de pantalla
             Row(modifier = Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically){
 
@@ -64,42 +73,39 @@ fun LoginScreen(
             HorizontalDivider()
 
             //Texto de Usuario
-           // var textName by rememberSaveable { mutableStateOf("") }
-
             OutlinedTextField(
+                //Texto acutal
                 value = viewModel.userName,
+                //Función que actualiza el ViewModel
                 onValueChange = viewModel::onUserNameChange,
                 modifier = Modifier.padding(16.dp),
                 label = { Text("Introduce tu nombre") },
-                //value = textName,
-                //onValueChange = { newValue: String -> textName = newValue },
                 singleLine = true
             )
 
             //Contraseña
-            //var textPassword by rememberSaveable { mutableStateOf("") }
-
-            //Variable que controla si mostramos u ocultamos contraseña
-            //var showPassword by rememberSaveable { mutableStateOf(false) }
-
             OutlinedTextField(
+                //Contraseña actual
                 value = viewModel.password,
+                //Función que actualiaza el ViewModel
                 onValueChange = viewModel::onPasswordChange,
                 label = {Text("Password")},
                 modifier = Modifier.padding(16.dp),
                 singleLine = true,
+                //Si showPassword = true se ve, si no se ocultará
                 visualTransformation =
                 if(viewModel.showPassword) VisualTransformation.None
                 else PasswordVisualTransformation(),
+                //Icono para mostrar u ocultar la contraseña
                 trailingIcon = {
-                    IconButton(onClick = {
-                        //Si showPassword es true cambia a false y viceversa
-                        //showPassword = !showPassword
-                        viewModel.togglePasswordVisibility()
-                    }) {
+                    IconButton(
+                        onClick = {
+                            //Si showPassword es true cambia a false y viceversa
+                            viewModel.togglePasswordVisibility()
+                        }
+                    ) {
                         //Seleccionamos iconos diferentes para mostrar u ocultar
                         // contraseña
-                        //if (showPassword) {
                         Icon(
                             if (viewModel.showPassword)
                                 Icons.Default.Visibility
@@ -110,20 +116,18 @@ fun LoginScreen(
                 }
             )
 
-
-                //value = textPassword,
-                //onValueChange = { newValue: String -> textPassword = newValue },
-                //Mostramos texto visible u oculto según estado de showPassword
-                //visualTransformation =
-                  //  if (showPassword) VisualTransformation.None
-                    //else PasswordVisualTransformation().
-            IconButton(onClick = {
-                viewModel.login {
-                    navController.navigate(Screens.ListaContactos.route) {
-                        popUpTo(Screens.Login.route) { inclusive = true }
+            //Botón para aceptar i logearse
+            IconButton(
+                onClick = {
+                    //Si login es correcto
+                    viewModel.login {
+                        navController.navigate(Screens.ListaContactos.route) {
+                            //Elimina la pantalla de login de la pila para que no se pueda volver atrás
+                            popUpTo(Screens.Login.route) { inclusive = true }
+                        }
                     }
                 }
-            }){
+            ){
                 Icon(Icons.Default.Bungalow, contentDescription = "Login")
             }
 

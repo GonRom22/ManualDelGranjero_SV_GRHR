@@ -30,6 +30,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
 
+/**
+ * Composable que representa un item de contacto en la lista.
+ *
+ * Muestra:
+ * - Nombre y teléfono del contacto
+ * - Botón para editar
+ * - Botón para eliminar con confirmación
+ *
+ * Recibe funciones como parámetros para manejar clics:
+ * - onEliminarClick
+ * - onEditarClick
+ * - onVerDetalleClick
+ */
 @Composable
 fun ContactoItem(
     contacto: ContactoEntity,
@@ -37,12 +50,17 @@ fun ContactoItem(
     onEditarClick: (ContactoEntity) -> Unit,
     onVerDetalleClick: (ContactoEntity) -> Unit
 ) {
+    //Variable que controla si se muestra diálogo de confirmación
     var mostrarDialogo by remember { mutableStateOf(false) }
+
+    //Contexto de Android para mostrar Toast
     val context = LocalContext.current
 
+    //Simula una tarjeta con sombreado
     Card(
         Modifier.fillMaxWidth()
             .padding(8.dp)
+            //El clic en la tarjeta abre detalles
             .clickable { onVerDetalleClick(contacto) },
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
@@ -51,29 +69,48 @@ fun ContactoItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(Modifier.padding(16.dp).weight(8f)) {
+            //Columna para nombre y tlf
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .weight(8f)
+            ) {
                 Text(contacto.nombre, style = MaterialTheme.typography.titleMedium)
                 Text(contacto.telefono, style = MaterialTheme.typography.bodyMedium)
             }
-            IconButton(onClick = { onEditarClick(contacto) }, modifier = Modifier.weight(1f)) {
+
+            //Botón de editar
+            IconButton(
+                onClick = { onEditarClick(contacto) },
+                modifier = Modifier.weight(1f)
+            ) {
                 Icon(Icons.Default.Edit, contentDescription = "Editar", tint = Color.Green)
             }
-            IconButton(onClick = { mostrarDialogo = true }, modifier = Modifier.weight(1f)) {
+            //Botón de eliminar
+            IconButton(
+                onClick = { mostrarDialogo = true },
+                modifier = Modifier.weight(1f)
+            ) {
                 Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = Color.Red)
             }
         }
 
+        //Diálogo de confirmación para borrar
         if (mostrarDialogo) {
             AlertDialog(
-                onDismissRequest = { mostrarDialogo = false },
+                onDismissRequest = { mostrarDialogo = false }, //Si clica fuera se cierra
                 title = { Text("Eliminar contacto") },
                 text = { Text("¿Seguro que deseas eliminar este contacto?") },
                 confirmButton = {
-                    TextButton(onClick = {
-                        onEliminarClick(contacto)
-                        mostrarDialogo = false
-                        Toast.makeText(context, "Contacto eliminado", Toast.LENGTH_SHORT).show()
-                    }) { Text("Eliminar", color = Color.Red) }
+                    TextButton(
+                        onClick = {
+                            onEliminarClick(contacto)
+                            mostrarDialogo = false
+                            Toast.makeText(context, "Contacto eliminado", Toast.LENGTH_SHORT).show()
+                        }
+                    ) {
+                        Text("Eliminar", color = Color.Red)
+                    }
                 },
                 dismissButton = {
                     TextButton(onClick = { mostrarDialogo = false }) { Text("Cancelar") }

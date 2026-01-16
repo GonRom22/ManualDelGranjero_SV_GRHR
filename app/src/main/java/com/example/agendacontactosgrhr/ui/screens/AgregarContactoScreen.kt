@@ -29,24 +29,64 @@ import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgregarContactoScreen(navController: NavHostController) {
+
+    //Creamos el ViewModel usando Hilt
     val viewModel: ContactosViewModel = hiltViewModel()
+
+    //Variables para guardar lo que escribe el usuario
     var nombre by remember { mutableStateOf("") }
     var telefono by remember { mutableStateOf("") }
+
+    //Contexto de Android para mostrar Toast
     val context = LocalContext.current
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Nuevo Contacto") }) }) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-            OutlinedTextField(nombre, onValueChange = { nombre = it }, label = { Text("Nombre") })
-            Spacer(Modifier.height(16.dp))
-            OutlinedTextField(telefono, onValueChange = { telefono = it }, label = { Text("Teléfono") })
+    //El Scaffold permite diseñar la disposición de la pantalla
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Nuevo Contacto") })
+        }
+    ) { padding -> //padding viene del Scaffold y evita que se superponda con la barra
+        Column(
+            modifier = Modifier
+                .fillMaxSize()//Toda la pantalla
+                .padding(padding)//padding de Scaffold
+                .padding(16.dp)//padding extra
+        ) {
+            //Campo para el nombre
+            OutlinedTextField(
+                nombre,
+                onValueChange = { nombre = it },
+                label = { Text("Nombre") }
+            )
+
+            Spacer(Modifier.height(16.dp))//Espacio extra entre campos
+
+            //Campo para escribir el tlf
+            OutlinedTextField(
+                telefono,
+                onValueChange = { telefono = it },
+                label = { Text("Teléfono") }
+
+            )
+
             Spacer(Modifier.height(24.dp))
-            Button(onClick = {
+
+            //Botón de guardar
+            Button(
+                onClick = {
+                    //Comprueba si no está vacío
                 if (nombre.isNotBlank()) {
-                    viewModel.insertarContacto(ContactoEntity(nombre = nombre, telefono = telefono))
+                    viewModel.insertarContacto(
+                        ContactoEntity(nombre = nombre, telefono = telefono)
+                    )
+                    //Muestra mensaje al usuario
                     Toast.makeText(context, "Contacto agregado", Toast.LENGTH_SHORT).show()
+                    //Vuelve atrás, a la pantalla anterior
                     navController.popBackStack()
                 }
-            }, modifier = Modifier.align(Alignment.End)) {
+            },
+                modifier = Modifier.align(Alignment.End)
+            ) {
                 Text("Guardar")
             }
         }

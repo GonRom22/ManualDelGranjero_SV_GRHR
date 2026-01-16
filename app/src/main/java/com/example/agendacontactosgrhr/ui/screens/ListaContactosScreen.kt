@@ -23,31 +23,60 @@ import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.navigation.Screens
 import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
+/**
+ * Pantalla que muestra la lista de contactos.
+ *
+ * Recibe:
+ * - navController: para navegar entre pantallas (detalle, agregar, editar)
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListaContactosScreen(navController: NavHostController) {
-    val viewModel: ContactosViewModel = hiltViewModel()
-    val contactos by viewModel.contactos.collectAsState()
 
+    //Obtenemos ViewModel usando Hilt
+    val viewModel: ContactosViewModel = hiltViewModel()
+    //observamos la lista de contactos desde el ViewModel
+    val contactos by viewModel.contactos.collectAsState()
+    //Scaffold distribuye la pantalla en topbar, contenido y floating button
     Scaffold(
         topBar = { TopAppBar(title = { Text("Agenda de Contactos") }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(Screens.AgregarContacto.route) }) {
+            FloatingActionButton(
+                onClick = {
+                    //Navega a agregar contacto
+                    navController.navigate(Screens.AgregarContacto.route)
+                }
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Agregar")
             }
         }
     ) { padding ->
+        //Si no hay contactos se muestra mensaje centrado
         if (contactos.isEmpty()) {
-            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+                contentAlignment = Alignment.Center
+            ) {
                 Text("No hay contactos aún.")
             }
+            //Si hay contactos se muestra la lista
         } else {
-            LazyColumn(Modifier.fillMaxSize().padding(padding)) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
+                //Recorremos cada contacto y lo mostramos
                 items(contactos) { contacto ->
                     ContactoItem(
                         contacto,
+                        //Función para borrar
                         onEliminarClick = { viewModel.eliminarContacto(it) },
+                        //Función para editar
                         onEditarClick = { navController.navigate("${Screens.EditarContacto.route}/${it.id}") },
+                        //Función para ver detalle
                         onVerDetalleClick = { navController.navigate("${Screens.DetalleContacto.route}/${it.id}") }
                     )
                 }

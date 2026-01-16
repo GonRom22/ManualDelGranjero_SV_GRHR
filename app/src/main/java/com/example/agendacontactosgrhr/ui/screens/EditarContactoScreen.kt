@@ -28,17 +28,33 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
+/**
+ * Pantalla para editar un contacto existente.
+ *
+ * Recibe:
+ * - navController: para volver a la pantalla anterior
+ * - contactoId: id del contacto que queremos editar
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
+
+    //Obtenemos ViewModel
     val viewModel: ContactosViewModel = hiltViewModel()
+
+    //Observa el contacto desde el ViewModel
     val contacto by viewModel.contactoSeleccionado.collectAsState()
+
+    //Variables que guardan datos del contactro que se mostrarán y editarán
     var nombre by rememberSaveable { mutableStateOf("") }
     var telefono by rememberSaveable { mutableStateOf("") }
+    //Controla si ya se cargaron los datos para no sobreescribirlos
     var datosCargados by remember { mutableStateOf(false) }
+    //Contexto Android para mostrar Toast
     val context = LocalContext.current
-
+    //Al iniciar la pantalla, pedimos a ViewModel que busque el contascto por id
     LaunchedEffect(Unit) { viewModel.obtenerContactoPorId(contactoId) }
+    //Cuando el contacto se cambia se rellenan los campos de texto una vez
     LaunchedEffect(contacto) {
         if (contacto != null && !datosCargados) {
             nombre = contacto!!.nombre
@@ -47,19 +63,47 @@ fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
         }
     }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Editar Contacto") }) }) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-            OutlinedTextField(nombre, onValueChange = { nombre = it }, label = { Text("Nombre") })
+    //Scaffold para diseño de pantalla
+    Scaffold(
+        topBar = { TopAppBar(title = { Text("Editar Contacto") }) }
+    ) { padding ->
+        //Columna con campos y botón
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            //Campo para nombre
+            OutlinedTextField(
+                nombre,
+                onValueChange = { nombre = it },
+                label = { Text("Nombre") }
+            )
+
             Spacer(Modifier.height(16.dp))
-            OutlinedTextField(telefono, onValueChange = { telefono = it }, label = { Text("Teléfono") })
+
+            //Campo para tlf
+            OutlinedTextField(
+                telefono,
+                onValueChange = { telefono = it },
+                label = { Text("Teléfono") }
+            )
+
             Spacer(Modifier.height(24.dp))
-            Button(onClick = {
+
+            //Botón
+            Button(
+                onClick = {
                 contacto?.let {
+                    //Se crea una copia del contacto con nuevos datos
                     viewModel.actualizarContacto(it.copy(nombre = nombre, telefono = telefono))
                     Toast.makeText(context, "Contacto actualizado", Toast.LENGTH_SHORT).show()
-                    navController.popBackStack()
+                    navController.popBackStack()//Se regresa a la pantalla anterior
                 }
-            }, modifier = Modifier.fillMaxWidth()) {
+            },
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text("Actualizar")
             }
         }

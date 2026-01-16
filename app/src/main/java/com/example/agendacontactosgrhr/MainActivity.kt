@@ -8,15 +8,17 @@ import com.example.agendacontactosgrhr.navigation.AppNavigation
 import com.example.agendacontactosgrhr.ui.theme.AgendaContactosGRHRTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-//Main
+// MainActivity: punto de entrada de la app
+//@AndroidEntryPoint esd necesario para usar Hilt (inyección de dependencias)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            //Nuestro tema personalizado
             AgendaContactosGRHRTheme {
-                //NavigatorHostController()
+                //inicio de navegación de la app
                 AppNavigation()
             }
         }
