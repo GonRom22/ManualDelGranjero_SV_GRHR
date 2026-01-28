@@ -4,10 +4,14 @@ import android.app.Application
 import androidx.room.Room
 import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
 import com.example.agendacontactosgrhr.data.local.database.ContactoDataBase
+import com.google.firebase.appdistribution.gradle.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.net.URL
 import javax.inject.Singleton
 
 /**
@@ -32,7 +36,7 @@ object AppModule {
         return Room.databaseBuilder(
             context,
             ContactoDataBase::class.java,
-            "contacto_database"
+            "contacto_database"//Almacena la BBDD
         ).build()
     }
 
@@ -50,4 +54,15 @@ object AppModule {
 @Singleton
 fun provideApiService(retrofit: Retrofit) : ApiService {
     return retrofit.create(ApiService::class.java)
+}
+//Aquí la URL de la API
+@Provides
+@Singleton
+fun provideBaseURL(): String = "https://randomuser.me/api/"
+//Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
+fun provideRetrofit(baseURL: String) : Retrofit {
+    return Retrofit.Builder()
+        .baseUrl(baseURL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 }

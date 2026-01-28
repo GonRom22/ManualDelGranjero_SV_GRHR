@@ -58,6 +58,7 @@ dependencies {
     //Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.firebase.appdistribution.gradle)
     ksp(libs.room.compiler)
     //Hilt
     implementation(libs.hilt.android)
