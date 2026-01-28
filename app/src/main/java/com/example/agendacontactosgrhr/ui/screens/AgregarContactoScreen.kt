@@ -34,8 +34,8 @@ fun AgregarContactoScreen(navController: NavHostController) {
     val viewModel: ContactosViewModel = hiltViewModel()
 
     //Variables para guardar lo que escribe el usuario
-    var nombre by remember { mutableStateOf("") }
-    var telefono by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
 
     //Contexto de Android para mostrar Toast
     val context = LocalContext.current
@@ -54,8 +54,8 @@ fun AgregarContactoScreen(navController: NavHostController) {
         ) {
             //Campo para el nombre
             OutlinedTextField(
-                nombre,
-                onValueChange = { nombre = it },
+                name,
+                onValueChange = { name = it },
                 label = { Text("Nombre") }
             )
 
@@ -63,8 +63,8 @@ fun AgregarContactoScreen(navController: NavHostController) {
 
             //Campo para escribir el tlf
             OutlinedTextField(
-                telefono,
-                onValueChange = { telefono = it },
+                phone,
+                onValueChange = { phone = it },
                 label = { Text("Teléfono") }
 
             )
@@ -75,9 +75,17 @@ fun AgregarContactoScreen(navController: NavHostController) {
             Button(
                 onClick = {
                     //Comprueba si no está vacío
-                if (nombre.isNotBlank()) {
+                if (name.isNotBlank()) {
                     viewModel.insertarContacto(
-                        ContactoEntity(nombre = nombre, telefono = telefono)
+                        ContactoEntity(
+                            title = "", name = name, lastName = "", phone = phone, email = "", city = "",
+                            country = "", thumbnail = ""
+
+
+
+
+
+                        )
                     )
                     //Muestra mensaje al usuario
                     Toast.makeText(context, "Contacto agregado", Toast.LENGTH_SHORT).show()

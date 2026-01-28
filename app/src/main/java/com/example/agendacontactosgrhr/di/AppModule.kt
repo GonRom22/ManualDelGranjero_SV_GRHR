@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
 import com.example.agendacontactosgrhr.data.local.database.ContactoDataBase
-import com.google.firebase.appdistribution.gradle.ApiService
+import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,23 +47,25 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDao(db: ContactoDataBase): ContactoDao = db.contactoDao()
+    /**Vamos a añadir el proveedor de la interfaz de la API.
+     * Usamos Retrofit. */
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit) : ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
+    //Aquí la URL de la API
+    @Provides
+    @Singleton
+    fun provideBaseURL(): String = "https://randomuser.me/api/"
+    //Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
+    @Provides
+    @Singleton
+    fun provideRetrofit(baseURL: String) : Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }
 
-/**Vamos a añadir el proveedor de la interfaz de la API.
- * Usamos Retrofit. */
-@Provides
-@Singleton
-fun provideApiService(retrofit: Retrofit) : ApiService {
-    return retrofit.create(ApiService::class.java)
-}
-//Aquí la URL de la API
-@Provides
-@Singleton
-fun provideBaseURL(): String = "https://randomuser.me/api/"
-//Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
-fun provideRetrofit(baseURL: String) : Retrofit {
-    return Retrofit.Builder()
-        .baseUrl(baseURL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-}

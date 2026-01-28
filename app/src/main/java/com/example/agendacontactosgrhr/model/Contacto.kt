@@ -10,6 +10,6 @@ package com.example.agendacontactosgrhr.model
  * se guarda en la base de datos.
  */
 data class Contacto(
-    val nombre: String,
-    val telefono: String
+    val name: String,
+    val phone: String
 )

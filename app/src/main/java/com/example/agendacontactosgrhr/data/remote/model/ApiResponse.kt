@@ -6,7 +6,8 @@ data class ApiResponse (
 
 data class Results(
     val name: ContactName,
-    val contact: ContactContact,
+    val email: String,
+    val phone: String,
     val location: ContactLocation,
     val picture: ContactPicture
 )

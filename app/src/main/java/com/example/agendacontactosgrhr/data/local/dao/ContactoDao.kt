@@ -45,7 +45,7 @@ interface ContactoDao{
      * ordenados alfabéticamente por el nombre.
      * Devuelve un Flow para poder observar los cambios en tiempo real.
      * Cada vez que la tabla contactos se modifica, se emite una nueva lista.*/
-    @Query("SELECT * FROM contactos ORDER BY nombre ASC")
+    @Query("SELECT * FROM contactos ORDER BY name ASC")
     fun obtenerTodosContactos(): Flow<List<ContactoEntity>>
 
     /**Obtiene un contacto específico según su id.

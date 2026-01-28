@@ -1,5 +1,6 @@
 package com.example.agendacontactosgrhr.data.repository
 
+import androidx.compose.remote.creation.first
 import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
 import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
 import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
@@ -44,10 +45,10 @@ class ContactoRepository @Inject constructor(
         val contactoEntity = ContactoEntity(
             //Aquí los nombres varían según se llamen en la propia API
             title = resultado.name.title,
-            nombre = resultado.name.name,
+            name = resultado.name.first,
             lastName = resultado.name.last,
-            phone = resultado.contact.phone,
-            email = resultado.contact.email,
+            phone = resultado.phone ?: "",
+            email = resultado.email ?: "",
             city = resultado.location.city,
             country = resultado.location.country,
             thumbnail = resultado.picture.thumbnail

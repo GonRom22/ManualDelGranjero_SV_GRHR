@@ -41,6 +41,11 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+        }
+    }
 }
 
 dependencies {
@@ -58,7 +63,7 @@ dependencies {
     //Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation(libs.firebase.appdistribution.gradle)
+    implementation(libs.androidx.compose.remote.creation.core)
     ksp(libs.room.compiler)
     //Hilt
     implementation(libs.hilt.android)

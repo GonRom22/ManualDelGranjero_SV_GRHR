@@ -18,7 +18,7 @@ data class ContactoEntity (
     val id: Int = 0,
     val title: String,
     //Nombre del contacto.
-    val nombre: String,
+    val name: String,
     val lastName: String,
     //Teléfono del contacto
     val phone: String,

@@ -57,8 +57,8 @@ fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
     //Cuando el contacto se cambia se rellenan los campos de texto una vez
     LaunchedEffect(contacto) {
         if (contacto != null && !datosCargados) {
-            nombre = contacto!!.nombre
-            telefono = contacto!!.telefono
+            nombre = contacto!!.name
+            telefono = contacto!!.phone
             datosCargados = true
         }
     }
@@ -97,7 +97,7 @@ fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
                 onClick = {
                 contacto?.let {
                     //Se crea una copia del contacto con nuevos datos
-                    viewModel.actualizarContacto(it.copy(nombre = nombre, telefono = telefono))
+                    viewModel.actualizarContacto(it.copy(name = nombre, phone = telefono))
                     Toast.makeText(context, "Contacto actualizado", Toast.LENGTH_SHORT).show()
                     navController.popBackStack()//Se regresa a la pantalla anterior
                 }

@@ -60,8 +60,8 @@ fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
         //Si contacto ya se cargó, muestra los datos
         contacto?.let {
             Column(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-                Text("Nombre: ${it.nombre}")
-                Text("Teléfono: ${it.telefono}")
+                Text("Nombre: ${it.name}")
+                Text("Teléfono: ${it.phone}")
             }
             //Si no hay contacto, muestra indicador de carga
         } ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

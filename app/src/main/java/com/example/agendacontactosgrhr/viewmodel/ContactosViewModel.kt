@@ -1,5 +1,6 @@
 package com.example.agendacontactosgrhr.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.agendacontactosgrhr.data.RepositorioContactos
@@ -57,11 +58,10 @@ class ContactosViewModel @Inject constructor(
             if (existentes.isEmpty()) {
                 // Si no hay contactos, insertamos los por defecto
                 val defaultContacts = listOf(
-                    ContactoEntity(nombre = "Gonzalo Romero", telefono = "+34888888888"),
-                    ContactoEntity(nombre = "Héctor Ronquillo", telefono = "+34777777777"),
-                    ContactoEntity(nombre = "Luke Skywalker", telefono = "+34999999999"),
-                    ContactoEntity(nombre = "Princesa Leia", telefono = "+342222222222"),
-                    ContactoEntity(nombre = "Darth Vader", telefono = "+34555555555")
+                    ContactoEntity(
+                        title = "Don", name = "Gonzalo Romero", lastName = "Romero", phone = "+34888888888",
+                        email = "carnedepiedra@gmail.com", city = "Leganés", country = "España", thumbnail = "imagencita"
+                    )
                 )
                 defaultContacts.forEach { repositorio.insertarContacto(it) }
             }
@@ -107,12 +107,31 @@ class ContactosViewModel @Inject constructor(
 
     //Aquí la función que se llama cuando el usuario pulse un contacto, lanza un CORRUTINA
     //NO cambia el estado, sino que se emite un evento
-    fun onContactoSeleccionado(nombre: String){
+    fun onContactoSeleccionado(name: String){
         viewModelScope.launch{
             //emit es el metodito de SharedFlow que emite un valor al flujo.
             // Es una función suspendida, por ello podemos incluirla dentro de la corrutina
             // viewModelScope.launch.
-            _eventoUI.emit("Detalles de $nombre cargados")
+            _eventoUI.emit("Detalles de $name cargados")
         }
+    }
+
+    //Carga de contacto por API
+    fun loadContactoAPI() {
+        viewModelScope.launch {
+            try {
+                //Obtenemos el contacto de la API
+                val newContacto = repositorio.getNewContact()
+                //Vemos su log
+                Log.d("ContactoViewModel", newContacto.toString())
+                //Lo insertamos en la BBDD
+                insertarContacto(newContacto)
+            } catch (e: Exception) {
+                // Si algo falla, el estado sigue siendo el anterior
+                // o podrías ponerlo a null de nuevo
+                Log.e("ContactoViewModel", "Error al cargar el contacto: $e")
+            }
+        }
+
     }
 }
