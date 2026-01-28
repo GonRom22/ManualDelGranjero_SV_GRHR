@@ -16,8 +16,15 @@ data class ContactoEntity (
      *- Room asigna el valor al insertar el registro.*/
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val title: String,
     //Nombre del contacto.
     val nombre: String,
+    val lastName: String,
     //Teléfono del contacto
-    val telefono: String
+    val phone: String,
+    val email: String,
+    val city: String,
+    val country: String,
+    val thumbnail: String
+
 )
