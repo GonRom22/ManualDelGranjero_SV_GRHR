@@ -43,3 +43,11 @@ object AppModule {
     @Singleton
     fun provideDao(db: ContactoDataBase): ContactoDao = db.contactoDao()
 }
+
+/**Vamos a añadir el proveedor de la interfaz de la API.
+ * Usamos Retrofit. */
+@Provides
+@Singleton
+fun provideApiService(retrofit: Retrofit) : ApiService {
+    return retrofit.create(ApiService::class.java)
+}

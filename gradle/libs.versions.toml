@@ -8,9 +8,12 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.09.00"
+#Room
 roomV = "2.7.2"
+#Hilt
 hiltV = "2.56.2"
 hiltNavigationComposeV = "1.2.0"
+#ksp
 kspV = "2.0.21-1.0.27"
 navigationComposeV = "2.9.6"
 uiText = "1.10.0"
@@ -20,7 +23,12 @@ uiText = "1.10.0"
 navigation-compose = "2.9.6"
 animationCoreLint = "1.10.0"
 benchmarkTraceprocessor = "1.4.1"
+#Coil
 coilVersion = "2.6.0"
+
+#Retrofit
+retrofitV = "3.0.0"
+okhttp = "4.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,19 +45,28 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+#Nav
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+
 androidx-compose-animation-core-lint = { group = "androidx.compose.animation", name = "animation-core-lint", version.ref = "animationCoreLint" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-benchmark-traceprocessor = { group = "androidx.benchmark", name = "benchmark-traceprocessor", version.ref = "benchmarkTraceprocessor" }
+#Hilt
 hilt-android = { group = "com.google.dagger", name="hilt-android", version.ref = "hiltV" }
 hilt-compiler = { group = "com.google.dagger", name="hilt-compiler", version.ref = "hiltV" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationComposeV"}
+#Coil
 androidx-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
 androix-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationComposeV" }
 androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.ref = "uiText" }
+#Room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomV" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomV" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomV" }
+#Retrofit
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitV" }
+retrofit-gsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitV" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -64,7 +64,10 @@ dependencies {
     ksp(libs.hilt.compiler)
     //Hilt Nav Compose
     implementation(libs.hilt.navigation.compose)
-
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gsonConverter)
+    implementation(libs.okhttp.logging)
 
     //Coil
     implementation(libs.androidx.coil)
