@@ -1,6 +1,5 @@
 package com.example.agendacontactosgrhr.data.repository
 
-import androidx.compose.remote.creation.first
 import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
 import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
 import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
@@ -51,7 +50,20 @@ class ContactoRepository @Inject constructor(
             email = resultado.email ?: "",
             city = resultado.location.city,
             country = resultado.location.country,
-            thumbnail = resultado.picture.thumbnail
+            thumbnail = resultado.picture.thumbnail,
+            estacion = listOf("Primavera", "Verano", "Otoño", "Invierno").random(),
+            cumpleanos = (1..28).random(),
+            regalosAmados = "Desconocido",
+            regalosOdiados = "Desconocido",
+            esSoltero = true,
+            nivelAmistad = (0..250).random(),
+            ubicacion = "Desconocida",
+            posicion = "Desconocida",
+            habladoHoy = true,
+            regaloRecibidoHoy = false,
+            estacionCumpleanos = "Desconocido"
+
+
         )
         return contactoEntity
     }

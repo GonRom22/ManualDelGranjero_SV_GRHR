@@ -91,7 +91,7 @@ fun ContactoItem(
             } else {
                 // Si es imagen local drawable
                 val resId = when (contacto.thumbnail) {
-                    "imagencita" -> R.drawable.imagencita
+                    "imagencita" -> R.drawable.imagencita //Contactoentity debe almacenar la url para que no error
                     else -> R.drawable.ic_launcher_foreground // fallback
                 }
                 Image(

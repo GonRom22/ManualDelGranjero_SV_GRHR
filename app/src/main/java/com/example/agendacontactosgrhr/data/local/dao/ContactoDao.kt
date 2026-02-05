@@ -45,6 +45,8 @@ interface ContactoDao{
      * ordenados alfabéticamente por el nombre.
      * Devuelve un Flow para poder observar los cambios en tiempo real.
      * Cada vez que la tabla contactos se modifica, se emite una nueva lista.*/
+
+ /**
     @Query("SELECT * FROM contactos ORDER BY name ASC")
     fun obtenerTodosContactos(): Flow<List<ContactoEntity>>
 
@@ -52,4 +54,37 @@ interface ContactoDao{
      * Devuelve null si no existe ningún contacto con ese id.*/
     @Query("SELECT * FROM contactos WHERE id = :id")
     suspend fun obtenerContactoPorId(id: Int): ContactoEntity?
+
+    @Query("SELECT * FROM ContactoEntity WHERE estacionCumple = :estacion AND cumpleanos = :dia LIMIT 1")
+    fun obtenerCumpleanos(estacion: String, dia: Int): Flow<ContactoEntity?>
+
+    @Update
+    suspend fun actualizarContacto(contacto: ContactoEntity)
+
+    //Filtro de candidatos para matrimonio
+    @Query("SELECT * FROM ContactoEntity WHERE esSoltero = 1 AND nivelAmistad >= 250 LIMIT 1 ") //Hay que verificar si en la base de datos se guarda como booleano o como 0 o 1 el valor esSoltero
+
+    fun obtenerCandidatosMatrimonio(): Flow<List<ContactoEntity>>
+
+    //Gestión de regalos: Reseteo del contador semanal de regalos:
+    @Query("UPDATE ContactoEntity SET regalosDadosEstaSemana = 0 WHERE id = :contactoId")
+    suspend fun resetearRegalos()
+
+    //Gestión de regalos: Busqueda parcial por regalos
+    @Query("SELECT * FROM ContactoEntity WHERE regalosAmados LIKE '%' || :item || '%'") //En esta consulta el like busca resultados parciales y los simbolos de '%' son comodines.
+    fun buscarNpcPorRegaloFavorito(item: String): Flow<List<ContactoEntity>>
+
+
+**/
+
+
+
+
+
+
+
+
+
+
+
 }
