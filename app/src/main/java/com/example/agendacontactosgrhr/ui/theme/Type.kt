@@ -1,10 +1,22 @@
 package com.example.agendacontactosgrhr.ui.theme
 
+import android.R
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+//Cargamos la fuente desde res/font
+val stardewFont = FontFamily(
+    Font(R.font.stardew_font, FontWeight.Normal)
+)
+//Configurar los estilos para que la App los use por defecto
+val Typography = Typography(
+    titleLarge = TextStyle(
+        fontFamily = StardewFontFamily
+    )
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
