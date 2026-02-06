@@ -35,6 +35,7 @@ data class ContactoEntity ( //Se puede sustituir por NPCEntity o similar para ha
     val cumpleanos: Int, // dia 1 a 28
     val estacionCumpleanos: String,
     val regalosAmados: String,
+    val regalosOdiados: String,
     val esSoltero: Boolean,
     val habladoHoy: Boolean,
     val regaloRecibidoHoy: Boolean, //Debe resetearse al final de la semana

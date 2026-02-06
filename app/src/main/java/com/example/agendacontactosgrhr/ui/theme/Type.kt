@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 //Cargamos la fuente desde res/font
-val stardewFont = FontFamily(
+val stardewFontFamily = FontFamily(
     Font(R.font.stardew_font, FontWeight.Normal)
 )
 //Configurar los estilos para que la App los use por defecto
