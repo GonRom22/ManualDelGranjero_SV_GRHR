@@ -19,27 +19,27 @@ data class ContactoEntity ( //Se puede sustituir por NPCEntity o similar para ha
 
 
     //Elementos comunes de la api y el juego
-    val name: String,
-    val thumbnail: String,
+    val name: String="",
+    val thumbnail: String="",
 
     //Elementos específicos de la api
-    val phone: String,
-    val email: String,
-    val city: String,
-    val country: String,
-    val lastName: String,
-    val title: String,
+    val phone: String="",
+    val email: String="",
+    val city: String="",
+    val country: String="",
+    val lastName: String="",
+    val title: String="",
 
     //Para adaptarlo a los requisitos de la agenda de stardew valley:
-    val estacion: String,
-    val cumpleanos: Int, // dia 1 a 28
-    val estacionCumpleanos: String,
-    val regalosAmados: String,
-    val regalosOdiados: String,
-    val esSoltero: Boolean,
-    val habladoHoy: Boolean,
-    val regaloRecibidoHoy: Boolean, //Debe resetearse al final de la semana
+    val estacion: String="",
+    val cumpleanos: Int=0, // dia 1 a 28
+    val estacionCumpleanos: String="",
+    val regalosAmados: String="",
+    val regalosOdiados: String="",
+    val esSoltero: Boolean=false,
+    val habladoHoy: Boolean=false,
+    val regaloRecibidoHoy: Boolean=false, //Debe resetearse al final de la semana
     val nivelAmistad: Int = 0, //Cada corazón son 250 puntos (2500 en total)
-    val ubicacion: String,
-    val posicion: String, //Al sur de la alde
+    val ubicacion: String="",
+    val posicion: String="", //Al sur de la alde
 )

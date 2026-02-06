@@ -1,51 +1,24 @@
 package com.example.agendacontactosgrhr.ui.theme
 
-import android.R
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-//Cargamos la fuente desde res/font
-val stardewFontFamily = FontFamily(
-    Font(R.font.stardew_font, FontWeight.Normal)
+import com.example.agendacontactosgrhr.R
+
+val StardewFontFamily = FontFamily(
+    Font(R.font.stardew_valley, FontWeight.Normal)
 )
-//Configurar los estilos para que la App los use por defecto
-val Typography = Typography(
+
+val AppTypography = Typography(
     titleLarge = TextStyle(
         fontFamily = StardewFontFamily,
         fontWeight = FontWeight.Bold,
-        fonSize = 22.sp
+        fontSize = 22.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = StardewFontFamily
     )
-)
-
-// Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
 )
