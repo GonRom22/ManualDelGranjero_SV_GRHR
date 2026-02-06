@@ -14,6 +14,11 @@ val stardewFontFamily = FontFamily(
 //Configurar los estilos para que la App los use por defecto
 val Typography = Typography(
     titleLarge = TextStyle(
+        fontFamily = StardewFontFamily,
+        fontWeight = FontWeight.Bold,
+        fonSize = 22.sp
+    ),
+    bodyLarge = TextStyle(
         fontFamily = StardewFontFamily
     )
 )
