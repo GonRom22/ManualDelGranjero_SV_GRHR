@@ -126,15 +126,15 @@ class ContactosViewModel @Inject constructor(
             } catch (e: Exception) {
                 // Si algo falla, el estado sigue siendo el anterior
                 // o podrías ponerlo a null de nuevo
-                Log.e("ContactoViewModel", "Error al cargar el contacto: $e")
+                Log.e("ContactoViewModel", "Error al cargar el contacto: $e")}
 
 
 
 
 
                 //lista de personajes oficiales introducidos de forma manueal:
-                fun obtenerSolterosStardew(); List<ContactoEntity> {
-                    val ImgUrl = "https://raw.githubusercontent.com/GonRom22/AgendaContactosGRHR/main/assets/"
+                fun obtenerSolterosStardew(): List<ContactoEntity> {
+                    val imgUrl = "https://raw.githubusercontent.com/GonRom22/AgendaContactosGRHR/master/imagenes/"
 
                     return listOf(
                         ContactoEntity(
@@ -157,7 +157,7 @@ class ContactosViewModel @Inject constructor(
                         ),
                         ContactoEntity(
                             name = "Elliot",
-                            thumbnail = "${imgUrl}Elliot.png",
+                            thumbnail = "${imgUrl}eliot.png",
                             estacion = "otoño",
                             cumpleanos = 5,
                             regalosAmados = "Pastel de cangrejo",
@@ -219,22 +219,16 @@ class ContactosViewModel @Inject constructor(
                             esSoltero = true
                         ),
                         ContactoEntity(
-                            name = "Penny",
-                            thumbnail = "${imgUrl}penny.png",
-                            estacion = "otoño",
-                            cumpleanos = 2,
-                            regalosAmados = "Esmeralda, amapola",
-                            regalosOdiados = "Cerveza",
+                            name = "Emily",
+                            thumbnail = "${imgUrl}emily.png",
+                            estacion = "primavera",
+                            cumpleanos = 27,
+                            regalosAmados = "Amatista, Aguamarina",
+                            regalosOdiados = "Sashimi",
                             esSoltero = true
                         )
-
-
                     )
                 }
-
-
-
-            }
         }
 
     }
