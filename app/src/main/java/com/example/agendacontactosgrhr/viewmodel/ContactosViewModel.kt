@@ -57,7 +57,7 @@ class ContactosViewModel @Inject constructor(
                 // Si no hay contactos, insertamos los por defecto
                 val defaultContacts = listOf(
                     ContactoEntity(
-                        name = "Gonzalo Romero", city = "Leganés", thumbnail = "imagencita"
+                        name = "Gonzalo", estacion = "Invierno", cumpleanos = 10, thumbnail = "gonzalo.png"
                     )
                 )
                 defaultContacts.forEach { repositorio.insertarContacto(it) }

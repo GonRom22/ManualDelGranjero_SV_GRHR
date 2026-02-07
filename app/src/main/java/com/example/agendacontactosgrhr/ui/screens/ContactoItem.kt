@@ -1,6 +1,7 @@
 package com.example.agendacontactosgrhr.ui.screens
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -77,16 +78,31 @@ fun ContactoItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
                 // Si es URL de API
-                AsyncImage(
-                    model = contacto.thumbnail,
-                    contentDescription = "Foto de ${contacto.name}",
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.ic_launcher_foreground),//Si falla
-                    placeholder = painterResource(id = R.drawable.ic_launcher_foreground)//Mientras carga
+            AsyncImage(
+                model = if (contacto.thumbnail.startsWith("http")) contacto.thumbnail else null,
+                contentDescription = "Foto de ${contacto.name}",
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+                error = painterResource(
+                    id = when(contacto.name.lowercase()) {
+                        "abigail" -> R.drawable.abigail
+                        "alex" -> R.drawable.alex
+                        "elliot" -> R.drawable.elliott
+                        "emily" -> R.drawable.emily
+                        "harvey" -> R.drawable.harvey
+                        "leah" -> R.drawable.leah
+                        "maru" -> R.drawable.maru
+                        "penny" -> R.drawable.penny
+                        "sam" -> R.drawable.sam
+                        "sebastian" -> R.drawable.sebastian
+                        else -> R.drawable.ic_launcher_foreground
+                    }
                 )
+            )
+
 
             //Columna para nombre y tlf
             Column(
@@ -94,9 +110,8 @@ fun ContactoItem(
                     .padding(16.dp)
                     .weight(8f)
             ) {
-                Text(contacto.name+" "+contacto.lastName, style = MaterialTheme.typography.titleMedium)
-                Text(contacto.phone+" "+contacto.email, style = MaterialTheme.typography.bodyMedium)
-                Text(contacto.city+" "+contacto.country, style = MaterialTheme.typography.bodyMedium)
+                Text(contacto.name, style = MaterialTheme.typography.titleMedium)
+                Text(contacto.estacion+" "+contacto.cumpleanos, style = MaterialTheme.typography.bodyMedium)
             }
 
             //Botón de editar
