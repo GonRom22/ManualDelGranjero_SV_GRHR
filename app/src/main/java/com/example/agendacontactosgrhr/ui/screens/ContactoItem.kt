@@ -1,7 +1,6 @@
 package com.example.agendacontactosgrhr.ui.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -77,31 +76,18 @@ fun ContactoItem(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (contacto.thumbnail.startsWith("http")) {
                 // Si es URL de API
                 AsyncImage(
                     model = contacto.thumbnail,
-                    contentDescription = "Foto del contacto",
+                    contentDescription = "Foto de ${contacto.name}",
                     modifier = Modifier
                         .size(64.dp)
                         .clip(CircleShape),
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.ic_launcher_foreground),//Si falla
+                    placeholder = painterResource(id = R.drawable.ic_launcher_foreground)//Mientras carga
                 )
-            } else {
-                // Si es imagen local drawable
-                val resId = when (contacto.thumbnail) {
-                    "imagencita" -> R.drawable.ic_launcher_foreground //Contactoentity debe almacenar la url para que no error
-                    else -> R.drawable.ic_launcher_foreground // fallback
-                }
-                Image(
-                    painter = painterResource(id = resId),
-                    contentDescription = "Foto del contacto",
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-            }
+
             //Columna para nombre y tlf
             Column(
                 modifier = Modifier
