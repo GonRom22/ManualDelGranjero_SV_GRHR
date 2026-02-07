@@ -57,7 +57,7 @@ fun ListaContactosScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(padding) // usamos padding del Scaffold
         ) {
-            // --- BOTÓN SUPERIOR ---
+            // Botón superior
             Button(
                 onClick = { viewModel.importarStardew() },
                 modifier = Modifier
@@ -68,7 +68,7 @@ fun ListaContactosScreen(navController: NavHostController) {
                 Text(" Cargar PNJs")
             }
 
-            // --- CONTENIDO ---
+            // Contenido
             if (contactos.isEmpty()) {
                 Box(
                     modifier = Modifier

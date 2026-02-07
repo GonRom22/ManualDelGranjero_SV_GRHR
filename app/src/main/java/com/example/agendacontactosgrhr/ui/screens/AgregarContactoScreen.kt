@@ -81,10 +81,6 @@ fun AgregarContactoScreen(navController: NavHostController) {
                             title = "", name = name, lastName = "", phone = phone, email = "", city = "",
                             country = "", thumbnail = ""
 
-
-
-
-
                         )
                     )
                     //Muestra mensaje al usuario

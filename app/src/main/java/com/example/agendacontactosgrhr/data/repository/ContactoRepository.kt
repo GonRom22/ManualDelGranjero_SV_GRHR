@@ -43,7 +43,7 @@ class ContactoRepository @Inject constructor(
 
     /**Importar todos los personajes de Stardew a la BBDD
      * Función para obtener contacto desde la API
-     * Es asíncrona/hace peticiones a la red y por eso es suspended
+     * Es asíncrona/hace peticiones a la red y por eso es suspended.
      */
 
 
