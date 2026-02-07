@@ -1,13 +1,14 @@
 package com.example.agendacontactosgrhr.data.remote.datasource
 
-import com.example.agendacontactosgrhr.data.remote.model.ApiResponse
+import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
 import retrofit2.http.GET
 
 /**Esta es la interfaz que hará llamadas a la API
  *
  */
-interface ApiService{
-    @GET(value = "?inc=name,location,picture")
 
-    suspend fun getContact(): ApiResponse
+interface ApiService {
+
+    @GET("api/characters")
+    suspend fun getCharacters(): List<ContactoEntity>
 }

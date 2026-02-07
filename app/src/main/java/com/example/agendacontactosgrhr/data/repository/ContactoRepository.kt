@@ -1,11 +1,14 @@
 package com.example.agendacontactosgrhr.data.repository
 
+import android.util.Log
 import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
 import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
 import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Repositorio encargado de gestionar el acceso a los datos de Contactos.
@@ -14,6 +17,7 @@ import javax.inject.Inject
  * Permite centralizar la lógica de acceso a datos y facilita
  * futuras modificaciones (por ejemplo, añadir una API remota).
  */
+@Singleton
 class ContactoRepository @Inject constructor(
     private val contactoDao: ContactoDao,
     //Vamos a inyectar la API como fuente de datos
@@ -36,35 +40,30 @@ class ContactoRepository @Inject constructor(
      * Devuelve null si el contacto no existe.*/
     suspend fun obtenerContactoPorId(id:Int): ContactoEntity? = contactoDao.obtenerContactoPorId(id)
 
-    /**Función para obtener contacto desde la API
-     * Es asíncrona/hace peticiones a la red y por eso es suspended*/
-    suspend fun getNewContact(): ContactoEntity{
-        val resultado = dataSource.getContact().results.first()
 
-        val contactoEntity = ContactoEntity(
-            //Aquí los nombres varían según se llamen en la propia API
-            title = resultado.name.title,
-            name = resultado.name.first,
-            lastName = resultado.name.last,
-            phone = resultado.phone ?: "",
-            email = resultado.email ?: "",
-            city = resultado.location.city,
-            country = resultado.location.country,
-            thumbnail = resultado.picture.thumbnail,
-            estacion = listOf("Primavera", "Verano", "Otoño", "Invierno").random(),
-            cumpleanos = (1..28).random(),
-            regalosAmados = "Desconocido",
-            regalosOdiados = "Desconocido",
-            esSoltero = true,
-            nivelAmistad = (0..250).random(),
-            ubicacion = "Desconocida",
-            posicion = "Desconocida",
-            habladoHoy = true,
-            regaloRecibidoHoy = false,
-            estacionCumpleanos = "Desconocido"
+    /**Importar todos los personajes de Stardew a la BBDD
+     * Función para obtener contacto desde la API
+     * Es asíncrona/hace peticiones a la red y por eso es suspended
+     */
 
 
-        )
-        return contactoEntity
-    }
+    suspend fun importarUnStardew(): ContactoEntity?{
+      val characters = dataSource.getCharacters()
+      val existentes = contactoDao.obtenerTodosContactos().first()
+
+      val pendientes = characters.filter { apiContact ->
+          existentes.none { it.name == apiContact.name }
+      }
+
+      if (pendientes.isEmpty()) return null // Todos ya están insertados
+
+      // Tomamos uno aleatorio
+      val resultado = pendientes.random()
+
+      contactoDao.insertarContacto(resultado)
+
+        Log.d("ContactoRepository", "NPC insertado: ${resultado.name}, thumbnail: ${resultado.thumbnail}")
+
+        return resultado
+  }
 }

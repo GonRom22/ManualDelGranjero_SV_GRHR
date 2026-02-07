@@ -77,40 +77,41 @@ fun ContactoItem(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (contacto.thumbnail.startsWith("http")) {
                 // Si es URL de API
-                AsyncImage(
-                    model = contacto.thumbnail,
-                    contentDescription = "Foto del contacto",
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
+            AsyncImage(
+                model = if (contacto.thumbnail.startsWith("http")) contacto.thumbnail else null,
+                contentDescription = "Foto de ${contacto.name}",
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+                error = painterResource(
+                    id = when(contacto.name.lowercase()) {
+                        "abigail" -> R.drawable.abigail
+                        "alex" -> R.drawable.alex
+                        "elliot" -> R.drawable.elliott
+                        "emily" -> R.drawable.emily
+                        "harvey" -> R.drawable.harvey
+                        "leah" -> R.drawable.leah
+                        "maru" -> R.drawable.maru
+                        "penny" -> R.drawable.penny
+                        "sam" -> R.drawable.sam
+                        "sebastian" -> R.drawable.sebastian
+                        else -> R.drawable.ic_launcher_foreground
+                    }
                 )
-            } else {
-                // Si es imagen local drawable
-                val resId = when (contacto.thumbnail) {
-                    "imagencita" -> R.drawable.ic_launcher_foreground //Contactoentity debe almacenar la url para que no error
-                    else -> R.drawable.ic_launcher_foreground // fallback
-                }
-                Image(
-                    painter = painterResource(id = resId),
-                    contentDescription = "Foto del contacto",
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-            }
+            )
+
+
             //Columna para nombre y tlf
             Column(
                 modifier = Modifier
                     .padding(16.dp)
                     .weight(8f)
             ) {
-                Text(contacto.name+" "+contacto.lastName, style = MaterialTheme.typography.titleMedium)
-                Text(contacto.phone+" "+contacto.email, style = MaterialTheme.typography.bodyMedium)
-                Text(contacto.city+" "+contacto.country, style = MaterialTheme.typography.bodyMedium)
+                Text(contacto.name, style = MaterialTheme.typography.titleMedium)
+                Text(contacto.estacion+" "+contacto.cumpleanos, style = MaterialTheme.typography.bodyMedium)
             }
 
             //Botón de editar

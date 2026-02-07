@@ -20,7 +20,8 @@ data class ContactoEntity ( //Se puede sustituir por NPCEntity o similar para ha
 
     //Elementos comunes de la api y el juego
     val name: String="",
-    val thumbnail: String="",
+    val thumbnail: String="", //Api
+    val thumbnailResId: Int? = null, //imagenes locales
 
     //Elementos específicos de la api
     val phone: String="",

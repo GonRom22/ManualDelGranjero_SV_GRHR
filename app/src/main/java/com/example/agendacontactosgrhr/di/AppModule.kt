@@ -48,15 +48,12 @@ object AppModule {
     fun provideDao(db: ContactoDataBase): ContactoDao = db.contactoDao()
     /**Vamos a añadir el proveedor de la interfaz de la API.
      * Usamos Retrofit. */
-    @Provides
-    @Singleton
-    fun provideApiService(retrofit: Retrofit) : ApiService {
-        return retrofit.create(ApiService::class.java)
-    }
+
     //Aquí la URL de la API
     @Provides
     @Singleton
-    fun provideBaseURL(): String = "https://randomuser.me/api/"
+    fun provideBaseURL(): String = "https://stardew-ol87gqmnr-hrs-projects-30c33d68.vercel.app/"
+
     //Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
     @Provides
     @Singleton
@@ -65,6 +62,12 @@ object AppModule {
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit) : ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 }
 

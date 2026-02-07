@@ -48,77 +48,76 @@ class ContactosViewModel @Inject constructor(
     //En este caso, cuando se inicialice la clase ContactoViewModel, se llamará a la función cargarContactos()
     //Simula la carga de datos desde una API o base de datos
     init {
-        viewModelScope.launch{
+        viewModelScope.launch {
             // Obtenemos los contactos existentes en la DB
-            val existentes = repositorio.obtenerTodosContactos().first() // first() toma el primer valor emitido
+            val existentes =
+                repositorio.obtenerTodosContactos().first() // first() toma el primer valor emitido
 
             if (existentes.isEmpty()) {
                 // Si no hay contactos, insertamos los por defecto
                 val defaultContacts = listOf(
                     ContactoEntity(
-                        title = "Don", name = "Gonzalo Romero", lastName = "Romero", phone = "+34888888888",
-                        email = "carnedepiedra@gmail.com", city = "Leganés", country = "España", thumbnail = "imagencita"
+                        name = "Gonzalo", estacion = "Invierno", cumpleanos = 10, thumbnail = "gonzalo.png"
                     )
                 )
                 defaultContacts.forEach { repositorio.insertarContacto(it) }
             }
+            //Escuchar cambios den la base de datos
             repositorio.obtenerTodosContactos().collect {
                 _contactos.value = it
             }
         }
-
-        /*
-        //cargarContactos()
-        viewModelScope.launch {
-            repositorio.obtenerTodosContactos().collect(){
-                _contactos.value = it
-            }
-        }*/
     }
 
+    //CRUD básico
     fun insertarContacto(contacto: ContactoEntity) = viewModelScope.launch {
         repositorio.insertarContacto(contacto)
     }
+
     fun actualizarContacto(contacto: ContactoEntity) = viewModelScope.launch {
         repositorio.actualizarContacto(contacto)
     }
+
     fun eliminarContacto(contacto: ContactoEntity) = viewModelScope.launch {
         repositorio.eliminarContacto(contacto)
     }
-    fun obtenerContactoPorId(id:Int) = viewModelScope.launch {
+
+    fun obtenerContactoPorId(id: Int) = viewModelScope.launch {
         _contactoSeleccionado.value = repositorio.obtenerContactoPorId(id)
     }
 
-
-    /*
-    //Función que simula la carga de productos de una API
-    private fun cargarContactos() {
-        //viewModelScope.launch es la forma de lanzar corrutinas (hilo en segundo plano) desde un ViewModel ligadas al ciclo de vida del ViewModel.
-        //Todas las corrutinas lanzada dentro de este scope serán canceladas cuando el ViewModel sea destruido.
-        //Aquí estamos simulando traer la información de la API y guardarla en la base de datos local
-        viewModelScope.launch {
-            val contactos = repositorio.obtenerContactos()
-            _contactos.value = contactos
-        }
-   }*/
-
     //Aquí la función que se llama cuando el usuario pulse un contacto, lanza un CORRUTINA
     //NO cambia el estado, sino que se emite un evento
-    fun onContactoSeleccionado(name: String){
-        viewModelScope.launch{
+    fun onContactoSeleccionado(name: String) =
+        viewModelScope.launch {
             //emit es el metodito de SharedFlow que emite un valor al flujo.
             // Es una función suspendida, por ello podemos incluirla dentro de la corrutina
             // viewModelScope.launch.
             _eventoUI.emit("Detalles de $name cargados")
         }
-    }
+
 
     //Carga de contacto por API
-    fun loadContactoAPI() {
+    fun importarStardew() {
         viewModelScope.launch {
             try {
+                val nuevoNpc = repositorio.importarUnStardew()
+                if (nuevoNpc != null) {
+                    Log.d("ContactosViewModel", "NPC insertado: ${nuevoNpc.name}")
+                } else {
+                    Log.d("ContactosViewModel", "Todos los NPCs ya están en la BBDD")
+                }
+            } catch (e: Exception) {
+                Log.e("ContactosViewModel", "Error al importar NPC: $e")
+            }
+        }
+    }
+}
+
+            /*
+            try {
                 //Obtenemos el contacto de la API
-                val newContacto = repositorio.getNewContact()
+                val newContacto = repositorio.importarStardew()
                 //Vemos su log
                 Log.d("ContactoViewModel", newContacto.toString())
                 //Lo insertamos en la BBDD
@@ -228,8 +227,4 @@ class ContactosViewModel @Inject constructor(
                             esSoltero = true
                         )
                     )
-                }
-        }
-
-    }
-}
+                }*/

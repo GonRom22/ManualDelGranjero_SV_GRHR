@@ -92,14 +92,13 @@ fun ListaContactosScreen(navController: NavHostController) {
                 //Botón de guardar
                 Button(
                     onClick = {
-                        viewModel.loadContactoAPI()
-
+                        viewModel.importarStardew()
                     },
                     modifier = Modifier.align(Alignment.Center)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Backup,
-                        contentDescription = "Cargar Contacto"
+                        contentDescription = "Cargar NPCs Stardew Valley"
                     )
                 }
             }
