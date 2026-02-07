@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import com.example.agendacontactosgrhr.R
 
 //Creamos una clase ContactoViewModel que hereda de la clase ViewModel().
 //ViewModel que gestiona la lista de contactos usando StateFLow
@@ -57,10 +58,13 @@ class ContactosViewModel @Inject constructor(
                 // Si no hay contactos, insertamos los por defecto
                 val defaultContacts = listOf(
                     ContactoEntity(
-                        name = "Gonzalo", estacion = "Invierno", cumpleanos = 10, thumbnail = "gonzalo.png"
+                        name = "Gonzalo", estacion = "Invierno", cumpleanos = 10, thumbnailResId = R.drawable.gonzalo
                     )
                 )
-                defaultContacts.forEach { repositorio.insertarContacto(it) }
+
+                defaultContacts.forEach {
+                    Log.d("DEBUG_CONTACT", "Insertando contacto: ${it.name}, resId=${it.thumbnailResId}")
+                    repositorio.insertarContacto(it) }
             }
             //Escuchar cambios den la base de datos
             repositorio.obtenerTodosContactos().collect {
@@ -113,118 +117,3 @@ class ContactosViewModel @Inject constructor(
         }
     }
 }
-
-            /*
-            try {
-                //Obtenemos el contacto de la API
-                val newContacto = repositorio.importarStardew()
-                //Vemos su log
-                Log.d("ContactoViewModel", newContacto.toString())
-                //Lo insertamos en la BBDD
-                insertarContacto(newContacto)
-            } catch (e: Exception) {
-                // Si algo falla, el estado sigue siendo el anterior
-                // o podrías ponerlo a null de nuevo
-                Log.e("ContactoViewModel", "Error al cargar el contacto: $e")}
-
-
-
-
-
-                //lista de personajes oficiales introducidos de forma manueal:
-                fun obtenerSolterosStardew(): List<ContactoEntity> {
-                    val imgUrl = "https://raw.githubusercontent.com/GonRom22/AgendaContactosGRHR/master/imagenes/"
-
-                    return listOf(
-                        ContactoEntity(
-                            name = "Abigail",
-                            thumbnail = "${imgUrl}abigail.png",
-                            estacion = "otoño",
-                            cumpleanos = 13,
-                            regalosAmados = "Amatista, tarta de calabaza",
-                            regalosOdiados = "Arcilla",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Alex",
-                            thumbnail = "${imgUrl}alex.png",
-                            estacion = "verano",
-                            cumpleanos = 13,
-                            regalosAmados = "Desayuno completo",
-                            regalosOdiados = "Cuarzo",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Elliot",
-                            thumbnail = "${imgUrl}eliot.png",
-                            estacion = "otoño",
-                            cumpleanos = 5,
-                            regalosAmados = "Pastel de cangrejo",
-                            regalosOdiados = "Amaranto",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Harvey",
-                            thumbnail = "${imgUrl}harvey.png",
-                            estacion = "otoño",
-                            cumpleanos = 13,
-                            regalosAmados = "café, vino",
-                            regalosOdiados = "Coral",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Leah",
-                            thumbnail = "${imgUrl}leah.png",
-                            estacion = "invierno",
-                            cumpleanos = 23,
-                            regalosAmados = "Ensalada, queso de cabra",
-                            regalosOdiados = "pan, pizza",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Maru",
-                            thumbnail = "${imgUrl}maru.png",
-                            estacion = "verano",
-                            cumpleanos = 10,
-                            regalosAmados = "bateria, diamante",
-                            regalosOdiados = "Miel",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Penny",
-                            thumbnail = "${imgUrl}penny.png",
-                            estacion = "otoño",
-                            cumpleanos = 2,
-                            regalosAmados = "Esmeralda, amapola",
-                            regalosOdiados = "Cerveza",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Sam",
-                            thumbnail = "${imgUrl}sam.png",
-                            estacion = "invierno",
-                            cumpleanos = 10,
-                            regalosAmados = "Lágrima helada, sashimi",
-                            regalosOdiados = "Tortilla",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Shane",
-                            thumbnail = "${imgUrl}shane.png",
-                            estacion = "primavera",
-                            cumpleanos = 20,
-                            regalosAmados = "Cerveza, pizza",
-                            regalosOdiados = "Pepinillos",
-                            esSoltero = true
-                        ),
-                        ContactoEntity(
-                            name = "Emily",
-                            thumbnail = "${imgUrl}emily.png",
-                            estacion = "primavera",
-                            cumpleanos = 27,
-                            regalosAmados = "Amatista, Aguamarina",
-                            regalosOdiados = "Sashimi",
-                            esSoltero = true
-                        )
-                    )
-                }*/

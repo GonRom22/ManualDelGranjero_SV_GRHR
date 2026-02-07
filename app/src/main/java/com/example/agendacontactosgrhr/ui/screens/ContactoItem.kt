@@ -63,6 +63,21 @@ fun ContactoItem(
     //Contexto de Android para mostrar Toast
     val context = LocalContext.current
 
+    // Preparamos el drawable de error según el nombre
+    val errorRes = when (contacto.name.lowercase()) {
+        "abigail" -> R.drawable.abigail
+        "alex" -> R.drawable.alex
+        "elliott" -> R.drawable.elliott
+        "emily" -> R.drawable.emily
+        "harvey" -> R.drawable.harvey
+        "leah" -> R.drawable.leah
+        "maru" -> R.drawable.maru
+        "penny" -> R.drawable.penny
+        "sam" -> R.drawable.sam
+        "sebastian" -> R.drawable.sebastian
+        else -> R.drawable.ic_launcher_foreground
+    }
+
     //Simula una tarjeta con sombreado
     Card(
         Modifier.fillMaxWidth()
@@ -77,31 +92,32 @@ fun ContactoItem(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-                // Si es URL de API
-            AsyncImage(
-                model = if (contacto.thumbnail.startsWith("http")) contacto.thumbnail else null,
-                contentDescription = "Foto de ${contacto.name}",
-                modifier = Modifier
-                    .size(64.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
-                error = painterResource(
-                    id = when(contacto.name.lowercase()) {
-                        "abigail" -> R.drawable.abigail
-                        "alex" -> R.drawable.alex
-                        "elliot" -> R.drawable.elliott
-                        "emily" -> R.drawable.emily
-                        "harvey" -> R.drawable.harvey
-                        "leah" -> R.drawable.leah
-                        "maru" -> R.drawable.maru
-                        "penny" -> R.drawable.penny
-                        "sam" -> R.drawable.sam
-                        "sebastian" -> R.drawable.sebastian
-                        else -> R.drawable.ic_launcher_foreground
-                    }
+            // --- IMAGEN ---
+            if (contacto.thumbnailResId != null) {
+                // Imagen local precargada
+                Image(
+                    painter = painterResource(id = contacto.thumbnailResId),
+                    contentDescription = "Foto de ${contacto.name}",
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
                 )
-            )
+            } else {
+                // Imagen remota API o fallback
+                AsyncImage(
+                    model = if (contacto.thumbnail.startsWith("http")) contacto.thumbnail else null,
+                    contentDescription = "Foto de ${contacto.name}",
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+                    error = painterResource(id = errorRes)
+                )
+            }
+
+
 
 
             //Columna para nombre y tlf
