@@ -5,7 +5,7 @@ import kotlinx.coroutines.delay
 
 
 /**
- * Repositorio que simula la obtención de contactos.
+ * Repositorio que simula la obtención de contactos..
  *
  * Esta clase se utiliza como una fuente de datos falsa
  * para pruebas, ejemplos o desarrollo inicial.

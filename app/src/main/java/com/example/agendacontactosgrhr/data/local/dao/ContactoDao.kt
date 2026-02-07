@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
 interface ContactoDao{
     /**
      * Inserta un contacto en la base de datos.
-     * Si ya existe un contacto con el mismo id, se reemplaza.
+     * Si ya existe un contacto con el mismo id, se reemplaza..
      *
      * Se usa una función suspendida porque el acceso a la base de datos
      * es lento y costoso y debe ejecutarse dentro de una corrutina.
