@@ -4,22 +4,34 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
+import com.example.agendacontactosgrhr.data.network.NetworkMonitor
 import com.example.agendacontactosgrhr.data.repository.ContactoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 //Creamos una clase ContactoViewModel que hereda de la clase ViewModel().
 //ViewModel que gestiona la lista de contactos usando StateFLow
 @HiltViewModel
 class ContactosViewModel @Inject constructor(
-    private val repositorio: ContactoRepository//RepositorioContactos
+    private val repositorio: ContactoRepository,//RepositorioContactos
+
+    private val networkMonitor: NetworkMonitor // *******Inyección del montitor de red
+
 ): ViewModel() {
+
+
+    val isOnline: StateFlow<Boolean> = networkMonitor.isConnected
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
+
 
     //STATE (Estado Persistente)
     //----------------------------
