@@ -16,10 +16,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
  * Después de investigar descubrimos que hay que importar en el manifest las siguientes lineas:
  * <uses-permission android:name="android.permission.INTERNET" />
  * <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+ * @ApplicationContext comunica con Hilt pra que utilice el contexto global de la app
  */
-class NetworkMonitor @Inject constructor(context: Context) {
+class NetworkMonitor @Inject constructor(@ApplicationContext context: Context) {
     // Servicio del sistema para gestionar la red
-    @ApplicationContext private val connectivityManager =
+     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     val isConnected: Flow<Boolean> = callbackFlow {
@@ -34,13 +35,13 @@ class NetworkMonitor @Inject constructor(context: Context) {
             }
         }
 
-        // 2. Configuramos la petición para detectar internet
-        // OJO: Fíjate bien en los paréntesis aquí
+        // configuración de la petición para la conexión a internet
+
         val request = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
 
-        // 3. Registramos el callback en el sistema
+        // Registramos el callback
         connectivityManager.registerNetworkCallback(request, callback)
 
         // 4. Comprobamos el estado inicial nada más empezar

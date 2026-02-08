@@ -7,7 +7,7 @@ import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
 import com.example.agendacontactosgrhr.data.network.NetworkMonitor
 import com.example.agendacontactosgrhr.data.repository.ContactoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import javax.inject.Inject //Antes jakarta, pero no funcionaba porque entraba en conflicto con Hilt
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow

@@ -16,7 +16,7 @@ import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
  *
  * Esta clase debe ser abstracta y extender de RoomDatabase.
  */
-@Database(entities = [ContactoEntity::class], version = 1, exportSchema = false)
+@Database(entities = [ContactoEntity::class], version = 2, exportSchema = false)
 abstract class ContactoDataBase: RoomDatabase(){
     /**Proporciona el DAO que permite acceder a las operaciones
      * de la tabla contactos.
