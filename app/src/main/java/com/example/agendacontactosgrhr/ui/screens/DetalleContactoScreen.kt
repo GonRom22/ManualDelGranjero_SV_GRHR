@@ -52,12 +52,12 @@ fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
             )
         }
     ) { padding ->
-        // Contenedor principal que centra el contenido o el indicador de carga
+        // Contenedor principal
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-            contentAlignment = Alignment.Center // Corregido: Alignment
+            contentAlignment = Alignment.Center
         ) {
             contacto?.let { character ->
                 Column(
