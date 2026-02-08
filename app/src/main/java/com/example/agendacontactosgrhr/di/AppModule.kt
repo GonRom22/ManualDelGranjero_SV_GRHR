@@ -71,7 +71,11 @@ object AppModule {
             .build()
     }
 
-
+    /**
+     * Inicializa el monitor de red
+     * Se utiliza @AplicationContext para obtener el contexto
+     * de la aplicación
+     */
     @Provides
     @Singleton
     fun provideNetworkMonitor(@ApplicationContext context: Context): NetworkMonitor {

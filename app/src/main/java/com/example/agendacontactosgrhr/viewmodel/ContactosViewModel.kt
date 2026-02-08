@@ -23,7 +23,10 @@ import com.example.agendacontactosgrhr.R
 @HiltViewModel
 class ContactosViewModel @Inject constructor(
     private val repositorio: ContactoRepository,//RepositorioContactos
-
+    /**
+     * inyectamos el networkMonitor, esto permite comocer el estado de
+     * la red sin depender del SO
+     */
     private val networkMonitor: NetworkMonitor // *******Inyección del montitor de red
 
 ): ViewModel() {
@@ -31,7 +34,7 @@ class ContactosViewModel @Inject constructor(
 
     val isOnline: StateFlow<Boolean> = networkMonitor.isConnected
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
-
+//Convierte el flow en un stateFlow observable por la UI
 
 
 
@@ -115,6 +118,10 @@ class ContactosViewModel @Inject constructor(
     //Carga de contacto por API
     fun importarStardew() {
         viewModelScope.launch {
+            if(!isOnline.value) {
+                _eventoUI.emit("No hay conexión a internet")
+                return@launch
+            }
             try {
                 val nuevoNpc = repositorio.importarUnStardew()
                 if (nuevoNpc != null) {
