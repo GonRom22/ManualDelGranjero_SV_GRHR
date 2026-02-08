@@ -7,7 +7,7 @@ import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
 import com.example.agendacontactosgrhr.data.network.NetworkMonitor
 import com.example.agendacontactosgrhr.data.repository.ContactoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -33,9 +33,8 @@ class ContactosViewModel @Inject constructor(
 
 
 
-    //STATE (Estado Persistente)
-    //----------------------------
-    //MutableStateFLow es un observable que mantiene un estado reactivo y mutable
+
+
     //Se declara como privado para seguir el principio de encapsulamiento
     private val _contactos = MutableStateFlow<List<ContactoEntity>>(emptyList())
 
