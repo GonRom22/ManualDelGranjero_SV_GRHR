@@ -43,13 +43,15 @@ object AppModule {
         ).build()
     }
 
-    /**Proporciona el DAO de Contactos.
+    /**@provideDao
+     * Proporciona el DAO de Contactos.
      * Room genera automáticamente la implementación del DAO.
      * Se obtiene a partir de la instancia de la base de datos.*/
     @Provides
     @Singleton
     fun provideDao(db: ContactoDataBase): ContactoDao = db.contactoDao()
-    /**Vamos a añadir el proveedor de la interfaz de la API..
+    /**@provideBaseUrl
+     * Vamos a añadir el proveedor de la interfaz de la API..
      * Usamos Retrofit. */
 
     //Aquí la URL de la API
@@ -57,7 +59,9 @@ object AppModule {
     @Singleton
     fun provideBaseURL(): String = "https://stardew-ol87gqmnr-hrs-projects-30c33d68.vercel.app/"
 
-    //Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
+    /**@provideRetofrit
+     * Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
+     */
     @Provides
     @Singleton
     fun provideRetrofit(baseURL: String) : Retrofit {
@@ -66,6 +70,7 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
 
     @Provides
     @Singleton
