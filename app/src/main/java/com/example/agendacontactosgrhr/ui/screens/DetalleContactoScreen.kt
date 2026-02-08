@@ -74,8 +74,14 @@ fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
                         text = "Nombre: ${character.name}",
                         style = MaterialTheme.typography.headlineMedium
                     )
+                    Spacer(modifier = Modifier.height(28.dp))
                     Text(
-                        text = "Teléfono: ${character.phone}",
+                        text = "Regalos amados: ${character.regalosAmados}",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Spacer(modifier = Modifier.height(28.dp))
+                    Text(
+                        text = "Regalos odiados: ${character.regalosOdiados}",
                         style = MaterialTheme.typography.bodyLarge
                     )
 

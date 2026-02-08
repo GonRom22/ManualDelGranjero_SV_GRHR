@@ -1,7 +1,9 @@
 package com.example.agendacontactosgrhr.ui.screens
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.navigation.Screens
@@ -53,53 +56,55 @@ fun ListaContactosScreen(navController: NavHostController) {
             }
         }
     ) { padding ->
-        //Si no hay contactos se muestra mensaje centrado
-        if (contactos.isEmpty()) {
-            Box(
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding) // usamos padding del Scaffold
+        ) {
+            // Botón superior
+            Button(
+                onClick = { viewModel.importarStardew() },
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .padding(8.dp)
             ) {
-                Text("No hay contactos aún.")
+                Icon(Icons.Default.Backup, contentDescription = "Cargar NPCs Stardew Valley")
+                Text(" Cargar PNJs")
             }
-            //Si hay contactos se muestra la lista
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ){
-                LazyColumn(
+            //Si no hay contactos se muestra mensaje centrado
+            if (contactos.isEmpty()) {
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(padding)
+                        .padding(padding),
+                    contentAlignment = Alignment.Center
                 ) {
-                    //Recorremos cada contacto y lo mostramos
-                    items(contactos) { contacto ->
-                        ContactoItem(
-                            contacto,
-                            //Función para borrar
-                            onEliminarClick = { viewModel.eliminarContacto(it) },
-                            //Función para editar
-                            onEditarClick = { navController.navigate("${Screens.EditarContacto.route}/${it.id}") },
-                            //Función para ver detalle
-                            onVerDetalleClick = { navController.navigate("${Screens.DetalleContacto.route}/${it.id}") }
-                        )
-                    }
+                    Text("No hay contactos aún.")
                 }
-                //Botón de guardar
-                Button(
-                    onClick = {
-                        viewModel.importarStardew()
-                    },
-                    modifier = Modifier.align(Alignment.Center)
+                //Si hay contactos se muestra la lista
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Backup,
-                        contentDescription = "Cargar NPCs Stardew Valley"
-                    )
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        //Recorremos cada contacto y lo mostramos
+                        items(contactos) { contacto ->
+                            ContactoItem(
+                                contacto,
+                                //Función para borrar
+                                onEliminarClick = { viewModel.eliminarContacto(it) },
+                                //Función para editar
+                                onEditarClick = { navController.navigate("${Screens.EditarContacto.route}/${it.id}") },
+                                //Función para ver detalle
+                                onVerDetalleClick = { navController.navigate("${Screens.DetalleContacto.route}/${it.id}") }
+                            )
+                        }
+                    }
                 }
             }
         }

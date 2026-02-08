@@ -69,7 +69,7 @@ class ContactosViewModel @Inject constructor(
                 // Si no hay contactos, insertamos los por defecto
                 val defaultContacts = listOf(
                     ContactoEntity(
-                        name = "Gonzalo", estacion = "Invierno", cumpleanos = 10, thumbnailResId = R.drawable.gonzalo//Drawable
+                        name = "Gonzalo", estacion = "Invierno", regalosAmados = "Chocolate", regalosOdiados = "Queso", cumpleanos = 10, thumbnailResId = R.drawable.gonzalo//Drawable
                     )
                 )
 
