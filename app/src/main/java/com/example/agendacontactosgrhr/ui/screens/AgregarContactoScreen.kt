@@ -33,9 +33,12 @@ fun AgregarContactoScreen(navController: NavHostController) {
     //Creamos el ViewModel usando Hilt
     val viewModel: ContactosViewModel = hiltViewModel()
 
-    //Variables para guardar lo que escribe el usuario
+    //Variables para guardar lo que escribe el usuario. El remember hace que el texto no se borre si la pantalla se gire etc.
     var name by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
+    //Añadimos estas variables para resolver provisionalmente el problema con la api de randomuser hasta que desarrollemos la nuestra
+    var estacion by remember { mutableStateOf("") }
+    var cumpleanos by remember { mutableStateOf("") }
 
     //Contexto de Android para mostrar Toast
     val context = LocalContext.current
@@ -68,6 +71,20 @@ fun AgregarContactoScreen(navController: NavHostController) {
                 label = { Text("Teléfono") }
 
             )
+            //Campo para escribir el tlf
+            OutlinedTextField(
+                estacion,
+                onValueChange = { estacion = it },
+                label = { Text("estación (Primavera, verano, otoño, invierno)") }
+
+            )
+            //Campo para escribir el tlf
+            OutlinedTextField(
+                cumpleanos,
+                onValueChange = { cumpleanos = it },
+                label = { Text("cumpleaños (1-28") }
+
+            )
 
             Spacer(Modifier.height(24.dp))
 
@@ -79,7 +96,7 @@ fun AgregarContactoScreen(navController: NavHostController) {
                     viewModel.insertarContacto(
                         ContactoEntity(
                             title = "", name = name, lastName = "", phone = phone, email = "", city = "",
-                            country = "", thumbnail = ""
+                            country = "", thumbnail = "", estacion = estacion, cumpleanos = cumpleanos.toInt()
 
                         )
                     )
