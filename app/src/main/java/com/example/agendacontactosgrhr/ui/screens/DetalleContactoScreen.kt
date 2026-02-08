@@ -16,6 +16,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
+/**
+ * Esta pantalla recupera y muestra la info detallada de los contactos
+ * utilizando un launchedeffect y basandose en la ID del contacto
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
@@ -64,7 +68,7 @@ fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally // Corregido: horizontalAlignment
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Nombre: ${character.name}",
@@ -87,7 +91,7 @@ fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
                         Text("Ver en la Wiki")
                     }
                 }
-            } ?: CircularProgressIndicator() // Feedback visual de carga
+            } ?: CircularProgressIndicator() // para dar feedback de la carga
         }
     }
 }
