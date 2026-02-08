@@ -23,7 +23,7 @@ fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
     val viewModel: ContactosViewModel = hiltViewModel()
     val context = LocalContext.current
 
-    // Observación del estado del contacto seleccionado
+    // Observación del estado del contacto seleccionado.
     val contacto by viewModel.contactoSeleccionado.collectAsState()
 
     // Carga del contacto al iniciar o cambiar el ID
