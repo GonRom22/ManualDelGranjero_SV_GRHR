@@ -92,20 +92,41 @@ fun AgregarContactoScreen(navController: NavHostController) {
             //Botón de guardar
             Button(
                 onClick = {
+                /**
+                 * En la versión que enviamos si rellenas
+                 * algunos campos sin intrucir string el
+                 * programa se cierra
+                     */
+                    try {
                     //Comprueba si no está vacío
                 if (name.isNotBlank()) {
+                    val diaNum = cumpleanos.toInt()
                     viewModel.insertarContacto(
                         ContactoEntity(
-                            title = "", name = name, lastName = "", phone = phone, email = "", city = "",
-                            country = "", thumbnail = "", estacion = estacion, cumpleanos = cumpleanos.toInt()
-
+                            title = "",
+                            name = name,
+                            lastName = "",
+                            phone = phone,
+                            email = "",
+                            city = "",
+                            country = "",
+                            thumbnail = "",
+                            estacion = estacion,
+                            cumpleanos = diaNum
                         )
                     )
                     //Muestra mensaje al usuario
                     Toast.makeText(context, "Contacto agregado", Toast.LENGTH_SHORT).show()
                     //Vuelve atrás, a la pantalla anterior
                     navController.popBackStack()
+                } else {
+                    Toast.makeText(context, "El nombre es obligatorio!", Toast.LENGTH_SHORT).show()
                 }
+                    }
+                    catch (e: Exception) {
+                        Toast.makeText(context, "ERROR: El cumpleaños debe ser un número del 1 al 28",
+                            Toast.LENGTH_LONG).show()
+                    }
             },
                 modifier = Modifier.fillMaxWidth()
             ) {
