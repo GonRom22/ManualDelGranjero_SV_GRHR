@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr.ui.screens
+package com.example.agendacontactosgrhr.ui.screens.favorites
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column

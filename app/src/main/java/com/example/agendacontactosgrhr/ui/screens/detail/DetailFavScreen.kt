@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr.ui.screens
+package com.example.agendacontactosgrhr.ui.screens.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
