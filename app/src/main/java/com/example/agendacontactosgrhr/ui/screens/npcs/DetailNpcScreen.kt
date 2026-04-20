@@ -1,54 +1,54 @@
 package com.example.agendacontactosgrhr.ui.screens.npcs
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
 /**
- * Pantalla que muestra los detalles de un contacto.
- *
- * Recibe:
- * - navController: para poder volver a la pantalla anterior
- * - contactoId: el id del contacto que queremos mostrar
+ * Esta pantalla recupera y muestra la info detallada de los contactos
+ * utilizando un launchedeffect y basandose en la ID del contacto
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
 
-    //Obtenemos el ViewModel usando Hilt
     val viewModel: ContactosViewModel = hiltViewModel()
-    //Observamos el contacto seleccionado desde el ViewModel
-    val contacto by viewModel.contactoSeleccionado.collectAsState()
-    //Al cargar la pantalla, pedimos al ViewModel que busque el contacto por id
-    LaunchedEffect(Unit) { viewModel.obtenerContactoPorId(contactoId) }
+    val context = LocalContext.current
 
-    //Scaffold dispone el diseño de pantalla
+    // Observación del estado del contacto seleccionado.
+    val contacto by viewModel.contactoSeleccionado.collectAsState()
+
+    // Carga del contacto al iniciar o cambiar el ID
+    LaunchedEffect(contactoId) {
+        viewModel.obtenerContactoPorId(contactoId)
+    }
+
+    // Lógica del Intent para la Wiki
+    val abrirWiki = {
+        contacto?.let {
+            val url = "https://stardewvalleywiki.com/${it.name.replace(" ", "_")}"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Detalle Contacto") },
+                title = { Text("Detalle del Personaje") },
                 navigationIcon = {
-                    //Botón para regresar
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
@@ -56,16 +56,48 @@ fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
             )
         }
     ) { padding ->
+        // Contenedor principal
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+            contentAlignment = Alignment.Center
+        ) {
+            contacto?.let { character ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Nombre: ${character.name}",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    Spacer(modifier = Modifier.height(28.dp))
+                    Text(
+                        text = "Regalos amados: ${character.regalosAmados}",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Spacer(modifier = Modifier.height(28.dp))
+                    Text(
+                        text = "Regalos odiados: ${character.regalosOdiados}",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
 
-        //Si contacto ya se cargó, muestra los datos
-        contacto?.let {
-            Column(Modifier.fillMaxSize().padding(padding).padding(16.dp)) {
-                Text("Nombre: ${it.name}")
-                Text("Teléfono: ${it.phone}")
-            }
-            //Si no hay contacto, muestra indicador de carga
-        } ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()//Típico círculo que gira
+                    Spacer(modifier = Modifier.height(28.dp))
+
+                    // Botón para ejecutar el Intent de la Wiki
+                    Button(
+                        onClick = { abrirWiki() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(Icons.Default.Info, contentDescription = null)
+                        Spacer(Modifier.width(10.dp))
+                        Text("Ver en la Wiki")
+                    }
+                }
+            } ?: CircularProgressIndicator() // para dar feedback de la carga
         }
     }
 }

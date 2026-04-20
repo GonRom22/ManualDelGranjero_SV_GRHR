@@ -4,14 +4,17 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.agendacontactosgrhr.data.local.entity.ContactoEntity
+import com.example.agendacontactosgrhr.data.network.NetworkMonitor
 import com.example.agendacontactosgrhr.data.repository.ContactoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
+import javax.inject.Inject //Antes jakarta, pero no funcionaba porque entraba en conflicto con Hilt
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import com.example.agendacontactosgrhr.R
 
@@ -19,12 +22,23 @@ import com.example.agendacontactosgrhr.R
 //ViewModel que gestiona la lista de contactos usando StateFLow
 @HiltViewModel
 class ContactosViewModel @Inject constructor(
-    private val repositorio: ContactoRepository//RepositorioContactos
+    private val repositorio: ContactoRepository,//RepositorioContactos
+    /**
+     * inyectamos el networkMonitor, esto permite comocer el estado de
+     * la red sin depender del SO
+     */
+    private val networkMonitor: NetworkMonitor // *******Inyección del montitor de red
+
 ): ViewModel() {
 
-    //STATE (Estado Persistente)
-    //----------------------------
-    //MutableStateFLow es un observable que mantiene un estado reactivo y mutable
+
+    val isOnline: StateFlow<Boolean> = networkMonitor.isConnected
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+//Convierte el flow en un stateFlow observable por la UI
+
+
+
+
     //Se declara como privado para seguir el principio de encapsulamiento
     private val _contactos = MutableStateFlow<List<ContactoEntity>>(emptyList())
 
@@ -58,7 +72,7 @@ class ContactosViewModel @Inject constructor(
                 // Si no hay contactos, insertamos los por defecto
                 val defaultContacts = listOf(
                     ContactoEntity(
-                        name = "Gonzalo", estacion = "Invierno", cumpleanos = 10, thumbnailResId = R.drawable.gonzalo//Drawable
+                        name = "Gonzalo", estacion = "Invierno", regalosAmados = "Chocolate", regalosOdiados = "Queso", cumpleanos = 10, thumbnailResId = R.drawable.gonzalo//Drawable
                     )
                 )
 
@@ -104,6 +118,10 @@ class ContactosViewModel @Inject constructor(
     //Carga de contacto por API
     fun importarStardew() {
         viewModelScope.launch {
+            if(!isOnline.value) {
+                _eventoUI.emit("No hay conexión a internet")
+                return@launch
+            }
             try {
                 val nuevoNpc = repositorio.importarUnStardew()
                 if (nuevoNpc != null) {

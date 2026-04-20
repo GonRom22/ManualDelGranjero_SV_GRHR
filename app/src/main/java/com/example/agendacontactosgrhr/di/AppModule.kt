@@ -1,14 +1,17 @@
 package com.example.agendacontactosgrhr.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
 import com.example.agendacontactosgrhr.data.local.database.ContactoDataBase
+import com.example.agendacontactosgrhr.data.network.NetworkMonitor
 import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,13 +43,15 @@ object AppModule {
         ).build()
     }
 
-    /**Proporciona el DAO de Contactos.
+    /**@provideDao
+     * Proporciona el DAO de Contactos.
      * Room genera automáticamente la implementación del DAO.
      * Se obtiene a partir de la instancia de la base de datos.*/
     @Provides
     @Singleton
     fun provideDao(db: ContactoDataBase): ContactoDao = db.contactoDao()
-    /**Vamos a añadir el proveedor de la interfaz de la API..
+    /**@provideBaseUrl
+     * Vamos a añadir el proveedor de la interfaz de la API..
      * Usamos Retrofit. */
 
     //Aquí la URL de la API
@@ -54,7 +59,9 @@ object AppModule {
     @Singleton
     fun provideBaseURL(): String = "https://stardew-ol87gqmnr-hrs-projects-30c33d68.vercel.app/"
 
-    //Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
+    /**@provideRetofrit
+     * Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin
+     */
     @Provides
     @Singleton
     fun provideRetrofit(baseURL: String) : Retrofit {
@@ -63,6 +70,18 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    /**
+     * Inicializa el monitor de red
+     * Se utiliza @AplicationContext para obtener el contexto
+     * de la aplicación
+     */
+    @Provides
+    @Singleton
+    fun provideNetworkMonitor(@ApplicationContext context: Context): NetworkMonitor {
+        return NetworkMonitor(context)
+    }
+
 
     @Provides
     @Singleton

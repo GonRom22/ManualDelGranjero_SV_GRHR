@@ -47,7 +47,7 @@ fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
 
     //Variables que guardan datos del contactro que se mostrarán y editarán
     var nombre by rememberSaveable { mutableStateOf("") }
-    var telefono by rememberSaveable { mutableStateOf("") }
+
     //Controla si ya se cargaron los datos para no sobreescribirlos
     var datosCargados by remember { mutableStateOf(false) }
     //Contexto Android para mostrar Toast
@@ -58,7 +58,7 @@ fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
     LaunchedEffect(contacto) {
         if (contacto != null && !datosCargados) {
             nombre = contacto!!.name
-            telefono = contacto!!.phone
+
             datosCargados = true
         }
     }
@@ -83,12 +83,6 @@ fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
 
             Spacer(Modifier.height(16.dp))
 
-            //Campo para tlf
-            OutlinedTextField(
-                telefono,
-                onValueChange = { telefono = it },
-                label = { Text("Teléfono") }
-            )
 
             Spacer(Modifier.height(24.dp))
 
@@ -97,7 +91,7 @@ fun EditarContactoScreen(navController: NavHostController, contactoId: Int) {
                 onClick = {
                 contacto?.let {
                     //Se crea una copia del contacto con nuevos datos
-                    viewModel.actualizarContacto(it.copy(name = nombre, phone = telefono))
+                    viewModel.actualizarContacto(it.copy(name = nombre))
                     Toast.makeText(context, "Contacto actualizado", Toast.LENGTH_SHORT).show()
                     navController.popBackStack()//Se regresa a la pantalla anterior
                 }

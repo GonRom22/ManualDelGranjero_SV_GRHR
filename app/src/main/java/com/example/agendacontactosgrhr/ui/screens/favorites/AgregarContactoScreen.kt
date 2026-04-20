@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -33,9 +34,12 @@ fun AgregarContactoScreen(navController: NavHostController) {
     //Creamos el ViewModel usando Hilt
     val viewModel: ContactosViewModel = hiltViewModel()
 
-    //Variables para guardar lo que escribe el usuario
+    //Variables para guardar lo que escribe el usuario. El remember hace que el texto no se borre si la pantalla se gire etc.
     var name by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
+    //Añadimos estas variables para resolver provisionalmente el problema con la api de randomuser hasta que desarrollemos la nuestra
+    var estacion by remember { mutableStateOf("") }
+    var cumpleanos by remember { mutableStateOf("") }
 
     //Contexto de Android para mostrar Toast
     val context = LocalContext.current
@@ -68,28 +72,63 @@ fun AgregarContactoScreen(navController: NavHostController) {
                 label = { Text("Teléfono") }
 
             )
+            //Campo para escribir el tlf
+            OutlinedTextField(
+                estacion,
+                onValueChange = { estacion = it },
+                label = { Text("estación (Primavera, verano, otoño, invierno)") }
+
+            )
+            //Campo para escribir el tlf
+            OutlinedTextField(
+                cumpleanos,
+                onValueChange = { cumpleanos = it },
+                label = { Text("cumpleaños (1-28") }
+
+            )
 
             Spacer(Modifier.height(24.dp))
 
             //Botón de guardar
             Button(
                 onClick = {
+                /**
+                 * En la versión que enviamos si rellenas
+                 * algunos campos sin intrucir string el
+                 * programa se cierra
+                     */
+                    try {
                     //Comprueba si no está vacío
                 if (name.isNotBlank()) {
+                    val diaNum = cumpleanos.toInt()
                     viewModel.insertarContacto(
                         ContactoEntity(
-                            title = "", name = name, lastName = "", phone = phone, email = "", city = "",
-                            country = "", thumbnail = ""
-
+                            title = "",
+                            name = name,
+                            lastName = "",
+                            phone = phone,
+                            email = "",
+                            city = "",
+                            country = "",
+                            thumbnail = "",
+                            estacion = estacion,
+                            cumpleanos = diaNum
                         )
                     )
                     //Muestra mensaje al usuario
                     Toast.makeText(context, "Contacto agregado", Toast.LENGTH_SHORT).show()
                     //Vuelve atrás, a la pantalla anterior
                     navController.popBackStack()
+                } else {
+                    Toast.makeText(context, "El nombre es obligatorio!", Toast.LENGTH_SHORT).show()
                 }
+                    }
+                    catch (e: Exception) {
+                        Toast.makeText(context, "ERROR: El cumpleaños debe ser un número del 1 al 28",
+                            Toast.LENGTH_LONG).show()
+                    }
             },
-                modifier = Modifier.align(Alignment.End)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Guardar")
             }
