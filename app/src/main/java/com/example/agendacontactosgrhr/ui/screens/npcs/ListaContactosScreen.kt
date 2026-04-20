@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr.ui.screens
+package com.example.agendacontactosgrhr.ui.screens.npcs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.navigation.Screens
+import com.example.agendacontactosgrhr.ui.screens.ContactoItem
 import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
 /**

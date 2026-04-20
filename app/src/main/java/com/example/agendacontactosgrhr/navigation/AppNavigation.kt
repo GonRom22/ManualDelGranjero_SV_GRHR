@@ -6,11 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.agendacontactosgrhr.ui.screens.AgregarContactoScreen
-import com.example.agendacontactosgrhr.ui.screens.EditarContactoScreen
-import com.example.agendacontactosgrhr.ui.screens.ListaContactosScreen
-import com.example.agendacontactosgrhr.ui.screens.DetalleContactoScreen
-import com.example.agendacontactosgrhr.ui.screens.LoginScreen
+import com.example.agendacontactosgrhr.ui.screens.favorites.AgregarContactoScreen
+import com.example.agendacontactosgrhr.ui.screens.favorites.EditarContactoScreen
+import com.example.agendacontactosgrhr.ui.screens.npcs.ListaContactosScreen
+import com.example.agendacontactosgrhr.ui.screens.npcs.DetalleContactoScreen
+import com.example.agendacontactosgrhr.ui.screens.login.LoginScreen
 
 /**
  * Función que define la navegación de la aplicación usando Jetpack Compose.

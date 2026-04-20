@@ -1,4 +1,4 @@
-package com.example.agendacontactosgrhr.ui.screens
+package com.example.agendacontactosgrhr.ui.screens.npcs
 
 import android.content.Intent
 import android.net.Uri
