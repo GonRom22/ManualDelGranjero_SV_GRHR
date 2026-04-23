@@ -120,7 +120,7 @@ fun LoginScreen(
                 onClick = {
                     //Si login es correcto
                     viewModel.login {
-                        navController.navigate(Screens.ListaContactos.route) {
+                        navController.navigate(Screens.HomeScreen.route) {
                             //Elimina la pantalla de login de la pila para que no se pueda volver atrás
                             popUpTo(Screens.Login.route) { inclusive = true }
                         }

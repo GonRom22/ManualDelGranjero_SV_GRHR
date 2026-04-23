@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -14,90 +13,53 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.agendacontactosgrhr.ui.screens.PantallaBase
 import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
 /**
  * Esta pantalla recupera y muestra la info detallada de los contactos
  * utilizando un launchedeffect y basandose en la ID del contacto
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetalleContactoScreen(navController: NavHostController, contactoId: Int) {
+fun DetailNpcScreen(
+    navController: NavHostController,
+    npcId: Int
+) {
 
     val viewModel: ContactosViewModel = hiltViewModel()
-    val context = LocalContext.current
 
-    // Observación del estado del contacto seleccionado.
-    val contacto by viewModel.contactoSeleccionado.collectAsState()
+    val npc = viewModel.contactos.collectAsState().value
+        .firstOrNull { it.id == npcId }
 
-    // Carga del contacto al iniciar o cambiar el ID
-    LaunchedEffect(contactoId) {
-        viewModel.obtenerContactoPorId(contactoId)
-    }
-
-    // Lógica del Intent para la Wiki
-    val abrirWiki = {
-        contacto?.let {
-            val url = "https://stardewvalleywiki.com/${it.name.replace(" ", "_")}"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            context.startActivity(intent)
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Detalle del Personaje") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
-                    }
-                }
-            )
-        }
+    PantallaBase(
+        titulo = npc?.name ?: "Detalle NPC",
+        navController = navController
     ) { padding ->
-        // Contenedor principal
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            contentAlignment = Alignment.Center
-        ) {
-            contacto?.let { character ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "Nombre: ${character.name}",
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                    Spacer(modifier = Modifier.height(28.dp))
-                    Text(
-                        text = "Regalos amados: ${character.regalosAmados}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Spacer(modifier = Modifier.height(28.dp))
-                    Text(
-                        text = "Regalos odiados: ${character.regalosOdiados}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
 
-                    Spacer(modifier = Modifier.height(28.dp))
+        if (npc == null) {
+            Box(
+                modifier = androidx.compose.ui.Modifier.fillMaxSize(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
 
-                    // Botón para ejecutar el Intent de la Wiki
-                    Button(
-                        onClick = { abrirWiki() },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Icon(Icons.Default.Info, contentDescription = null)
-                        Spacer(Modifier.width(10.dp))
-                        Text("Ver en la Wiki")
-                    }
-                }
-            } ?: CircularProgressIndicator() // para dar feedback de la carga
+            Column(
+                modifier = androidx.compose.ui.Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(16.dp)
+            ) {
+
+                Text("Nombre: ${npc.name}")
+                Text("Cumpleaños: ${npc.cumpleanos}")
+                Text("Estación: ${npc.estacionCumpleanos}")
+                Text("Ubicación: ${npc.ubicacion}")
+                Text("Regalos amados: ${npc.regalosAmados}")
+                Text("Regalos odiados: ${npc.regalosOdiados}")
+                Text("Amistad: ${npc.nivelAmistad}")
+            }
         }
     }
 }

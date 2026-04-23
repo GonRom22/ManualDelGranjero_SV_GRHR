@@ -20,50 +20,26 @@ import javax.inject.Singleton
 @Singleton
 class ContactoRepository @Inject constructor(
     private val contactoDao: ContactoDao,
-    //Vamos a inyectar la API como fuente de datos
     private val dataSource: ApiService
-){
-    /**Obtiene todos los contactos almacenados en la base de datos.
-     * Devuelve un Flow para poder observar los cambios en tiempo real.*/
-    fun obtenerTodosContactos(): Flow<List<ContactoEntity>> = contactoDao.obtenerTodosContactos()
+) {
 
-    /** Inserta un nuevo contacto en la base de datos.*/
-    suspend fun insertarContacto(contacto: ContactoEntity) = contactoDao.insertarContacto(contacto)
+    fun obtenerTodosContactos(): Flow<List<ContactoEntity>> =
+        contactoDao.obtenerTodosContactos()
 
-    /**Actualiza un contacto existente.*/
-    suspend fun actualizarContacto(contacto: ContactoEntity) = contactoDao.actualizarContacto(contacto)
+    suspend fun insertarContacto(contacto: ContactoEntity) =
+        contactoDao.insertarContacto(contacto)
 
-    /**Elimina un contacto de la base de datos.*/
-    suspend fun eliminarContacto(contacto: ContactoEntity) = contactoDao.eliminarContacto(contacto)
+    suspend fun actualizarContacto(contacto: ContactoEntity) =
+        contactoDao.actualizarContacto(contacto)
 
-    /**Obtiene un contacto específico a partir de su id.
-     * Devuelve null si el contacto no existe.*/
-    suspend fun obtenerContactoPorId(id:Int): ContactoEntity? = contactoDao.obtenerContactoPorId(id)
+    suspend fun eliminarContacto(contacto: ContactoEntity) =
+        contactoDao.eliminarContacto(contacto)
 
+    suspend fun obtenerContactoPorId(id: Int): ContactoEntity? =
+        contactoDao.obtenerContactoPorId(id)
 
-    /**Importar todos los personajes de Stardew a la BBDD
-     * Función para obtener contacto desde la API
-     * Es asíncrona/hace peticiones a la red y por eso es suspended.
-     */
-
-
-    suspend fun importarUnStardew(): ContactoEntity?{
-      val characters = dataSource.getCharacters()
-      val existentes = contactoDao.obtenerTodosContactos().first()
-
-      val pendientes = characters.filter { apiContact ->
-          existentes.none { it.name == apiContact.name }
-      }
-
-      if (pendientes.isEmpty()) return null // Todos ya están insertados
-
-      // Tomamos uno aleatorio
-      val resultado = pendientes.random()
-
-      contactoDao.insertarContacto(resultado)
-
-        Log.d("ContactoRepository", "NPC insertado: ${resultado.name}, thumbnail: ${resultado.thumbnail}")
-
-        return resultado
-  }
+    // 🔥 NUEVO: traer TODOS los NPCs desde API
+    suspend fun importarTodosDesdeApi(): List<ContactoEntity> {
+        return dataSource.getCharacters()
+    }
 }

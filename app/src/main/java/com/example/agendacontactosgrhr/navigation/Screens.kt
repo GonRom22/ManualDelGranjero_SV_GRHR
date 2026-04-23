@@ -12,6 +12,9 @@ sealed class Screens(val route: String){
     //Pantalla de Login
     object Login: Screens("login")
 
+    //Pantalla de Home
+    object HomeScreen:Screens("home")
+
     //Pantalla de la lista de contactos
     object ListaContactos:Screens("listaContactos")
 
@@ -23,4 +26,12 @@ sealed class Screens(val route: String){
 
     //Pantalla para ver los detalles de un contacto
     object DetalleContacto:Screens("detalleContacto")
+
+    object Search:Screens("search")
+
+    object Profile:Screens("profile")
+
+    object NpcScreen: Screens("npc")
+
+    object DetailNpc: Screens("detalleNpc")
 }
