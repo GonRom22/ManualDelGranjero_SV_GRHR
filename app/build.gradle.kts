@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.androidx.compose.remote.creation.core)
+    implementation(libs.androidx.material3)
     ksp(libs.room.compiler)
     //Hilt
     implementation(libs.hilt.android)

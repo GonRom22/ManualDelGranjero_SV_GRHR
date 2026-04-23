@@ -6,11 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.agendacontactosgrhr.ui.screens.favorites.AgregarContactoScreen
-import com.example.agendacontactosgrhr.ui.screens.favorites.EditarContactoScreen
-import com.example.agendacontactosgrhr.ui.screens.npcs.ListaContactosScreen
-import com.example.agendacontactosgrhr.ui.screens.npcs.DetalleContactoScreen
 import com.example.agendacontactosgrhr.ui.screens.login.LoginScreen
+import com.example.agendacontactosgrhr.ui.screens.HomeScreen
+import com.example.agendacontactosgrhr.ui.screens.npcs.DetailNpcScreen
+import com.example.agendacontactosgrhr.ui.screens.npcs.NpcScreen
+import com.example.agendacontactosgrhr.ui.screens.profile.ProfileScreen
+import com.example.agendacontactosgrhr.ui.screens.searcher.SearcherScreen
 
 /**
  * Función que define la navegación de la aplicación usando Jetpack Compose.
@@ -23,44 +24,48 @@ import com.example.agendacontactosgrhr.ui.screens.login.LoginScreen
  */
 @Composable
 fun AppNavigation() {
+
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = Screens.Login.route) {
+    NavHost(
+        navController = navController,
+        startDestination = Screens.Login.route
+    ) {
 
-        //Pantalla de Login
+        // 🔐 LOGIN
         composable(Screens.Login.route) {
             LoginScreen(navController)
         }
 
-        // Lista de contactos
-        composable(Screens.ListaContactos.route) {
-            ListaContactosScreen(navController)
+        // 🏠 HOME
+        composable(Screens.HomeScreen.route) {
+            HomeScreen(navController)
         }
 
-        //Pantalla para agregar nuevo contacto
-        composable(Screens.AgregarContacto.route) {
-            AgregarContactoScreen(navController)
+        // 🌱 NPC LISTA
+        composable(Screens.NpcScreen.route) {
+            NpcScreen(navController)
         }
 
-        //Pantalla para editar contacto existente
-        //Recibe un parámetro "contactoId" por ruta
+        // 🌱 NPC DETALLE
         composable(
-            route = "${Screens.EditarContacto.route}/{contactoId}",
-            arguments = listOf(navArgument("contactoId") { type = NavType.IntType })
+            route = "${Screens.DetailNpc.route}/{npcId}",
+            arguments = listOf(navArgument("npcId") {
+                type = NavType.IntType
+            })
         ) { entry ->
-            //Obtenemos el id del contacto a editar
-            val id = entry.arguments?.getInt("contactoId") ?: 0
-            EditarContactoScreen(navController, id)
+            val id = entry.arguments?.getInt("npcId") ?: 0
+            DetailNpcScreen(navController, id)
         }
 
-        //Pantalla que muestra los detalles de un contacto
-        composable(
-            route = "${Screens.DetalleContacto.route}/{contactoId}",
-            arguments = listOf(navArgument("contactoId") { type = NavType.IntType })
-        ) { entry ->//entry (navBackStackEntry)es un objeto que contiene la información de la navegación hacia la pantalla
-            //Obtenemos el id del contacto a mostrar
-            val id = entry.arguments?.getInt("contactoId") ?: return@composable
-            DetalleContactoScreen(navController, id)
+        // 🔍 BÚSQUEDA
+        composable(Screens.Search.route) {
+            SearcherScreen(navController)
+        }
+
+        // 👤 PERFIL
+        composable(Screens.Profile.route) {
+            ProfileScreen(navController)
         }
     }
 }

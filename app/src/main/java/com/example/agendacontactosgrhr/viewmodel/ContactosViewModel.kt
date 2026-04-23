@@ -17,121 +17,75 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import com.example.agendacontactosgrhr.R
+import kotlinx.coroutines.flow.map
 
 //Creamos una clase ContactoViewModel que hereda de la clase ViewModel().
 //ViewModel que gestiona la lista de contactos usando StateFLow
 @HiltViewModel
 class ContactosViewModel @Inject constructor(
-    private val repositorio: ContactoRepository,//RepositorioContactos
-    /**
-     * inyectamos el networkMonitor, esto permite comocer el estado de
-     * la red sin depender del SO
-     */
-    private val networkMonitor: NetworkMonitor // *******Inyección del montitor de red
-
-): ViewModel() {
-
+    private val repositorio: ContactoRepository,
+    private val networkMonitor: NetworkMonitor
+) : ViewModel() {
 
     val isOnline: StateFlow<Boolean> = networkMonitor.isConnected
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
-//Convierte el flow en un stateFlow observable por la UI
 
+    val contactos: StateFlow<List<ContactoEntity>> =
+        repositorio.obtenerTodosContactos()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-
-
-    //Se declara como privado para seguir el principio de encapsulamiento
-    private val _contactos = MutableStateFlow<List<ContactoEntity>>(emptyList())
-
-    //Exponemos el flujo como StateFlow (solo lectura para la UI)
-    val contactos: StateFlow<List<ContactoEntity>> = _contactos
-
-    private val _contactoSeleccionado = MutableStateFlow<ContactoEntity?>(null)
-    val contactoSeleccionado: StateFlow<ContactoEntity?> = _contactoSeleccionado
-
-    //EVENTS (Eventos Unidireccionales)
-    //----------------------------------
-    //Creamos un objeto de tipo MutableSharedFlow<String> que emite Strings (en este caso)
-    // _eventoUI es el flujo mutable y privado que guarda la dirección de este objeto.
-    //MutableSharedFlow no guarda el valor emitido con lo que no es recolectado si la UI no está escuchando
     private val _eventoUI = MutableSharedFlow<String>()
-
-    //SharedFlow público para que la UI escuche los eventos
     val eventoUI: SharedFlow<String> = _eventoUI
 
-
-    //init se ejecuta cuando se crea una instancia de la clase
-    //En este caso, cuando se inicialice la clase ContactoViewModel, se llamará a la función cargarContactos()
-    //Simula la carga de datos desde una API o base de datos
     init {
         viewModelScope.launch {
-            // Obtenemos los contactos existentes en la DB
-            val existentes =
-                repositorio.obtenerTodosContactos().first() // first() toma el primer valor emitido
 
-            if (existentes.isEmpty()) {
-                // Si no hay contactos, insertamos los por defecto
-                val defaultContacts = listOf(
-                    ContactoEntity(
-                        name = "Gonzalo", estacion = "Invierno", regalosAmados = "Chocolate", regalosOdiados = "Queso", cumpleanos = 10, thumbnailResId = R.drawable.gonzalo//Drawable
-                    )
-                )
+            repositorio.obtenerTodosContactos().collect { lista ->
 
-                defaultContacts.forEach {
-                    Log.d("DEBUG_CONTACT", "Insertando contacto: ${it.name}, resId=${it.thumbnailResId}")
-                    repositorio.insertarContacto(it) }
-            }
-            //Escuchar cambios den la base de datos
-            repositorio.obtenerTodosContactos().collect {
-                _contactos.value = it
+                // 🔥 AUTO IMPORTACIÓN SI LA BD ESTÁ VACÍA
+                if (lista.isEmpty() && isOnline.value) {
+                    Log.d("VIEWMODEL", "BD vacía → importando NPCs")
+
+                    try {
+                        importarTodosLosStardew()
+                    } catch (e: Exception) {
+                        Log.e("VIEWMODEL", "Error importando NPCs: $e")
+                    }
+                }
             }
         }
     }
 
-    //CRUD básico
-    fun insertarContacto(contacto: ContactoEntity) = viewModelScope.launch {
-        repositorio.insertarContacto(contacto)
-    }
-
-    fun actualizarContacto(contacto: ContactoEntity) = viewModelScope.launch {
-        repositorio.actualizarContacto(contacto)
-    }
-
-    fun eliminarContacto(contacto: ContactoEntity) = viewModelScope.launch {
-        repositorio.eliminarContacto(contacto)
-    }
-
-    fun obtenerContactoPorId(id: Int) = viewModelScope.launch {
-        _contactoSeleccionado.value = repositorio.obtenerContactoPorId(id)
-    }
-
-    //Aquí la función que se llama cuando el usuario pulse un contacto, lanza un CORRUTINA
-    //NO cambia el estado, sino que se emite un evento
-    fun onContactoSeleccionado(name: String) =
+    // IMPORTACIÓN MASIVA
+    fun importarTodosLosStardew() {
         viewModelScope.launch {
-            //emit es el metodito de SharedFlow que emite un valor al flujo.
-            // Es una función suspendida, por ello podemos incluirla dentro de la corrutina
-            // viewModelScope.launch.
-            _eventoUI.emit("Detalles de $name cargados")
-        }
 
-
-    //Carga de contacto por API
-    fun importarStardew() {
-        viewModelScope.launch {
-            if(!isOnline.value) {
-                _eventoUI.emit("No hay conexión a internet")
+            if (!isOnline.value) {
+                _eventoUI.emit("Sin conexión a internet")
                 return@launch
             }
+
             try {
-                val nuevoNpc = repositorio.importarUnStardew()
-                if (nuevoNpc != null) {
-                    Log.d("ContactosViewModel", "NPC insertado: ${nuevoNpc.name}")
-                } else {
-                    Log.d("ContactosViewModel", "Todos los NPCs ya están en la BBDD")
+                val existentes = repositorio.obtenerTodosContactos().first()
+                val apiNpcs = repositorio.importarTodosDesdeApi()
+
+                val nuevos = apiNpcs.filter { apiNpc ->
+                    existentes.none { it.name == apiNpc.name }
                 }
+
+                nuevos.forEach {
+                    repositorio.insertarContacto(it)
+                }
+
+                Log.d("VIEWMODEL", "NPCs importados: ${nuevos.size}")
+
             } catch (e: Exception) {
-                Log.e("ContactosViewModel", "Error al importar NPC: $e")
+                Log.e("VIEWMODEL", "Error importando NPCs", e)
             }
         }
+    }
+
+    fun obtenerContactoPorId(id: Int): suspend () -> ContactoEntity? = {
+        repositorio.obtenerContactoPorId(id)
     }
 }
