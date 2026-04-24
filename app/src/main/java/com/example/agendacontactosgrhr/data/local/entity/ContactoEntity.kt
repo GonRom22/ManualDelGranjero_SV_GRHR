@@ -9,7 +9,8 @@ import androidx.room.PrimaryKey
  * Cada instancia de esta clase corresponde a una fila de la tabla.
  * Room se encarga de mapear automáticamente esta clase a SQLite.
  */
-@Entity(tableName = "contactos")
+@Entity(tableName = "contactos",
+    indices = [androidx.room.Index(value = ["name"], unique = true)])
 data class ContactoEntity ( //Se puede sustituir por NPCEntity o similar para hacer referencia a los personajes del juego
     /**Clave primaria de la tabla.
      *- Se genera automáticamente.
@@ -23,13 +24,6 @@ data class ContactoEntity ( //Se puede sustituir por NPCEntity o similar para ha
     val thumbnail: String="", //Api
     val thumbnailResId: Int? = null, //imagenes locales de drawable
 
-    //Elementos específicos de la api
-    val phone: String="",
-    val email: String="",
-    val city: String="",
-    val country: String="",
-    val lastName: String="",
-    val title: String="",
 
     //Para adaptarlo a los requisitos de la agenda de stardew valley:
     val estacion: String="",

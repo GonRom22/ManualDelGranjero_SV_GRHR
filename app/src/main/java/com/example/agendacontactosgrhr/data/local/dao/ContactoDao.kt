@@ -28,7 +28,7 @@ interface ContactoDao{
      * Se usa una función suspendida porque el acceso a la base de datos
      * es lento y costoso y debe ejecutarse dentro de una corrutina.
      */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertarContacto(contacto: ContactoEntity)
 
     /**@actualizarContacto
