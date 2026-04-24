@@ -2,10 +2,6 @@ package com.example.agendacontactosgrhr.navigation
 
 /**
  * Aquí definimos todas las pantallas de nuestra app.
- *
- * Cada pantalla tiene una “ruta” (route) que usamos para navegar.
- * La idea es no poner nombres raros de ruta en varios lugares,
- * sino tenerlos aquí para que sea más fácil cambiar.
  */
 sealed class Screens(val route: String){
 
@@ -15,7 +11,7 @@ sealed class Screens(val route: String){
     //Pantalla de Home
     object HomeScreen:Screens("home")
 
-    //Pantalla de la lista de contactos
+    //Pantalla de la lista de contactos (OBSOLETO - pero mantenido por si acaso)
     object ListaContactos:Screens("listaContactos")
 
     //Pantalla para agregar un contacto nuevo
@@ -34,4 +30,9 @@ sealed class Screens(val route: String){
     object NpcScreen: Screens("npc")
 
     object DetailNpc: Screens("detalleNpc")
+
+    // NUEVAS PANTALLAS
+    object BuildingCalculator: Screens("buildingCalculator")
+    object CropCalculator: Screens("cropCalculator")
+    object CropScreen: Screens("cropScreen")
 }

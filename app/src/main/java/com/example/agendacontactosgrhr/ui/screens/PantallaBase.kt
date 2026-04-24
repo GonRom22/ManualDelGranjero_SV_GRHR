@@ -5,8 +5,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.navigation.Screens
+import com.example.agendacontactosgrhr.ui.theme.StardewGreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,6 +20,11 @@ fun PantallaBase(
     Scaffold(
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = StardewGreen,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White
+                ),
                 title = { Text(titulo) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {

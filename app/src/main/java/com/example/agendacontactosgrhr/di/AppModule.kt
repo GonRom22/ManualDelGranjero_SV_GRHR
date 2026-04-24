@@ -57,7 +57,7 @@ object AppModule {
     //Aquí la URL de la API
     @Provides
     @Singleton
-    fun provideBaseURL(): String = "https://stardew-ol87gqmnr-hrs-projects-30c33d68.vercel.app/"
+    fun provideBaseURL(): String = "https://stardew-api.vercel.app/"
 
     /**@provideRetofrit
      * Aquí la función que hace peticiones a la API. Recibe la URL por inyección y convierte los JSON recibidos a objetos de Kotlin

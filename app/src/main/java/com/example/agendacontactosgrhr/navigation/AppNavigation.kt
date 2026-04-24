@@ -12,15 +12,12 @@ import com.example.agendacontactosgrhr.ui.screens.npcs.DetailNpcScreen
 import com.example.agendacontactosgrhr.ui.screens.npcs.NpcScreen
 import com.example.agendacontactosgrhr.ui.screens.profile.ProfileScreen
 import com.example.agendacontactosgrhr.ui.screens.searcher.SearcherScreen
+import com.example.agendacontactosgrhr.ui.screens.calculators.BuildingCalculator
+import com.example.agendacontactosgrhr.ui.screens.calculators.CropCalculator
+import com.example.agendacontactosgrhr.ui.screens.crops.CropScreen
 
 /**
  * Función que define la navegación de la aplicación usando Jetpack Compose.
- *
- * - NavHost: Contenedor que gestiona las rutas y pantallas.
- * - navController: Controlador que permite moverse entre pantallas.
- * - startDestination: Pantalla inicial al abrir la app (LoginScreen en este caso).
- *
- * Cada composable define una “pantalla” y la ruta que se usa para navegar a ella.
  */
 @Composable
 fun AppNavigation() {
@@ -32,22 +29,22 @@ fun AppNavigation() {
         startDestination = Screens.Login.route
     ) {
 
-        // 🔐 LOGIN
+        // LOGIN
         composable(Screens.Login.route) {
             LoginScreen(navController)
         }
 
-        // 🏠 HOME
+        // HOME
         composable(Screens.HomeScreen.route) {
             HomeScreen(navController)
         }
 
-        // 🌱 NPC LISTA
+        // NPC LISTA
         composable(Screens.NpcScreen.route) {
             NpcScreen(navController)
         }
 
-        // 🌱 NPC DETALLE
+        // NPC DETALLE
         composable(
             route = "${Screens.DetailNpc.route}/{npcId}",
             arguments = listOf(navArgument("npcId") {
@@ -58,14 +55,27 @@ fun AppNavigation() {
             DetailNpcScreen(navController, id)
         }
 
-        // 🔍 BÚSQUEDA
+        // BÚSQUEDA
         composable(Screens.Search.route) {
             SearcherScreen(navController)
         }
 
-        // 👤 PERFIL
+        // PERFIL
         composable(Screens.Profile.route) {
             ProfileScreen(navController)
+        }
+
+        // CALCULADORAS Y CULTIVOS
+        composable(Screens.BuildingCalculator.route) {
+            BuildingCalculator(navController)
+        }
+
+        composable(Screens.CropCalculator.route) {
+            CropCalculator(navController)
+        }
+
+        composable(Screens.CropScreen.route) {
+            CropScreen(navController)
         }
     }
 }

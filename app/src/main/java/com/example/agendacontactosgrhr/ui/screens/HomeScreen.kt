@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,41 +19,65 @@ import com.example.agendacontactosgrhr.navigation.Screens
 
 /**
  * Pantalla Inicio o Home.
- *
- * Recibe:
- * - navController: para navegar entre pantallas (detalle, agregar, editar)
  */
 @Composable
 fun HomeScreen(navController: NavHostController) {
 
     PantallaBase(
-        titulo = "Home",
+        titulo = "MGSV Prototype Home",
         navController = navController
     ) { padding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(padding)
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Text("Bienvenido a la app")
+            Text(
+                text = "Bienvenido a MGSV Prototype",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(onClick = {
-                navController.navigate(Screens.ListaContactos.route)
-            }) {
-                Text("Ir a contactos")
+            // NPC Screen Button
+            MenuButton(text = "Aldeanos") {
+                navController.navigate(Screens.NpcScreen.route)
             }
 
-            Button(onClick = {
-                navController.navigate(Screens.NpcScreen.route)
-            }) {
-                Text("Ver NPCs")
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Building Calculator Button
+            MenuButton(text = "Calculadora de edificios") {
+                navController.navigate(Screens.BuildingCalculator.route)
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Crop Calculator Button
+            MenuButton(text = "Calculadora de cultivos") {
+                navController.navigate(Screens.CropCalculator.route)
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Crops Screen Button
+            MenuButton(text = "Cultivos") {
+                navController.navigate(Screens.CropScreen.route)
             }
         }
+    }
+}
+
+@Composable
+fun MenuButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(0.8f)
+    ) {
+        Text(text)
     }
 }

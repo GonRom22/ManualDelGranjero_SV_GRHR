@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Stardew Valley Inspired Palette -->
+    <color name="stardew_orange">#E89A56</color>
+    <color name="stardew_brown">#5C2D16</color>
+    <color name="stardew_cream">#FFE6A8</color>
+    <color name="stardew_blue">#3866CF</color>
+    <color name="stardew_teal">#FF018786</color>
+    <color name="stardew_green">#00674F</color>
+    <color name="stardew_dark_green">#102B18</color>
 </resources>

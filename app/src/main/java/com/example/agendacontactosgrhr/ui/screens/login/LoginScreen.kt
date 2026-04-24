@@ -12,6 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.navigation.Screens
+import com.example.agendacontactosgrhr.ui.theme.StardewGreen
 import com.example.agendacontactosgrhr.viewmodel.LoginViewModel
 
 /**
@@ -47,9 +49,11 @@ fun LoginScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(Color.DarkGray),
-                title = { Text("Login Screen",
-                    color = Color.White) }
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = StardewGreen,
+                    titleContentColor = Color.White
+                ),
+                title = { Text("Login Screen") }
             )
         }
     )
@@ -66,7 +70,7 @@ fun LoginScreen(
 
             Text("Inicio de sesión",
                 fontSize = 24.sp,
-                color = Color.Black)
+                color = MaterialTheme.colorScheme.onBackground)
             }
 
             HorizontalDivider()
