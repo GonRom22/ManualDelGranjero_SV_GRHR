@@ -15,6 +15,7 @@ import com.example.agendacontactosgrhr.ui.screens.searcher.SearcherScreen
 import com.example.agendacontactosgrhr.ui.screens.calculators.BuildingCalculator
 import com.example.agendacontactosgrhr.ui.screens.calculators.CropCalculator
 import com.example.agendacontactosgrhr.ui.screens.crops.CropScreen
+import com.example.agendacontactosgrhr.ui.screens.favorites.FavScreen
 
 /**
  * Función que define la navegación de la aplicación usando Jetpack Compose.
@@ -76,6 +77,11 @@ fun AppNavigation() {
 
         composable(Screens.CropScreen.route) {
             CropScreen(navController)
+        }
+
+        // FAVORITOS
+        composable(Screens.FavScreen.route) {
+            FavScreen(navController)
         }
     }
 }
