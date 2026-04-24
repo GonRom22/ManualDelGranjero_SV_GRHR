@@ -24,7 +24,7 @@ import com.example.agendacontactosgrhr.navigation.Screens
 fun HomeScreen(navController: NavHostController) {
 
     PantallaBase(
-        titulo = "MGSV Prototype Home",
+        titulo = "Índice",
         navController = navController
     ) { padding ->
 
@@ -38,7 +38,7 @@ fun HomeScreen(navController: NavHostController) {
         ) {
 
             Text(
-                text = "Bienvenido a MGSV Prototype",
+                text = "Bienvenidx a MGSV",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
@@ -67,6 +67,13 @@ fun HomeScreen(navController: NavHostController) {
             // Crops Screen Button
             MenuButton(text = "Cultivos") {
                 navController.navigate(Screens.CropScreen.route)
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Favorites Screen Button
+            MenuButton(text = "Favoritos") {
+                navController.navigate(Screens.FavScreen.route)
             }
         }
     }
