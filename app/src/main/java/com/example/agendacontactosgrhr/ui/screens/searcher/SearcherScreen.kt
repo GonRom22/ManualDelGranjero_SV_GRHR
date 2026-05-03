@@ -34,7 +34,8 @@ fun SearcherScreen(navController: NavHostController) {
         emptyList()
     } else {
         npcs.filter {
-            it.name.contains(textoBusqueda, ignoreCase = true)
+            it.name.contains(textoBusqueda, ignoreCase = true) || 
+            it.ubicacion.contains(textoBusqueda, ignoreCase = true)
         }
     }
 
@@ -68,7 +69,7 @@ fun SearcherScreen(navController: NavHostController) {
 
             if (textoBusqueda.isNotEmpty() && resultados.isEmpty()) {
                 Text(
-                    text = "No NPCs found for \"$textoBusqueda\"",
+                    text = "No se encontraron personajes para \"$textoBusqueda\"",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(8.dp)
                 )

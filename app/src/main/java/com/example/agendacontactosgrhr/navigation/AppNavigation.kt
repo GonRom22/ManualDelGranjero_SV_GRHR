@@ -15,6 +15,7 @@ import com.example.agendacontactosgrhr.ui.screens.searcher.SearcherScreen
 import com.example.agendacontactosgrhr.ui.screens.calculators.BuildingCalculator
 import com.example.agendacontactosgrhr.ui.screens.calculators.CropCalculator
 import com.example.agendacontactosgrhr.ui.screens.crops.CropScreen
+import com.example.agendacontactosgrhr.ui.screens.crops.DetailCropScreen
 import com.example.agendacontactosgrhr.ui.screens.favorites.FavScreen
 
 /**
@@ -77,6 +78,17 @@ fun AppNavigation() {
 
         composable(Screens.CropScreen.route) {
             CropScreen(navController)
+        }
+
+        // DETALLE CULTIVO
+        composable(
+            route = "${Screens.DetailCrop.route}/{cropId}",
+            arguments = listOf(navArgument("cropId") {
+                type = NavType.IntType
+            })
+        ) { entry ->
+            val id = entry.arguments?.getInt("cropId") ?: 0
+            DetailCropScreen(navController, id)
         }
 
         // FAVORITOS
