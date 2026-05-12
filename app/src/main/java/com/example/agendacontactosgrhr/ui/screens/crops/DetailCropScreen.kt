@@ -1,6 +1,9 @@
 package com.example.agendacontactosgrhr.ui.screens.crops
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,7 +29,18 @@ fun DetailCropScreen(
 
     PantallaBase(
         titulo = crop?.nombre ?: "Detalle del Cultivo",
-        navController = navController
+        navController = navController,
+        acciones = {
+            if (crop != null) {
+                IconButton(onClick = { viewModel.toggleFavorite(crop.id) }) {
+                    Icon(
+                        imageVector = if (crop.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                        contentDescription = if (crop.isFavorite) "Quitar de favoritos" else "Agregar a favoritos",
+                        tint = if (crop.isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
     ) { padding ->
         if (crop == null) {
             Box(

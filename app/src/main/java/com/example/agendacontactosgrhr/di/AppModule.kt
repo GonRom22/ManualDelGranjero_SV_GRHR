@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.agendacontactosgrhr.data.local.dao.ContactoDao
 import com.example.agendacontactosgrhr.data.local.dao.CropDao
+import com.example.agendacontactosgrhr.data.local.dao.MaterialDao
+import com.example.agendacontactosgrhr.data.local.dao.EdificioDao
 import com.example.agendacontactosgrhr.data.local.database.ContactoDataBase
 import com.example.agendacontactosgrhr.data.network.NetworkMonitor
 import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
@@ -30,7 +32,7 @@ object AppModule {
             ContactoDataBase::class.java,
             "contacto_database"
         )
-        .fallbackToDestructiveMigration() // Added to handle the version change easily for the prototype
+        .fallbackToDestructiveMigration()
         .build()
     }
 
@@ -44,7 +46,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBaseURL(): String = "https://stardew-api.vercel.app/"
+    fun provideMaterialDao(db: ContactoDataBase): MaterialDao = db.materialDao()
+
+    @Provides
+    @Singleton
+    fun provideEdificioDao(db: ContactoDataBase): EdificioDao = db.edificioDao()
+
+    @Provides
+    @Singleton
+    fun provideBaseURL(): String = "https://std-api-mdg.vercel.app/"
 
     @Provides
     @Singleton

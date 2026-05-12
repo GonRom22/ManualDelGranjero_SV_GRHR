@@ -2,19 +2,57 @@ package com.example.agendacontactosgrhr.data.repository
 
 import com.example.agendacontactosgrhr.data.local.dao.CropDao
 import com.example.agendacontactosgrhr.data.local.entity.CropEntity
+import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CropRepository @Inject constructor(
-    private val cropDao: CropDao
+    private val cropDao: CropDao,
+    private val apiService: ApiService
 ) {
     fun obtenerTodosLosCultivos(): Flow<List<CropEntity>> = cropDao.obtenerTodosLosCultivos()
 
     suspend fun insertarCultivos(cultivos: List<CropEntity>) = cropDao.insertarCultivos(cultivos)
 
     suspend fun contarCultivos(): Int = cropDao.contarCultivos()
+
+    suspend fun obtenerCultivoPorId(id: Int): CropEntity? = cropDao.obtenerCultivoPorId(id)
+
+    fun obtenerFavoritos(): Flow<List<CropEntity>> = cropDao.obtenerFavoritos()
+
+    suspend fun actualizarFavorito(id: Int, isFav: Boolean) = cropDao.actualizarFavorito(id, isFav)
+
+    fun buscarPorNombre(query: String): Flow<List<CropEntity>> = cropDao.buscarPorNombre(query)
+
+    /**
+     * Sincroniza los cultivos desde la API REST a la base de datos local.
+     */
+    suspend fun syncCropsFromApi(): Result<Unit> {
+        return try {
+            val response = apiService.getCultivos()
+            if (response.datos.isNotEmpty()) {
+                val entities = response.datos.map { dto ->
+                    CropEntity(
+                        id = dto.id,
+                        nombre = dto.nombre,
+                        precioSemilla = dto.precioSemilla,
+                        precioVenta = dto.precioVenta,
+                        tiempoCrecimiento = dto.tiempoCrecimiento,
+                        tiempoRegreso = dto.tiempoRegreso ?: 0,
+                        temporada = dto.temporada ?: "Desconocida"
+                    )
+                }
+                cropDao.insertarCultivos(entities)
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("La API no devolvió datos"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     fun getMockCrops(): List<CropEntity> {
         return listOf(
@@ -55,7 +93,8 @@ class CropRepository @Inject constructor(
             CropEntity(nombre = "Grano de café", precioSemilla = 2500, precioVenta = 15, tiempoCrecimiento = 10, tiempoRegreso = 2, temporada = "Varias"),
             CropEntity(nombre = "Fruta milenaria", precioSemilla = 0, precioVenta = 550, tiempoCrecimiento = 28, tiempoRegreso = 7, temporada = "Varias"),
             CropEntity(nombre = "Baya de gema dulce", precioSemilla = 1000, precioVenta = 3000, tiempoCrecimiento = 24, tiempoRegreso = 0, temporada = "Otoño"),
-            CropEntity(nombre = "Fruta de cactus", precioSemilla = 0, precioVenta = 75, tiempoCrecimiento = 12, tiempoRegreso = 3, temporada = "Invernadero")
+            CropEntity(nombre = "Fruta de cactus", precioSemilla = 0, precioVenta = 75, tiempoCrecimiento = 12, tiempoRegreso = 3, temporada = "Invernadero"),
+            CropEntity(nombre = "Flor de té", precioSemilla = 500, precioVenta = 50, tiempoCrecimiento = 20, tiempoRegreso = 0, temporada = "Primavera")
         )
     }
 }

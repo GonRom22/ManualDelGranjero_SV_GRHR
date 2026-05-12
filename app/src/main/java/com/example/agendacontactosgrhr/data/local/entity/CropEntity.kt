@@ -12,5 +12,6 @@ data class CropEntity(
     val precioVenta: Int,
     val tiempoCrecimiento: Int,
     val tiempoRegreso: Int,
-    val temporada: String
+    val temporada: String,
+    val isFavorite: Boolean = false
 )
