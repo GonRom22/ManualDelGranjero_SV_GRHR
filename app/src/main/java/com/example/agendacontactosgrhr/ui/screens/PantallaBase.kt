@@ -1,6 +1,7 @@
 package com.example.agendacontactosgrhr.ui.screens
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -15,6 +16,8 @@ import com.example.agendacontactosgrhr.ui.theme.StardewGreen
 fun PantallaBase(
     titulo: String,
     navController: NavHostController,
+    acciones: @Composable RowScope.() -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
     contenido: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
@@ -23,19 +26,21 @@ fun PantallaBase(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = StardewGreen,
                     titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White
                 ),
                 title = { Text(titulo) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
                     }
-                }
+                },
+                actions = acciones
             )
         },
+        floatingActionButton = floatingActionButton,
         bottomBar = {
             NavigationBar {
-
                 NavigationBarItem(
                     selected = false,
                     onClick = { navController.navigate(Screens.HomeScreen.route) },

@@ -35,5 +35,6 @@ sealed class Screens(val route: String){
     object BuildingCalculator: Screens("buildingCalculator")
     object CropCalculator: Screens("cropCalculator")
     object CropScreen: Screens("cropScreen")
+    object DetailCrop: Screens("detalleCrop")
     object FavScreen: Screens("favScreen")
 }

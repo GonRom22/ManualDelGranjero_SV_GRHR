@@ -1,5 +1,7 @@
 package com.example.agendacontactosgrhr.ui.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,14 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.agendacontactosgrhr.R
 import com.example.agendacontactosgrhr.navigation.Screens
 
 /**
@@ -43,36 +47,51 @@ fun HomeScreen(navController: NavHostController) {
                 modifier = Modifier.padding(bottom = 24.dp)
             )
 
-            // NPC Screen Button
-            MenuButton(text = "Aldeanos") {
+            // NPC Screen Image Button
+            ImageMenuButton(
+                resId = R.drawable.btn_npcs,
+                contentDescription = "Aldeanos"
+            ) {
                 navController.navigate(Screens.NpcScreen.route)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(18.dp)) // 12 * 1.5 = 18
 
-            // Building Calculator Button
-            MenuButton(text = "Calculadora de edificios") {
+            // Building Calculator Image Button
+            ImageMenuButton(
+                resId = R.drawable.btn_buildingcalculator,
+                contentDescription = "Calculadora de edificios"
+            ) {
                 navController.navigate(Screens.BuildingCalculator.route)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
-            // Crop Calculator Button
-            MenuButton(text = "Calculadora de cultivos") {
+            // Crop Calculator Image Button
+            ImageMenuButton(
+                resId = R.drawable.btn_cropcalculator,
+                contentDescription = "Calculadora de cultivos"
+            ) {
                 navController.navigate(Screens.CropCalculator.route)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
-            // Crops Screen Button
-            MenuButton(text = "Cultivos") {
+            // Crops Screen Image Button
+            ImageMenuButton(
+                resId = R.drawable.btn_crops,
+                contentDescription = "Cultivos"
+            ) {
                 navController.navigate(Screens.CropScreen.route)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
-            // Favorites Screen Button
-            MenuButton(text = "Favoritos") {
+            // Favorites Screen Image Button
+            ImageMenuButton(
+                resId = R.drawable.btn_favorites,
+                contentDescription = "Favoritos"
+            ) {
                 navController.navigate(Screens.FavScreen.route)
             }
         }
@@ -80,11 +99,13 @@ fun HomeScreen(navController: NavHostController) {
 }
 
 @Composable
-fun MenuButton(text: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(0.8f)
-    ) {
-        Text(text)
-    }
+fun ImageMenuButton(resId: Int, contentDescription: String, onClick: () -> Unit) {
+    Image(
+        painter = painterResource(id = resId),
+        contentDescription = contentDescription,
+        modifier = Modifier
+            .width(270.dp) // 180 * 1.5 = 270 (Calculated from other screens' width)
+            .height(90.dp)  // 60 * 1.5 = 90
+            .clickable(onClick = onClick)
+    )
 }

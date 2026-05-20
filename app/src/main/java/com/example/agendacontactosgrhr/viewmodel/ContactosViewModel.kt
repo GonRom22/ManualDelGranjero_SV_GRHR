@@ -47,7 +47,7 @@ class ContactosViewModel @Inject constructor(
         }
     }
 
-    // IMPORTACIÓN MASIVA
+    // IMPORTACIÓN MASIVA DESDE LA API
     fun importarTodosLosStardew() {
         viewModelScope.launch {
             if (!isOnline.value) {
@@ -55,27 +55,30 @@ class ContactosViewModel @Inject constructor(
                 return@launch
             }
 
-            try {
-                val existentes = repositorio.obtenerTodosContactos().first()
-                val apiNpcs = repositorio.importarTodosDesdeApi()
-
-                val nuevos = apiNpcs.filter { apiNpc ->
-                    existentes.none { it.name == apiNpc.name }
-                }
-
-                nuevos.forEach {
-                    repositorio.insertarContacto(it)
-                }
-
-                Log.d("VIEWMODEL", "NPCs importados: ${nuevos.size}")
-
-            } catch (e: Exception) {
-                Log.e("VIEWMODEL", "Error importando NPCs", e)
+            // Usamos sincronizarNpcs que ya maneja la lógica de red y guardado en DB local
+            val result = repositorio.sincronizarNpcs()
+            
+            if (result.isSuccess) {
+                _eventoUI.emit("Sincronización con la API completada")
+                Log.d("VIEWMODEL", "NPCs sincronizados correctamente")
+            } else {
+                val errorMsg = result.exceptionOrNull()?.message ?: "Error desconocido"
+                _eventoUI.emit("Error al sincronizar: $errorMsg")
+                Log.e("VIEWMODEL", "Error sincronizando NPCs: $errorMsg")
             }
         }
     }
 
     fun obtenerContactoPorId(id: Int): suspend () -> ContactoEntity? = {
         repositorio.obtenerContactoPorId(id)
+    }
+
+    fun toggleFavorite(id: Int) {
+        viewModelScope.launch {
+            val contacto = repositorio.obtenerContactoPorId(id)
+            if (contacto != null) {
+                repositorio.actualizarFavorito(id, !contacto.isFavorite)
+            }
+        }
     }
 }
