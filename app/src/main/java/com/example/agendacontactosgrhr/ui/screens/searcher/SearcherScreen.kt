@@ -188,6 +188,50 @@ fun SearcherScreen(navController: NavHostController) {
                         }
                         is SearchResult.CropResult -> {
                             val crop = result.crop
+                            val drawableMap = mapOf(
+                                "ajo" to com.example.agendacontactosgrhr.R.drawable.ajo,
+                                "patata" to com.example.agendacontactosgrhr.R.drawable.papa,
+                                "tulipán" to com.example.agendacontactosgrhr.R.drawable.tulipan,
+                                "col rizada" to com.example.agendacontactosgrhr.R.drawable.col_rizada,
+                                "jazz azul" to com.example.agendacontactosgrhr.R.drawable.jazz_azul,
+                                "fresa" to com.example.agendacontactosgrhr.R.drawable.fresa,
+                                "judía verde" to com.example.agendacontactosgrhr.R.drawable.ejote,
+                                "coliflor" to com.example.agendacontactosgrhr.R.drawable.coliflor,
+                                "ruibarbo" to com.example.agendacontactosgrhr.R.drawable.ruibarbo,
+                                "arroz sin moler" to com.example.agendacontactosgrhr.R.drawable.arroz_sin_moler,
+                                "trigo" to com.example.agendacontactosgrhr.R.drawable.trigo,
+                                "chile" to com.example.agendacontactosgrhr.R.drawable.pimiento_picante,
+                                "rábano" to com.example.agendacontactosgrhr.R.drawable.rabano,
+                                "amapola" to com.example.agendacontactosgrhr.R.drawable.amapola,
+                                "lentejuela de verano" to com.example.agendacontactosgrhr.R.drawable.lentejuela_de_verano,
+                                "lúpulo" to com.example.agendacontactosgrhr.R.drawable.lupulo,
+                                "tomate" to com.example.agendacontactosgrhr.R.drawable.tomate,
+                                "melón" to com.example.agendacontactosgrhr.R.drawable.melon,
+                                "arándano" to com.example.agendacontactosgrhr.R.drawable.arandano,
+                                "carambola" to com.example.agendacontactosgrhr.R.drawable.fruta_estrella,
+                                "maíz" to com.example.agendacontactosgrhr.R.drawable.maiz,
+                                "lombarda" to com.example.agendacontactosgrhr.R.drawable.col_roja,
+                                "girasol" to com.example.agendacontactosgrhr.R.drawable.girasol,
+                                "col china" to com.example.agendacontactosgrhr.R.drawable.bok_choy,
+                                "alcachofa" to com.example.agendacontactosgrhr.R.drawable.alcachofa,
+                                "ñame" to com.example.agendacontactosgrhr.R.drawable.yam,
+                                "uva" to com.example.agendacontactosgrhr.R.drawable.uva,
+                                "rosa hada" to com.example.agendacontactosgrhr.R.drawable.hada_rosa,
+                                "chirivía" to com.example.agendacontactosgrhr.R.drawable.chirivia,
+                                "berenjena" to com.example.agendacontactosgrhr.R.drawable.berenjena,
+                                "remolacha" to com.example.agendacontactosgrhr.R.drawable.remolacha,
+                                "arándano rojo" to com.example.agendacontactosgrhr.R.drawable.arandano_rojo,
+                                "amaranto" to com.example.agendacontactosgrhr.R.drawable.amaranto,
+                                "calabaza" to com.example.agendacontactosgrhr.R.drawable.calabaza,
+                                "grano de café" to com.example.agendacontactosgrhr.R.drawable.grano_cafe,
+                                "fruta milenaria" to com.example.agendacontactosgrhr.R.drawable.fruta_antigua,
+                                "baya de gema dulce" to com.example.agendacontactosgrhr.R.drawable.baya_gema_dulce,
+                                "fruta de cactus" to com.example.agendacontactosgrhr.R.drawable.fruta_de_cactus,
+                                "flor de té" to com.example.agendacontactosgrhr.R.drawable.hojas_te
+                            )
+
+                            val imageRes = drawableMap[crop.nombre.lowercase()] ?: com.example.agendacontactosgrhr.R.drawable.ic_launcher_background
+
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -196,56 +240,35 @@ fun SearcherScreen(navController: NavHostController) {
                                     },
                                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                             ) {
-                                Column(
+                                Row(
                                     modifier = Modifier
-                                        .padding(16.dp)
-                                        .fillMaxWidth()
+                                        .padding(8.dp)
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
+                                    Image(
+                                        painter = painterResource(id = imageRes),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(50.dp)
+                                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp)),
+                                        contentScale = ContentScale.Crop
+                                    )
+
+                                    Spacer(modifier = Modifier.width(16.dp))
+
+                                    Column(modifier = Modifier.weight(1f)) {
                                         Text(
                                             text = crop.nombre,
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.primary
-                                        )
-                                        Surface(
-                                            color = MaterialTheme.colorScheme.secondaryContainer,
-                                            shape = MaterialTheme.shapes.small
-                                        ) {
-                                            Text(
-                                                text = crop.temporada,
-                                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                                style = MaterialTheme.typography.labelMedium,
-                                                color = MaterialTheme.colorScheme.onSecondaryContainer
-                                            )
-                                        }
-                                    }
-
-                                    Spacer(modifier = Modifier.height(8.dp))
-
-                                    Row(modifier = Modifier.fillMaxWidth()) {
-                                        Text(
-                                            text = "Semilla: ${crop.precioSemilla}g",
-                                            style = MaterialTheme.typography.bodySmall,
-                                            modifier = Modifier.weight(1f)
+                                            fontSize = 16.sp,
+                                            fontWeight = FontWeight.Bold
                                         )
                                         Text(
-                                            text = "Venta: ${crop.precioVenta}g",
+                                            text = crop.temporada,
                                             style = MaterialTheme.typography.bodySmall,
-                                            modifier = Modifier.weight(1f)
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
-
-                                    Spacer(modifier = Modifier.height(4.dp))
-
-                                    Text(
-                                        text = "Crecimiento: ${crop.tiempoCrecimiento} días",
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
                                 }
                             }
                         }

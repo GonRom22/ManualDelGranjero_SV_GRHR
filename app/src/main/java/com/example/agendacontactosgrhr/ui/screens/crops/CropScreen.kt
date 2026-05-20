@@ -1,9 +1,11 @@
 package com.example.agendacontactosgrhr.ui.screens.crops
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -19,6 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.data.local.entity.CropEntity
@@ -76,6 +81,48 @@ fun CropScreen(navController: NavHostController) {
 
 @Composable
 fun CropItem(crop: CropEntity, onClick: () -> Unit, onFavoriteClick: () -> Unit) {
+    val drawableMap = mapOf(
+        "ajo" to com.example.agendacontactosgrhr.R.drawable.ajo,
+        "patata" to com.example.agendacontactosgrhr.R.drawable.papa,
+        "tulipán" to com.example.agendacontactosgrhr.R.drawable.tulipan,
+        "col rizada" to com.example.agendacontactosgrhr.R.drawable.col_rizada,
+        "jazz azul" to com.example.agendacontactosgrhr.R.drawable.jazz_azul,
+        "fresa" to com.example.agendacontactosgrhr.R.drawable.fresa,
+        "judía verde" to com.example.agendacontactosgrhr.R.drawable.ejote,
+        "coliflor" to com.example.agendacontactosgrhr.R.drawable.coliflor,
+        "ruibarbo" to com.example.agendacontactosgrhr.R.drawable.ruibarbo,
+        "arroz sin moler" to com.example.agendacontactosgrhr.R.drawable.arroz_sin_moler,
+        "trigo" to com.example.agendacontactosgrhr.R.drawable.trigo,
+        "chile" to com.example.agendacontactosgrhr.R.drawable.pimiento_picante,
+        "rábano" to com.example.agendacontactosgrhr.R.drawable.rabano,
+        "amapola" to com.example.agendacontactosgrhr.R.drawable.amapola,
+        "lentejuela de verano" to com.example.agendacontactosgrhr.R.drawable.lentejuela_de_verano,
+        "lúpulo" to com.example.agendacontactosgrhr.R.drawable.lupulo,
+        "tomate" to com.example.agendacontactosgrhr.R.drawable.tomate,
+        "melón" to com.example.agendacontactosgrhr.R.drawable.melon,
+        "arándano" to com.example.agendacontactosgrhr.R.drawable.arandano,
+        "carambola" to com.example.agendacontactosgrhr.R.drawable.fruta_estrella,
+        "maíz" to com.example.agendacontactosgrhr.R.drawable.maiz,
+        "lombarda" to com.example.agendacontactosgrhr.R.drawable.col_roja,
+        "girasol" to com.example.agendacontactosgrhr.R.drawable.girasol,
+        "col china" to com.example.agendacontactosgrhr.R.drawable.bok_choy,
+        "alcachofa" to com.example.agendacontactosgrhr.R.drawable.alcachofa,
+        "ñame" to com.example.agendacontactosgrhr.R.drawable.yam,
+        "uva" to com.example.agendacontactosgrhr.R.drawable.uva,
+        "rosa hada" to com.example.agendacontactosgrhr.R.drawable.hada_rosa,
+        "chirivía" to com.example.agendacontactosgrhr.R.drawable.chirivia,
+        "berenjena" to com.example.agendacontactosgrhr.R.drawable.berenjena,
+        "remolacha" to com.example.agendacontactosgrhr.R.drawable.remolacha,
+        "arándano rojo" to com.example.agendacontactosgrhr.R.drawable.arandano_rojo,
+        "amaranto" to com.example.agendacontactosgrhr.R.drawable.amaranto,
+        "calabaza" to com.example.agendacontactosgrhr.R.drawable.calabaza,
+        "grano de café" to com.example.agendacontactosgrhr.R.drawable.grano_cafe,
+        "fruta milenaria" to com.example.agendacontactosgrhr.R.drawable.fruta_antigua,
+        "baya de gema dulce" to com.example.agendacontactosgrhr.R.drawable.baya_gema_dulce,
+        "fruta de cactus" to com.example.agendacontactosgrhr.R.drawable.fruta_de_cactus,
+        "flor de té" to com.example.agendacontactosgrhr.R.drawable.hojas_te
+    )
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -92,13 +139,26 @@ fun CropItem(crop: CropEntity, onClick: () -> Unit, onFavoriteClick: () -> Unit)
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = crop.nombre,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                val imageRes = drawableMap[crop.nombre.lowercase()] ?: com.example.agendacontactosgrhr.R.drawable.ic_launcher_background
+
+                Image(
+                    painter = painterResource(id = imageRes),
+                    contentDescription = "Imagen de ${crop.nombre}",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
                 )
-                Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = crop.nombre,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                     Surface(
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         shape = MaterialTheme.shapes.small
@@ -110,14 +170,14 @@ fun CropItem(crop: CropEntity, onClick: () -> Unit, onFavoriteClick: () -> Unit)
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    IconButton(onClick = onFavoriteClick) {
-                        Icon(
-                            imageVector = if (crop.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                            contentDescription = if (crop.isFavorite) "Quitar de favoritos" else "Agregar a favoritos",
-                            tint = if (crop.isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                }
+
+                IconButton(onClick = onFavoriteClick) {
+                    Icon(
+                        imageVector = if (crop.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                        contentDescription = if (crop.isFavorite) "Quitar de favoritos" else "Agregar a favoritos",
+                        tint = if (crop.isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
 

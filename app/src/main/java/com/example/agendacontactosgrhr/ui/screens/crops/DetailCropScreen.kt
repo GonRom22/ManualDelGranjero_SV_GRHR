@@ -1,5 +1,6 @@
 package com.example.agendacontactosgrhr.ui.screens.crops
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -13,6 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.ui.screens.PantallaBase
@@ -57,6 +62,61 @@ fun DetailCropScreen(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val drawableMap = mapOf(
+                    "ajo" to com.example.agendacontactosgrhr.R.drawable.ajo,
+                    "patata" to com.example.agendacontactosgrhr.R.drawable.papa,
+                    "tulipán" to com.example.agendacontactosgrhr.R.drawable.tulipan,
+                    "col rizada" to com.example.agendacontactosgrhr.R.drawable.col_rizada,
+                    "jazz azul" to com.example.agendacontactosgrhr.R.drawable.jazz_azul,
+                    "fresa" to com.example.agendacontactosgrhr.R.drawable.fresa,
+                    "judía verde" to com.example.agendacontactosgrhr.R.drawable.ejote,
+                    "coliflor" to com.example.agendacontactosgrhr.R.drawable.coliflor,
+                    "ruibarbo" to com.example.agendacontactosgrhr.R.drawable.ruibarbo,
+                    "arroz sin moler" to com.example.agendacontactosgrhr.R.drawable.arroz_sin_moler,
+                    "trigo" to com.example.agendacontactosgrhr.R.drawable.trigo,
+                    "chile" to com.example.agendacontactosgrhr.R.drawable.pimiento_picante,
+                    "rábano" to com.example.agendacontactosgrhr.R.drawable.rabano,
+                    "amapola" to com.example.agendacontactosgrhr.R.drawable.amapola,
+                    "lentejuela de verano" to com.example.agendacontactosgrhr.R.drawable.lentejuela_de_verano,
+                    "lúpulo" to com.example.agendacontactosgrhr.R.drawable.lupulo,
+                    "tomate" to com.example.agendacontactosgrhr.R.drawable.tomate,
+                    "melón" to com.example.agendacontactosgrhr.R.drawable.melon,
+                    "arándano" to com.example.agendacontactosgrhr.R.drawable.arandano,
+                    "carambola" to com.example.agendacontactosgrhr.R.drawable.fruta_estrella,
+                    "maíz" to com.example.agendacontactosgrhr.R.drawable.maiz,
+                    "lombarda" to com.example.agendacontactosgrhr.R.drawable.col_roja,
+                    "girasol" to com.example.agendacontactosgrhr.R.drawable.girasol,
+                    "col china" to com.example.agendacontactosgrhr.R.drawable.bok_choy,
+                    "alcachofa" to com.example.agendacontactosgrhr.R.drawable.alcachofa,
+                    "ñame" to com.example.agendacontactosgrhr.R.drawable.yam,
+                    "uva" to com.example.agendacontactosgrhr.R.drawable.uva,
+                    "rosa hada" to com.example.agendacontactosgrhr.R.drawable.hada_rosa,
+                    "chirivía" to com.example.agendacontactosgrhr.R.drawable.chirivia,
+                    "berenjena" to com.example.agendacontactosgrhr.R.drawable.berenjena,
+                    "remolacha" to com.example.agendacontactosgrhr.R.drawable.remolacha,
+                    "arándano rojo" to com.example.agendacontactosgrhr.R.drawable.arandano_rojo,
+                    "amaranto" to com.example.agendacontactosgrhr.R.drawable.amaranto,
+                    "calabaza" to com.example.agendacontactosgrhr.R.drawable.calabaza,
+                    "grano de café" to com.example.agendacontactosgrhr.R.drawable.grano_cafe,
+                    "fruta milenaria" to com.example.agendacontactosgrhr.R.drawable.fruta_antigua,
+                    "baya de gema dulce" to com.example.agendacontactosgrhr.R.drawable.baya_gema_dulce,
+                    "fruta de cactus" to com.example.agendacontactosgrhr.R.drawable.fruta_de_cactus,
+                    "flor de té" to com.example.agendacontactosgrhr.R.drawable.hojas_te
+                )
+
+                val imageRes = drawableMap[crop.nombre.lowercase()] ?: com.example.agendacontactosgrhr.R.drawable.ic_launcher_background
+
+                Image(
+                    painter = painterResource(id = imageRes),
+                    contentDescription = "Imagen de ${crop.nombre}",
+                    modifier = Modifier
+                        .size(160.dp)
+                        .clip(RoundedCornerShape(12.dp)),
+                    contentScale = ContentScale.Crop
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
                     text = crop.nombre,
                     style = MaterialTheme.typography.headlineLarge,
