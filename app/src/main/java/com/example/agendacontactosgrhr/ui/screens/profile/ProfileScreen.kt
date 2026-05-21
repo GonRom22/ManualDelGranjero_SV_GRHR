@@ -5,17 +5,25 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.R
 import com.example.agendacontactosgrhr.navigation.Screens
 import com.example.agendacontactosgrhr.ui.screens.PantallaBase
+import com.example.agendacontactosgrhr.viewmodel.ProfileViewModel
 
 @Composable
-fun ProfileScreen(navController: NavHostController) {
+fun ProfileScreen(
+    navController: NavHostController,
+    viewModel: ProfileViewModel = hiltViewModel()
+) {
+    val userName by viewModel.userName.collectAsState()
 
     PantallaBase(
         titulo = "Perfil",
@@ -38,8 +46,9 @@ fun ProfileScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Nombre: Usuario Ejemplo")
-            Text("Email: usuario@email.com")
+            Text("Nombre: ${userName ?: "Invitado"}")
+            // Podríamos añadir más datos si el SessionManager los guardara
+            Text("Email: ${userName?.lowercase()?.replace(" ", ".")}@email.com")
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -51,8 +60,10 @@ fun ProfileScreen(navController: NavHostController) {
                     .width(270.dp)
                     .height(90.dp)
                     .clickable {
-                        navController.navigate(Screens.Login.route) {
-                            popUpTo(Screens.HomeScreen.route) { inclusive = true }
+                        viewModel.logout {
+                            navController.navigate(Screens.Login.route) {
+                                popUpTo(Screens.HomeScreen.route) { inclusive = true }
+                            }
                         }
                     }
             )

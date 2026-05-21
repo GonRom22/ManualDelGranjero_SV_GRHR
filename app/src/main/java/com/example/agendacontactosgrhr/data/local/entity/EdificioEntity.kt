@@ -12,5 +12,15 @@ data class EdificioEntity(
     val nombre: String,
     val tiempoConstruccion: Int,
     val costeOro: Int,
+    val cantMadera: Int = 0,
+    val cantPiedra: Int = 0,
+    val cantMaderaNoble: Int = 0,
+    val cantFibra: Int = 0,
+    val cantArcilla: Int = 0,
+    val cantLingoteCobre: Int = 0,
+    val cantLingoteHierro: Int = 0,
+    val cantLingoteIridio: Int = 0,
+    val cantCuarzoRefinado: Int = 0,
+    val otrosMateriales: String? = null,
     val materialesNecesarios: String // Resumen de materiales
 )

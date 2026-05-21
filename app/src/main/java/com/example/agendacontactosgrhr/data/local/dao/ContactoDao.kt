@@ -49,4 +49,13 @@ interface ContactoDao{
 
     @Query("SELECT * FROM contactos WHERE regalosAmados LIKE '%' || :item || '%'")
     fun buscarNpcPorRegaloFavorito(item: String): Flow<List<ContactoEntity>>
+
+    @Query("UPDATE contactos SET nivelAmistad = :nuevoNivel WHERE id = :id")
+    suspend fun actualizarAmistad(id: Int, nuevoNivel: Int)
+
+    @Query("UPDATE contactos SET habladoHoy = :hablado WHERE id = :id")
+    suspend fun actualizarHabladoHoy(id: Int, hablado: Boolean)
+
+    @Query("UPDATE contactos SET regalosSemanales = :regalos WHERE id = :id")
+    suspend fun actualizarRegalosSemanales(id: Int, regalos: Int)
 }

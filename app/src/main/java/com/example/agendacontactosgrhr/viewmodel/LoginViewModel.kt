@@ -4,8 +4,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-//View model de Login
-class LoginViewModel : ViewModel(){
+import androidx.lifecycle.viewModelScope
+import com.example.agendacontactosgrhr.data.local.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val sessionManager: SessionManager
+) : ViewModel() {
 
     var userName by mutableStateOf("")
         private set
@@ -16,21 +24,24 @@ class LoginViewModel : ViewModel(){
     var showPassword by mutableStateOf(false)
         private set
 
-    fun onUserNameChange(newValue: String){
+    fun onUserNameChange(newValue: String) {
         userName = newValue
     }
 
-    fun onPasswordChange(newValue: String){
+    fun onPasswordChange(newValue: String) {
         password = newValue
     }
 
-    fun togglePasswordVisibility(){
+    fun togglePasswordVisibility() {
         showPassword = !showPassword
     }
 
-    fun login(onSuccess: () -> Unit){
-        if (userName.isNotBlank() && password.isNotBlank()){
-            onSuccess()
+    fun login(onSuccess: () -> Unit) {
+        if (userName.isNotBlank() && password.isNotBlank()) {
+            viewModelScope.launch {
+                sessionManager.saveSession(userName)
+                onSuccess()
+            }
         }
     }
 }

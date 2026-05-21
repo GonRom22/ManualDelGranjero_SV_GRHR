@@ -81,4 +81,28 @@ class ContactosViewModel @Inject constructor(
             }
         }
     }
+
+    fun actualizarAmistad(id: Int, nuevoNivel: Int) {
+        viewModelScope.launch {
+            // Cada corazón son 250 puntos, máximo 10 corazones = 2500 puntos
+            val clampedNivel = nuevoNivel.coerceIn(0, 2500)
+            repositorio.actualizarAmistad(id, clampedNivel)
+        }
+    }
+
+    fun toggleHabladoHoy(id: Int) {
+        viewModelScope.launch {
+            val contacto = repositorio.obtenerContactoPorId(id)
+            if (contacto != null) {
+                repositorio.actualizarHabladoHoy(id, !contacto.habladoHoy)
+            }
+        }
+    }
+
+    fun actualizarRegalosSemanales(id: Int, cantidad: Int) {
+        viewModelScope.launch {
+            val clampedRegalos = cantidad.coerceIn(0, 2)
+            repositorio.actualizarRegalosSemanales(id, clampedRegalos)
+        }
+    }
 }

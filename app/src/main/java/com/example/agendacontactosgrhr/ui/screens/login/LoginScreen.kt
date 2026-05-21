@@ -30,7 +30,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.R
 import com.example.agendacontactosgrhr.navigation.Screens
@@ -44,7 +44,7 @@ import com.example.agendacontactosgrhr.viewmodel.LoginViewModel
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    viewModel : LoginViewModel = viewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {

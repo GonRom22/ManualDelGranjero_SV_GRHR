@@ -7,9 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,18 +40,27 @@ fun BuildingCalculator(navController: NavHostController) {
         }
     }
 
-    // Lista temporal para el patrón de acumulación descrito en la guía
+    // Lista temporal para el patrón de acumulación
     val itemsToCalculate = remember { mutableStateListOf<Pair<EdificioEntity, EdificioCalculo>>() }
 
     var selectedBuilding by remember { mutableStateOf<EdificioEntity?>(null) }
     var cantidad by remember { mutableStateOf("1") }
     var expanded by remember { mutableStateOf(false) }
 
-    PantallaBase(titulo = "Calculadora de Edificios", navController = navController, acciones = {
-        IconButton(onClick = { viewModel.syncBuildings() }) {
-            Icon(Icons.Default.Refresh, contentDescription = "Sincronizar Edificios")
+    PantallaBase(
+        titulo = "Calculadora de Edificios",
+        navController = navController,
+        acciones = {
+            if (itemsToCalculate.isNotEmpty()) {
+                IconButton(onClick = { itemsToCalculate.clear() }) {
+                    Icon(Icons.Default.DeleteSweep, contentDescription = "Limpiar lista")
+                }
+            }
+            IconButton(onClick = { viewModel.syncBuildings() }) {
+                Icon(Icons.Default.Refresh, contentDescription = "Sincronizar Edificios")
+            }
         }
-    }) { padding ->
+    ) { padding ->
         Box(modifier = Modifier.fillMaxSize().padding(padding)) {
             Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                 Text("Planificador de Construcción", style = MaterialTheme.typography.headlineSmall, color = Color(0xFF5C3A1E))
@@ -144,22 +151,28 @@ fun BuildingCalculator(navController: NavHostController) {
                     }
                 }
 
-                // Muestra de resultados finales (Acumuladores)
+                // Muestra de resultados finales
                 result?.let { res ->
                     Spacer(modifier = Modifier.height(16.dp))
                     Card(
+                        modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFFDF6E3)),
                         border = BorderStroke(1.dp, Color(0xFF8B6914))
                     ) {
                         Column(Modifier.padding(16.dp).fillMaxWidth()) {
                             Text("TOTAL DE MATERIALES", fontWeight = FontWeight.Bold, color = Color(0xFF5C3A1E))
+                            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = Color(0xFF8B6914).copy(alpha = 0.3f))
+                            
                             ResourceRow("Oro total", "${res.totalOro}g")
                             if (res.totalMadera > 0) ResourceRow("Madera", "${res.totalMadera}")
                             if (res.totalPiedra > 0) ResourceRow("Piedra", "${res.totalPiedra}")
                             if (res.totalArcilla > 0) ResourceRow("Arcilla", "${res.totalArcilla}")
+                            if (res.totalFibra > 0) ResourceRow("Fibra", "${res.totalFibra}")
                             if (res.totalMaderaNoble > 0) ResourceRow("Madera Noble", "${res.totalMaderaNoble}")
+                            if (res.totalLingoteCobre > 0) ResourceRow("Lingote Cobre", "${res.totalLingoteCobre}")
                             if (res.totalLingoteHierro > 0) ResourceRow("Lingote Hierro", "${res.totalLingoteHierro}")
                             if (res.totalLingoteIridio > 0) ResourceRow("Lingote Iridio", "${res.totalLingoteIridio}")
+                            if (res.totalCuarzoRefinado > 0) ResourceRow("Cuarzo Refinado", "${res.totalCuarzoRefinado}")
                         }
                     }
                 }

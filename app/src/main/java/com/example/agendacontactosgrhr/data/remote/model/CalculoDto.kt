@@ -64,10 +64,16 @@ data class CalculoEdificiosResponse(
     val totalArcilla: Int,
     @SerializedName("total_madera_noble")
     val totalMaderaNoble: Int,
+    @SerializedName("total_fibra")
+    val totalFibra: Int = 0,
+    @SerializedName("total_lingote_cobre")
+    val totalLingoteCobre: Int = 0,
     @SerializedName("total_lingote_hierro")
     val totalLingoteHierro: Int,
     @SerializedName("total_lingote_iridio")
     val totalLingoteIridio: Int,
+    @SerializedName("total_cuarzo_refinado")
+    val totalCuarzoRefinado: Int = 0,
     val detalle: List<EdificioDetalleResponse>
 )
 
