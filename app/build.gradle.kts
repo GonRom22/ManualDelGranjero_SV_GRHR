@@ -8,9 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.agendacontactosgrhr"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.agendacontactosgrhr"
@@ -82,6 +80,9 @@ dependencies {
     implementation(libs.androidx.compose.animation.core.lint)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.benchmark.traceprocessor)
+
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

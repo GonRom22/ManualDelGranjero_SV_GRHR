@@ -41,6 +41,15 @@ class ContactoRepository @Inject constructor(
     suspend fun actualizarFavorito(id: Int, isFav: Boolean) =
         contactoDao.actualizarFavorito(id, isFav)
 
+    suspend fun actualizarAmistad(id: Int, nuevoNivel: Int) =
+        contactoDao.actualizarAmistad(id, nuevoNivel)
+
+    suspend fun actualizarHabladoHoy(id: Int, hablado: Boolean) =
+        contactoDao.actualizarHabladoHoy(id, hablado)
+
+    suspend fun actualizarRegalosSemanales(id: Int, regalos: Int) =
+        contactoDao.actualizarRegalosSemanales(id, regalos)
+
     /**
      * Sincroniza los NPCs desde la API y los guarda en la base de datos local.
      */

@@ -19,8 +19,9 @@ data class ContactoEntity (
     val esSoltero: Boolean=false,
     val habladoHoy: Boolean=false,
     val regaloRecibidoHoy: Boolean=false,
+    val regalosSemanales: Int = 0, // Nuevo campo para contar regalos de 0 a 2
     val nivelAmistad: Int = 0,
     val ubicacion: String="",
     val posicion: String="",
-    val isFavorite: Boolean = false // Nuevo campo
+    val isFavorite: Boolean = false
 )

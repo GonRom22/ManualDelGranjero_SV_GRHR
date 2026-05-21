@@ -1,16 +1,18 @@
 package com.example.agendacontactosgrhr.ui.screens.npcs
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -18,13 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import com.example.agendacontactosgrhr.R
 import com.example.agendacontactosgrhr.ui.screens.PantallaBase
 import com.example.agendacontactosgrhr.viewmodel.ContactosViewModel
 
-/**
- * Esta pantalla recupera y muestra la info detallada de los contactos
- * utilizando un collectAsState y basándose en la ID del contacto.
- */
 @Composable
 fun DetailNpcScreen(
     navController: NavHostController,
@@ -41,9 +41,9 @@ fun DetailNpcScreen(
             if (npc != null) {
                 IconButton(onClick = { viewModel.toggleFavorite(npc.id) }) {
                     Icon(
-                        imageVector = if (npc.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                        imageVector = if (npc.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = if (npc.isFavorite) "Quitar de favoritos" else "Agregar a favoritos",
-                        tint = if (npc.isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = if (npc.isFavorite) Color.Red else Color.White
                     )
                 }
             }
@@ -62,124 +62,242 @@ fun DetailNpcScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .padding(16.dp),
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.height(16.dp))
+
                 val drawableMap = mapOf(
-                    "abigail" to com.example.agendacontactosgrhr.R.drawable.abigail,
-                    "alex" to com.example.agendacontactosgrhr.R.drawable.alex,
-                    "caroline" to com.example.agendacontactosgrhr.R.drawable.caroline,
-                    "clint" to com.example.agendacontactosgrhr.R.drawable.clint,
-                    "demetrius" to com.example.agendacontactosgrhr.R.drawable.demetrius,
-                    "dwarf" to com.example.agendacontactosgrhr.R.drawable.dwarf,
-                    "elliott" to com.example.agendacontactosgrhr.R.drawable.elliott,
-                    "emily" to com.example.agendacontactosgrhr.R.drawable.emily,
-                    "evelyn" to com.example.agendacontactosgrhr.R.drawable.evelyn,
-                    "george" to com.example.agendacontactosgrhr.R.drawable.george,
-                    "gonzalo" to com.example.agendacontactosgrhr.R.drawable.gonzalo,
-                    "gus" to com.example.agendacontactosgrhr.R.drawable.gus,
-                    "haley" to com.example.agendacontactosgrhr.R.drawable.haley,
-                    "harvey" to com.example.agendacontactosgrhr.R.drawable.harvey,
-                    "jas" to com.example.agendacontactosgrhr.R.drawable.jas,
-                    "jodi" to com.example.agendacontactosgrhr.R.drawable.jodi,
-                    "kent" to com.example.agendacontactosgrhr.R.drawable.kent,
-                    "krobus" to com.example.agendacontactosgrhr.R.drawable.krobus,
-                    "leah" to com.example.agendacontactosgrhr.R.drawable.leah,
-                    "leo" to com.example.agendacontactosgrhr.R.drawable.leo,
-                    "lewis" to com.example.agendacontactosgrhr.R.drawable.lewis,
-                    "linus" to com.example.agendacontactosgrhr.R.drawable.linus,
-                    "marnie" to com.example.agendacontactosgrhr.R.drawable.marnie,
-                    "maru" to com.example.agendacontactosgrhr.R.drawable.maru,
-                    "pam" to com.example.agendacontactosgrhr.R.drawable.pam,
-                    "penny" to com.example.agendacontactosgrhr.R.drawable.penny,
-                    "pierre" to com.example.agendacontactosgrhr.R.drawable.pierre,
-                    "robin" to com.example.agendacontactosgrhr.R.drawable.robin,
-                    "sam" to com.example.agendacontactosgrhr.R.drawable.sam,
-                    "sandy" to com.example.agendacontactosgrhr.R.drawable.sandy,
-                    "sebastian" to com.example.agendacontactosgrhr.R.drawable.sebastian,
-                    "shane" to com.example.agendacontactosgrhr.R.drawable.shane,
-                    "vincent" to com.example.agendacontactosgrhr.R.drawable.vincent,
-                    "willy" to com.example.agendacontactosgrhr.R.drawable.willy,
-                    "wizard" to com.example.agendacontactosgrhr.R.drawable.wizard
+                    "abigail" to R.drawable.abigail,
+                    "alex" to R.drawable.alex,
+                    "caroline" to R.drawable.caroline,
+                    "clint" to R.drawable.clint,
+                    "demetrius" to R.drawable.demetrius,
+                    "dwarf" to R.drawable.dwarf,
+                    "elliott" to R.drawable.elliott,
+                    "emily" to R.drawable.emily,
+                    "evelyn" to R.drawable.evelyn,
+                    "george" to R.drawable.george,
+                    "gonzalo" to R.drawable.gonzalo,
+                    "gus" to R.drawable.gus,
+                    "haley" to R.drawable.haley,
+                    "harvey" to R.drawable.harvey,
+                    "jas" to R.drawable.jas,
+                    "jodi" to R.drawable.jodi,
+                    "kent" to R.drawable.kent,
+                    "krobus" to R.drawable.krobus,
+                    "leah" to R.drawable.leah,
+                    "leo" to R.drawable.leo,
+                    "lewis" to R.drawable.lewis,
+                    "linus" to R.drawable.linus,
+                    "marnie" to R.drawable.marnie,
+                    "maru" to R.drawable.maru,
+                    "pam" to R.drawable.pam,
+                    "penny" to R.drawable.penny,
+                    "pierre" to R.drawable.pierre,
+                    "robin" to R.drawable.robin,
+                    "sam" to R.drawable.sam,
+                    "sandy" to R.drawable.sandy,
+                    "sebastian" to R.drawable.sebastian,
+                    "shane" to R.drawable.shane,
+                    "vincent" to R.drawable.vincent,
+                    "willy" to R.drawable.willy,
+                    "wizard" to R.drawable.wizard
                 )
 
-                val imageRes = npc.thumbnailResId?.takeIf { it != 0 } 
-                    ?: com.example.agendacontactosgrhr.R.drawable.ic_launcher_background
+                val placeholderRes = npc.thumbnailResId?.takeIf { it != 0 } 
+                    ?: R.drawable.ic_launcher_background
 
-                val fallbackRes = if (npc.thumbnail.contains("imagenes/")) {
-                    val name = npc.thumbnail.substringAfter("imagenes/").substringBefore(".png").lowercase()
-                    drawableMap[name] ?: imageRes
-                } else {
-                    imageRes
-                }
+                val nameFromUrl = when {
+                    npc.thumbnail.contains("imagenes/") -> npc.thumbnail.substringAfter("imagenes/").substringBefore(".png")
+                    npc.thumbnail.contains("personajes/") -> npc.thumbnail.substringAfter("personajes/").substringBefore(".png")
+                    else -> null
+                }?.lowercase()
 
-                // NPC Image - Centered and first thing shown
-                Image(
-                    painter = painterResource(id = fallbackRes),
+                val finalLocalRes = nameFromUrl?.let { drawableMap[it] } ?: placeholderRes
+
+                AsyncImage(
+                    model = npc.thumbnail.takeIf { it.isNotEmpty() } ?: finalLocalRes,
                     contentDescription = npc.name,
+                    placeholder = painterResource(id = finalLocalRes),
+                    error = painterResource(id = finalLocalRes),
                     modifier = Modifier
-                        .size(200.dp)
+                        .size(160.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-                // NPC Info
+                Text(
+                    text = npc.name,
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // --- SECCIÓN DE AMISTAD (CORAZONES) ---
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                    )
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        InfoRow(label = "Nombre", value = npc.name)
-                        InfoRow(label = "Ubicación", value = npc.ubicacion)
+                        Text("Amistad", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
+                        Spacer(modifier = Modifier.height(8.dp))
                         
-                        if (npc.cumpleanos != 0) {
-                            InfoRow(label = "Cumpleaños", value = "${npc.cumpleanos} de ${npc.estacionCumpleanos}")
+                        // 10 Corazones - Interactivos
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            val fullHearts = npc.nivelAmistad / 250
+                            repeat(10) { index ->
+                                Icon(
+                                    imageVector = if (index < fullHearts) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                    contentDescription = "Establecer nivel de amistad",
+                                    tint = if (index < fullHearts) Color(0xFFFF1744) else Color.Gray,
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .clickable {
+                                            viewModel.actualizarAmistad(npc.id, (index + 1) * 250)
+                                        }
+                                )
+                            }
                         }
                         
-                        if (npc.regalosAmados.isNotEmpty()) {
-                            InfoRow(label = "Regalos amados", value = npc.regalosAmados)
-                        }
-                        
-                        if (npc.regalosOdiados.isNotEmpty()) {
-                            InfoRow(label = "Regalos odiados", value = npc.regalosOdiados)
-                        }
-                        
-                        InfoRow(label = "Nivel de Amistad", value = "${npc.nivelAmistad} puntos")
-                        
-                        InfoRow(label = "Estación", value = npc.estacion)
-                        InfoRow(label = "Soltero", value = if (npc.esSoltero) "Sí" else "No")
-                        InfoRow(label = "Hablado hoy", value = if (npc.habladoHoy) "Sí" else "No")
-                        InfoRow(label = "Regalo recibido hoy", value = if (npc.regaloRecibidoHoy) "Sí" else "No")
-                        InfoRow(label = "Posición", value = npc.posicion)
-                        InfoRow(label = "Favorito", value = if (npc.isFavorite) "Sí" else "No")
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text("${npc.nivelAmistad} / 2500 puntos", style = MaterialTheme.typography.bodySmall)
                     }
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // --- SECCIÓN DE SEGUIMIENTO DIARIO ---
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    // Hablado hoy
+                    Card(
+                        modifier = Modifier.weight(1f),
+                        colors = CardDefaults.cardColors(containerColor = if (npc.habladoHoy) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text("¿Hablado?", style = MaterialTheme.typography.labelLarge)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Icon(
+                                imageVector = if (npc.habladoHoy) Icons.Default.ChatBubble else Icons.Default.ChatBubbleOutline,
+                                contentDescription = null,
+                                tint = if (npc.habladoHoy) MaterialTheme.colorScheme.primary else Color.Gray,
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clickable { viewModel.toggleHabladoHoy(npc.id) }
+                            )
+                            Text(if (npc.habladoHoy) "¡Hablado!" else "Pendiente", fontSize = 11.sp)
+                        }
+                    }
+
+                    // Regalos semanales
+                    Card(modifier = Modifier.weight(1.2f)) {
+                        Column(
+                            modifier = Modifier.padding(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text("Regalos Semanales", style = MaterialTheme.typography.labelLarge)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                repeat(2) { index ->
+                                    Icon(
+                                        imageVector = if (index < npc.regalosSemanales) Icons.Default.Redeem else Icons.Default.CardGiftcard,
+                                        contentDescription = null,
+                                        tint = if (index < npc.regalosSemanales) Color(0xFF43A047) else Color.Gray,
+                                        modifier = Modifier
+                                            .size(34.dp)
+                                            .clickable {
+                                                viewModel.actualizarRegalosSemanales(npc.id, index + 1)
+                                            }
+                                    )
+                                }
+                                if (npc.regalosSemanales > 0) {
+                                    IconButton(
+                                        onClick = { viewModel.actualizarRegalosSemanales(npc.id, 0) },
+                                        modifier = Modifier.size(24.dp)
+                                    ) {
+                                        Icon(Icons.Default.Clear, contentDescription = "Reset", tint = Color.Red)
+                                    }
+                                }
+                            }
+                            Text("${npc.regalosSemanales} / 2 entregados", fontSize = 11.sp)
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // --- INFORMACIÓN GENERAL ---
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        Text("Información de Interés", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
+                        HorizontalDivider(thickness = 0.5.dp)
+                        
+                        DetailInfoRow(label = "📍 Ubicación habitual", value = npc.ubicacion.ifEmpty { "Desconocida" })
+                        
+                        val cumpleStr = if (npc.cumpleanos != 0) "${npc.cumpleanos} de ${npc.estacionCumpleanos}" else "Desconocido"
+                        DetailInfoRow(label = "🎂 Cumpleaños", value = cumpleStr)
+                        
+                        DetailInfoRow(label = "💍 Estado civil", value = if (npc.esSoltero) "Soltero/a" else "Casado/a / Desconocido")
+                        
+                        if (npc.regalosAmados.isNotEmpty()) {
+                            DetailInfoRow(label = "💖 Regalos amados", value = npc.regalosAmados)
+                        }
+                        if (npc.regalosOdiados.isNotEmpty()) {
+                            DetailInfoRow(label = "💢 Regalos odiados", value = npc.regalosOdiados)
+                        }
+                        
+                        if (npc.posicion.isNotEmpty()) {
+                            DetailInfoRow(label = "🚶 Rutina", value = npc.posicion)
+                        }
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
 }
 
 @Composable
-fun InfoRow(label: String, value: String) {
-    Row(
+fun DetailInfoRow(label: String, value: String) {
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            text = "$label:",
+            text = label,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.secondary
         )
         Text(
             text = value,
-            color = MaterialTheme.colorScheme.onSurface
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            lineHeight = 20.sp
         )
     }
 }

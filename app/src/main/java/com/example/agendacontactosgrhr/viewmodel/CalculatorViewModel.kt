@@ -89,8 +89,56 @@ class CalculatorViewModel @Inject constructor(
     fun calcularEdificios(items: List<EdificioCalculo>) {
         viewModelScope.launch {
             _isLoading.value = true
-            // Since API is not available, emit error
-            _error.emit("Cálculo de edificios no disponible (API no implementada)")
+            try {
+                var totalOro = 0
+                var totalMadera = 0
+                var totalPiedra = 0
+                var totalArcilla = 0
+                var totalMaderaNoble = 0
+                var totalFibra = 0
+                var totalLingoteCobre = 0
+                var totalLingoteHierro = 0
+                var totalLingoteIridio = 0
+                var totalCuarzoRefinado = 0
+                val detalle = mutableListOf<EdificioDetalleResponse>()
+
+                for (item in items) {
+                    val building = edificioRepository.obtenerEdificioPorId(item.id)
+                    if (building != null) {
+                        totalOro += building.costeOro * item.cantidad
+                        totalMadera += building.cantMadera * item.cantidad
+                        totalPiedra += building.cantPiedra * item.cantidad
+                        totalArcilla += building.cantArcilla * item.cantidad
+                        totalMaderaNoble += building.cantMaderaNoble * item.cantidad
+                        totalFibra += building.cantFibra * item.cantidad
+                        totalLingoteCobre += building.cantLingoteCobre * item.cantidad
+                        totalLingoteHierro += building.cantLingoteHierro * item.cantidad
+                        totalLingoteIridio += building.cantLingoteIridio * item.cantidad
+                        totalCuarzoRefinado += building.cantCuarzoRefinado * item.cantidad
+                        
+                        detalle.add(EdificioDetalleResponse(
+                            nombre = building.nombre,
+                            cantidad = item.cantidad
+                        ))
+                    }
+                }
+
+                _buildingResult.value = CalculoEdificiosResponse(
+                    totalOro = totalOro,
+                    totalMadera = totalMadera,
+                    totalPiedra = totalPiedra,
+                    totalArcilla = totalArcilla,
+                    totalMaderaNoble = totalMaderaNoble,
+                    totalFibra = totalFibra,
+                    totalLingoteCobre = totalLingoteCobre,
+                    totalLingoteHierro = totalLingoteHierro,
+                    totalLingoteIridio = totalLingoteIridio,
+                    totalCuarzoRefinado = totalCuarzoRefinado,
+                    detalle = detalle
+                )
+            } catch (e: Exception) {
+                _error.emit("Error al calcular edificios: ${e.message}")
+            }
             _isLoading.value = false
         }
     }

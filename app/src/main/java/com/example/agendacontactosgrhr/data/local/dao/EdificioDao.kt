@@ -15,6 +15,9 @@ interface EdificioDao {
     @Query("SELECT * FROM edificios ORDER BY nombre ASC")
     fun obtenerTodosLosEdificios(): Flow<List<EdificioEntity>>
 
+    @Query("SELECT * FROM edificios WHERE id = :id")
+    suspend fun obtenerEdificioPorId(id: Int): EdificioEntity?
+
     @Query("SELECT COUNT(*) FROM edificios")
     suspend fun contarEdificios(): Int
 }

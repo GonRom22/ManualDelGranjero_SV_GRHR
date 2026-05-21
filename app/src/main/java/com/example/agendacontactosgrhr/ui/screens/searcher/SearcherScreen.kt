@@ -80,6 +80,14 @@ fun SearcherScreen(navController: NavHostController) {
                 )
             )
 
+            // Texto descriptivo añadido
+            Text(
+                text = "Busca personajes por nombre o ubicación, y cultivos por nombre o temporada.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+            )
+
             Spacer(modifier = Modifier.height(16.dp))
 
             if (textoBusqueda.isNotEmpty() && resultados.isEmpty()) {
