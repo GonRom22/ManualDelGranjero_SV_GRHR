@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -52,7 +53,7 @@ fun DetailNpcScreen(
 
         if (npc == null) {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(padding),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -68,53 +69,28 @@ fun DetailNpcScreen(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // --- IMAGEN ---
                 val drawableMap = mapOf(
-                    "abigail" to R.drawable.abigail,
-                    "alex" to R.drawable.alex,
-                    "caroline" to R.drawable.caroline,
-                    "clint" to R.drawable.clint,
-                    "demetrius" to R.drawable.demetrius,
-                    "dwarf" to R.drawable.dwarf,
-                    "elliott" to R.drawable.elliott,
-                    "emily" to R.drawable.emily,
-                    "evelyn" to R.drawable.evelyn,
-                    "george" to R.drawable.george,
-                    "gonzalo" to R.drawable.gonzalo,
-                    "gus" to R.drawable.gus,
-                    "haley" to R.drawable.haley,
-                    "harvey" to R.drawable.harvey,
-                    "jas" to R.drawable.jas,
-                    "jodi" to R.drawable.jodi,
-                    "kent" to R.drawable.kent,
-                    "krobus" to R.drawable.krobus,
-                    "leah" to R.drawable.leah,
-                    "leo" to R.drawable.leo,
-                    "lewis" to R.drawable.lewis,
-                    "linus" to R.drawable.linus,
-                    "marnie" to R.drawable.marnie,
-                    "maru" to R.drawable.maru,
-                    "pam" to R.drawable.pam,
-                    "penny" to R.drawable.penny,
-                    "pierre" to R.drawable.pierre,
-                    "robin" to R.drawable.robin,
-                    "sam" to R.drawable.sam,
-                    "sandy" to R.drawable.sandy,
-                    "sebastian" to R.drawable.sebastian,
-                    "shane" to R.drawable.shane,
-                    "vincent" to R.drawable.vincent,
-                    "willy" to R.drawable.willy,
-                    "wizard" to R.drawable.wizard
+                    "abigail" to R.drawable.abigail, "alex" to R.drawable.alex, "caroline" to R.drawable.caroline,
+                    "clint" to R.drawable.clint, "demetrius" to R.drawable.demetrius, "dwarf" to R.drawable.dwarf,
+                    "elliott" to R.drawable.elliott, "emily" to R.drawable.emily, "evelyn" to R.drawable.evelyn,
+                    "george" to R.drawable.george, "gonzalo" to R.drawable.gonzalo, "gus" to R.drawable.gus,
+                    "haley" to R.drawable.haley, "harvey" to R.drawable.harvey, "jas" to R.drawable.jas,
+                    "jodi" to R.drawable.jodi, "kent" to R.drawable.kent, "krobus" to R.drawable.krobus,
+                    "leah" to R.drawable.leah, "leo" to R.drawable.leo, "lewis" to R.drawable.lewis,
+                    "linus" to R.drawable.linus, "marnie" to R.drawable.marnie, "maru" to R.drawable.maru,
+                    "pam" to R.drawable.pam, "penny" to R.drawable.penny, "pierre" to R.drawable.pierre,
+                    "robin" to R.drawable.robin, "sam" to R.drawable.sam, "sandy" to R.drawable.sandy,
+                    "sebastian" to R.drawable.sebastian, "shane" to R.drawable.shane, "vincent" to R.drawable.vincent,
+                    "willy" to R.drawable.willy, "wizard" to R.drawable.wizard
                 )
 
-                val placeholderRes = npc.thumbnailResId?.takeIf { it != 0 } 
-                    ?: R.drawable.ic_launcher_background
-
+                val placeholderRes = npc.thumbnailResId?.takeIf { it != 0 } ?: R.drawable.ic_launcher_background
                 val nameFromUrl = when {
                     npc.thumbnail.contains("imagenes/") -> npc.thumbnail.substringAfter("imagenes/").substringBefore(".png")
                     npc.thumbnail.contains("personajes/") -> npc.thumbnail.substringAfter("personajes/").substringBefore(".png")
                     else -> null
                 }?.lowercase()
-
                 val finalLocalRes = nameFromUrl?.let { drawableMap[it] } ?: placeholderRes
 
                 AsyncImage(
@@ -122,9 +98,7 @@ fun DetailNpcScreen(
                     contentDescription = npc.name,
                     placeholder = painterResource(id = finalLocalRes),
                     error = painterResource(id = finalLocalRes),
-                    modifier = Modifier
-                        .size(160.dp)
-                        .clip(CircleShape),
+                    modifier = Modifier.size(160.dp).clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
 
@@ -137,11 +111,53 @@ fun DetailNpcScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-                // --- SECCIÓN DE AMISTAD (CORAZONES) ---
+                // --- INFORMACIÓN GENERAL (Moved up for visibility) ---
                 Card(
                     modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "INFORMACIÓN GENERAL",
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontSize = 18.sp
+                            )
+                        }
+                        
+                        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
+                        
+                        DetailInfoRow(label = "📍 Ubicación habitual", value = npc.ubicacion.ifBlank { "Desconocida" })
+                        
+                        val cumpleStr = if (npc.cumpleanos != 0) "${npc.cumpleanos} de ${npc.estacionCumpleanos}" else "Desconocido"
+                        DetailInfoRow(label = "🎂 Cumpleaños", value = cumpleStr)
+                        
+                        DetailInfoRow(label = "💍 Estado civil", value = if (npc.esSoltero) "Soltero/a" else "Casado/a / Desconocido")
+                        
+                        DetailInfoRow(label = "💖 Regalos amados", value = npc.regalosAmados.ifBlank { "Sincroniza datos en el Home" })
+                        DetailInfoRow(label = "💢 Regalos odiados", value = npc.regalosOdiados.ifBlank { "Sincroniza datos en el Home" })
+                        
+                        if (npc.posicion.isNotBlank()) {
+                            DetailInfoRow(label = "🚶 Rutina", value = npc.posicion)
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // --- SECCIÓN DE AMISTAD ---
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
                 ) {
                     Column(
@@ -150,132 +166,63 @@ fun DetailNpcScreen(
                     ) {
                         Text("Amistad", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
                         Spacer(modifier = Modifier.height(8.dp))
-                        
-                        // 10 Corazones - Interactivos
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
+                        Row(horizontalArrangement = Arrangement.Center) {
                             val fullHearts = npc.nivelAmistad / 250
                             repeat(10) { index ->
                                 Icon(
                                     imageVector = if (index < fullHearts) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                                    contentDescription = "Establecer nivel de amistad",
+                                    contentDescription = null,
                                     tint = if (index < fullHearts) Color(0xFFFF1744) else Color.Gray,
-                                    modifier = Modifier
-                                        .size(30.dp)
-                                        .clickable {
-                                            viewModel.actualizarAmistad(npc.id, (index + 1) * 250)
-                                        }
+                                    modifier = Modifier.size(30.dp).clickable { viewModel.actualizarAmistad(npc.id, (index + 1) * 250) }
                                 )
                             }
                         }
-                        
-                        Spacer(modifier = Modifier.height(4.dp))
                         Text("${npc.nivelAmistad} / 2500 puntos", style = MaterialTheme.typography.bodySmall)
                     }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // --- SECCIÓN DE SEGUIMIENTO DIARIO ---
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    // Hablado hoy
+                // --- SECCIÓN DE SEGUIMIENTO ---
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Card(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f).clickable { viewModel.toggleHabladoHoy(npc.id) },
                         colors = CardDefaults.cardColors(containerColor = if (npc.habladoHoy) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
+                        Column(modifier = Modifier.padding(12.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("¿Hablado?", style = MaterialTheme.typography.labelLarge)
-                            Spacer(modifier = Modifier.height(4.dp))
                             Icon(
                                 imageVector = if (npc.habladoHoy) Icons.Default.ChatBubble else Icons.Default.ChatBubbleOutline,
                                 contentDescription = null,
                                 tint = if (npc.habladoHoy) MaterialTheme.colorScheme.primary else Color.Gray,
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clickable { viewModel.toggleHabladoHoy(npc.id) }
+                                modifier = Modifier.size(40.dp)
                             )
-                            Text(if (npc.habladoHoy) "¡Hablado!" else "Pendiente", fontSize = 11.sp)
                         }
                     }
 
-                    // Regalos semanales
                     Card(modifier = Modifier.weight(1.2f)) {
-                        Column(
-                            modifier = Modifier.padding(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text("Regalos Semanales", style = MaterialTheme.typography.labelLarge)
-                            Spacer(modifier = Modifier.height(4.dp))
+                        Column(modifier = Modifier.padding(12.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Regalos", style = MaterialTheme.typography.labelLarge)
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 repeat(2) { index ->
                                     Icon(
                                         imageVector = if (index < npc.regalosSemanales) Icons.Default.Redeem else Icons.Default.CardGiftcard,
                                         contentDescription = null,
                                         tint = if (index < npc.regalosSemanales) Color(0xFF43A047) else Color.Gray,
-                                        modifier = Modifier
-                                            .size(34.dp)
-                                            .clickable {
-                                                viewModel.actualizarRegalosSemanales(npc.id, index + 1)
-                                            }
+                                        modifier = Modifier.size(34.dp).clickable { viewModel.actualizarRegalosSemanales(npc.id, index + 1) }
                                     )
                                 }
                                 if (npc.regalosSemanales > 0) {
-                                    IconButton(
-                                        onClick = { viewModel.actualizarRegalosSemanales(npc.id, 0) },
-                                        modifier = Modifier.size(24.dp)
-                                    ) {
+                                    IconButton(onClick = { viewModel.actualizarRegalosSemanales(npc.id, 0) }, modifier = Modifier.size(24.dp)) {
                                         Icon(Icons.Default.Clear, contentDescription = "Reset", tint = Color.Red)
                                     }
                                 }
                             }
-                            Text("${npc.regalosSemanales} / 2 entregados", fontSize = 11.sp)
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // --- INFORMACIÓN GENERAL ---
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(14.dp)
-                    ) {
-                        Text("Información de Interés", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
-                        HorizontalDivider(thickness = 0.5.dp)
-                        
-                        DetailInfoRow(label = "📍 Ubicación habitual", value = npc.ubicacion.ifEmpty { "Desconocida" })
-                        
-                        val cumpleStr = if (npc.cumpleanos != 0) "${npc.cumpleanos} de ${npc.estacionCumpleanos}" else "Desconocido"
-                        DetailInfoRow(label = "🎂 Cumpleaños", value = cumpleStr)
-                        
-                        DetailInfoRow(label = "💍 Estado civil", value = if (npc.esSoltero) "Soltero/a" else "Casado/a / Desconocido")
-                        
-                        if (npc.regalosAmados.isNotEmpty()) {
-                            DetailInfoRow(label = "💖 Regalos amados", value = npc.regalosAmados)
-                        }
-                        if (npc.regalosOdiados.isNotEmpty()) {
-                            DetailInfoRow(label = "💢 Regalos odiados", value = npc.regalosOdiados)
-                        }
-                        
-                        if (npc.posicion.isNotEmpty()) {
-                            DetailInfoRow(label = "🚶 Rutina", value = npc.posicion)
                         }
                     }
                 }
                 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(40.dp))
             }
         }
     }
@@ -284,7 +231,7 @@ fun DetailNpcScreen(
 @Composable
 fun DetailInfoRow(label: String, value: String) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
