@@ -3,7 +3,7 @@ Este documento explica cómo instalar la aplicación Android Manual del Granjero
 Requisitos previos
 - Un dispositivo con sistema operativo Android.
 - El archivo APK que se encuentra en este mismo repositorio.
-- Espacio de almacenamiento suficiente en el dispositivo.
+- Espacio de almacenamiento suficiente en el dispositivo (29MB).
 - Permisos para instalar aplicaciones desde fuentes externas (si corresponde).
 
 Credenciales de acceso del login
