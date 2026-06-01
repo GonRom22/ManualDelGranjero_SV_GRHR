@@ -19,7 +19,8 @@ Credenciales de acceso del login
   
 .................................................................................................................
 
-Paso 1: Transferir o descargar el APK
+Paso 1: Obtener el APK
+- Se encuentra en la carpeta APK, bajo el nombre de MGSV.apk (APK/MGSV.apk)
 
 Paso 2: Habilitar la instalación desde fuentes desconocidas
 
