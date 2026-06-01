@@ -53,7 +53,7 @@ fun LoginScreen(
                     containerColor = StardewGreen,
                     titleContentColor = Color.White
                 ),
-                title = { Text("Login Screen") }
+                title = { Text("Manual del Granjero: Stardew Valley") }
             )
         }
     )
