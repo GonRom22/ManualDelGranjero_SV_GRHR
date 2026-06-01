@@ -83,8 +83,12 @@ dependencies {
 
     //DataStore
     implementation(libs.androidx.datastore.preferences)
+    //Security Aqui guardamos el token cifrado
+    implementation(libs.androidx.security.crypto)
 
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk) //Añadimos nuevos test para cumplir con el TFG
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

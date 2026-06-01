@@ -5,11 +5,18 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.Response //import para el JWT
 
 /**
  * Interfaz de Retrofit para la nueva API REST de Stardew Valley.
  */
 interface ApiService {
+
+
+
+    //Endpoint de autenticación: Envia mail y paswword, si estan bien devuelve el JWT
+    @POST("auth/login")
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @GET("api")
     suspend fun healthCheck(): Map<String, String>

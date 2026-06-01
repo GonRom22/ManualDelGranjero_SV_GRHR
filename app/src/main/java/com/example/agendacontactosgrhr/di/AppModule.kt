@@ -1,5 +1,9 @@
 package com.example.agendacontactosgrhr.di
 
+import com.example.agendacontactosgrhr.data.local.SessionManager
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
@@ -10,7 +14,6 @@ import com.example.agendacontactosgrhr.data.local.dao.EdificioDao
 import com.example.agendacontactosgrhr.data.local.database.ContactoDataBase
 import com.example.agendacontactosgrhr.data.network.NetworkMonitor
 import com.example.agendacontactosgrhr.data.remote.datasource.ApiService
-
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,9 +61,33 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(baseURL: String) : Retrofit {
+    fun provideOkHttpClient(sessionManager: SessionManager): OkHttpClient
+    {
+        val authInterceptor = Interceptor { chain ->
+            val token = sessionManager.obtenerToken()
+            val request = if (token != null) {
+                chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+            } else {
+                chain.request()
+            }
+            chain.proceed(request)
+        }
+
+        return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
+    }
+
+    //Retrofit tiene pasado el interceptor del token
+    @Provides
+    @Singleton
+    fun provideRetrofit(baseURL: String, okHttpClient: OkHttpClient):
+            Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseURL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

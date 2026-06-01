@@ -62,25 +62,25 @@ fun LoginScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             //Título de pantalla
             Row(modifier = Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically){
 
-            Text("Inicio de sesión",
-                fontSize = 24.sp,
-                color = MaterialTheme.colorScheme.onBackground)
+                Text("Inicio de sesión",
+                    fontSize = 24.sp,
+                    color = MaterialTheme.colorScheme.onBackground)
             }
 
             HorizontalDivider()
 
-            //Texto de Usuario
+            //modificamos para que coincida con los campos de la API
             OutlinedTextField(
-                value = viewModel.userName,
-                onValueChange = viewModel::onUserNameChange,
+                value = viewModel.email,
+                onValueChange = viewModel::onEmailChange,
                 modifier = Modifier.padding(16.dp),
-                label = { Text("Introduce tu nombre") },
+                label = { Text("Email") },
                 singleLine = true
             )
 
@@ -92,8 +92,8 @@ fun LoginScreen(
                 modifier = Modifier.padding(16.dp),
                 singleLine = true,
                 visualTransformation =
-                if(viewModel.showPassword) VisualTransformation.None
-                else PasswordVisualTransformation(),
+                    if(viewModel.showPassword) VisualTransformation.None
+                    else PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(
                         onClick = {
@@ -110,6 +110,15 @@ fun LoginScreen(
                 }
             )
 
+            //Muestra el error de la API (credenciales incorrectas, sin conexion, etc)
+            viewModel.errorMessage?.let { error ->
+                Text(
+                    text = error,
+                    color = Color.Red,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+
             // Botón personalizado btn_login.png aumentado 1.5x (180*1.5=270, 60*1.5=90)
             Image(
                 painter = painterResource(id = R.drawable.btn_login),
@@ -120,8 +129,10 @@ fun LoginScreen(
                     .height(90.dp)
                     .clickable {
                         viewModel.login {
+
                             navController.navigate(Screens.HomeScreen.route) {
-                                popUpTo(Screens.Login.route) { inclusive = true }
+                                popUpTo(Screens.Login.route) { inclusive =
+                                    true }
                             }
                         }
                     }

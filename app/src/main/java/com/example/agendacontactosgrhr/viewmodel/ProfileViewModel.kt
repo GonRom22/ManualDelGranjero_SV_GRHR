@@ -15,13 +15,11 @@ class ProfileViewModel @Inject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    val userName: StateFlow<String?> = sessionManager.userName
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-
+    val userName: StateFlow<String?> = sessionManager.nombreUsuario
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),
+            null)
     fun logout(onLogout: () -> Unit) {
-        viewModelScope.launch {
-            sessionManager.clearSession()
-            onLogout()
-        }
+        sessionManager.cerrarSesion()
+        onLogout()
     }
-}
+    }
