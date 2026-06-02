@@ -25,6 +25,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val userName by viewModel.userName.collectAsState()
+    val userEmail by viewModel.userEmail.collectAsState()
 
     PantallaBase(
         titulo = "Perfil",
@@ -48,10 +49,10 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Nombre: ${userName ?: "Invitado"}",
+            Text("Nickname: ${userName ?: "Invitado"}",
                 fontSize = 24.sp)
-            // Podríamos añadir más datos si el SessionManager los guardara
-            Text("Email: ${userName?.lowercase()?.replace(" ", ".")}@email.com",
+
+            Text("Email: ${userEmail ?: "No disponible"}",
                 fontSize = 24.sp)
 
             Spacer(modifier = Modifier.height(24.dp))

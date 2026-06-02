@@ -51,7 +51,7 @@ fun CropCalculator(navController: NavHostController) {
     val itemsToCalculate = remember { mutableStateListOf<Pair<CropEntity, CultivoCalculo>>() }
     
     var selectedCrop by remember { mutableStateOf<CropEntity?>(null) }
-    var cantidad by remember { mutableStateOf("100") }
+    var cantidad by remember { mutableStateOf("10") }
     var harvests by remember { mutableStateOf("1") }
     var expanded by remember { mutableStateOf(false) }
 
@@ -77,14 +77,19 @@ fun CropCalculator(navController: NavHostController) {
                                 value = selectedCrop?.nombre ?: "Selecciona un cultivo",
                                 onValueChange = {},
                                 readOnly = true,
-                                label = { Text("Cultivo") },
+                                label = { Text("Cultivo",
+                                    fontSize = 18.sp) },
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 20.sp
+                                ),
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                                 modifier = Modifier.menuAnchor().fillMaxWidth()
                             )
                             ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                                 availableCrops.forEach { crop ->
                                     DropdownMenuItem(
-                                        text = { Text(crop.nombre) },
+                                        text = { Text(crop.nombre,
+                                            fontSize = 16.sp) },
                                         onClick = { selectedCrop = crop; expanded = false }
                                     )
                                 }
@@ -95,14 +100,22 @@ fun CropCalculator(navController: NavHostController) {
                             OutlinedTextField(
                                 value = cantidad,
                                 onValueChange = { cantidad = it },
-                                label = { Text("Cant.") },
+                                label = { Text("Cant.",
+                                    fontSize = 18.sp) },
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 18.sp
+                                ),
                                 modifier = Modifier.weight(1f),
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                             )
                             OutlinedTextField(
                                 value = harvests,
                                 onValueChange = { harvests = it },
-                                label = { Text("Cosechas") },
+                                label = { Text("Cosechas",
+                                    fontSize = 18.sp) },
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 18.sp
+                                ),
                                 modifier = Modifier.weight(1f),
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                             )
@@ -124,8 +137,8 @@ fun CropCalculator(navController: NavHostController) {
                 LazyColumn(modifier = Modifier.weight(1f).padding(vertical = 16.dp)) {
                     items(itemsToCalculate) { item ->
                         ListItem(
-                            headlineContent = { Text(item.first.nombre) },
-                            supportingContent = { Text("${item.second.cantidad} unidades x ${item.second.cosechas} cosechas") },
+                            headlineContent = { Text(item.first.nombre, fontSize = 24.sp)},
+                            supportingContent = { Text("${item.second.cantidad} unidades x ${item.second.cosechas} cosechas", fontSize = 18.sp) },
                             trailingContent = {
                                 IconButton(onClick = { itemsToCalculate.remove(item) }) {
                                     Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = Color.Red)
@@ -143,7 +156,8 @@ fun CropCalculator(navController: NavHostController) {
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !isLoading
                     ) {
-                        Text(if (isLoading) "Calculando..." else "CALCULAR TOTALES")
+                        Text(if (isLoading) "Calculando..." else "CALCULAR TOTALES",
+                            fontSize = 16.sp)
                     }
                 }
 
@@ -151,10 +165,10 @@ fun CropCalculator(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))) {
                         Column(Modifier.padding(16.dp).fillMaxWidth()) {
-                            Text("RESUMEN DE GANANCIAS", fontWeight = FontWeight.Bold, color = Color(0xFF2D5A27))
-                            Text("Ganancia Bruta: ${res.gananciaTotal}g")
-                            Text("Coste Semillas: ${res.costeSemillas}g")
-                            Text("Beneficio Neto: ${res.beneficioNeto}g", fontSize = 18.sp, fontWeight = FontWeight.ExtraBold, color = Color(0xFF2D5A27))
+                            Text("RESUMEN DE GANANCIAS", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2D5A27))
+                            Text("Ganancia Bruta: ${res.gananciaTotal}g", fontSize = 20.sp)
+                            Text("Coste Semillas: ${res.costeSemillas}g", fontSize = 20.sp)
+                            Text("Beneficio Neto: ${res.beneficioNeto}g", fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, color = Color(0xFF2D5A27))
                         }
                     }
                 }

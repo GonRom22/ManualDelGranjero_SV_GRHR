@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.data.local.entity.EdificioEntity
@@ -78,7 +79,11 @@ fun BuildingCalculator(navController: NavHostController) {
                                 value = selectedBuilding?.nombre ?: "Selecciona un edificio",
                                 onValueChange = {},
                                 readOnly = true,
-                                label = { Text("Edificio") },
+                                label = { Text("Edificio",
+                                    fontSize = 18.sp) },
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 22.sp
+                                ),
                                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                                 modifier = Modifier
                                     .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
@@ -87,7 +92,8 @@ fun BuildingCalculator(navController: NavHostController) {
                             ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                                 availableBuildings.forEach { building ->
                                     DropdownMenuItem(
-                                        text = { Text(building.nombre) },
+                                        text = { Text(building.nombre,
+                                            fontSize = 16.sp) },
                                         onClick = { selectedBuilding = building; expanded = false }
                                     )
                                 }
@@ -98,7 +104,11 @@ fun BuildingCalculator(navController: NavHostController) {
                             OutlinedTextField(
                                 value = cantidad,
                                 onValueChange = { if (it.all { char -> char.isDigit() }) cantidad = it },
-                                label = { Text("Cant.") },
+                                label = { Text("Cant.",
+                                    fontSize = 18.sp) },
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 22.sp
+                                ),
                                 modifier = Modifier.weight(1f),
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                             )
@@ -120,8 +130,10 @@ fun BuildingCalculator(navController: NavHostController) {
                 LazyColumn(modifier = Modifier.weight(1f).padding(vertical = 16.dp)) {
                     items(itemsToCalculate) { item ->
                         ListItem(
-                            headlineContent = { Text(item.first.nombre) },
-                            supportingContent = { Text("${item.second.cantidad} unidades") },
+                            headlineContent = { Text(item.first.nombre,
+                                fontSize = 24.sp) },
+                            supportingContent = { Text("${item.second.cantidad} unidades",
+                                fontSize = 18.sp) },
                             trailingContent = {
                                 IconButton(onClick = { itemsToCalculate.remove(item) }) {
                                     Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = Color.Red)
@@ -160,7 +172,7 @@ fun BuildingCalculator(navController: NavHostController) {
                         border = BorderStroke(1.dp, Color(0xFF8B6914))
                     ) {
                         Column(Modifier.padding(16.dp).fillMaxWidth()) {
-                            Text("TOTAL DE MATERIALES", fontWeight = FontWeight.Bold, color = Color(0xFF5C3A1E))
+                            Text("TOTAL DE MATERIALES", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0xFF5C3A1E))
                             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = Color(0xFF8B6914).copy(alpha = 0.3f))
                             
                             ResourceRow("Oro total", "${res.totalOro}g")
@@ -189,7 +201,7 @@ fun BuildingCalculator(navController: NavHostController) {
 @Composable
 fun ResourceRow(label: String, value: String) {
     Row(Modifier.fillMaxWidth().padding(vertical = 2.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(label, color = Color.DarkGray)
-        Text(value, fontWeight = FontWeight.Bold, color = Color(0xFF5C3A1E))
+        Text(label, color = Color.DarkGray, fontSize = 22.sp)
+        Text(value, fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0xFF5C3A1E))
     }
 }

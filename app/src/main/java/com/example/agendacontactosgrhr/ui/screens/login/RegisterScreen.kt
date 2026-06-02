@@ -148,7 +148,7 @@ fun RegisterScreen(
             }
 
             Image(
-                painter = painterResource(id = R.drawable.btn_login),
+                painter = painterResource(id = R.drawable.btn_registro),
                 contentDescription = "Registrarse",
                 modifier = Modifier
                     .padding(16.dp)
