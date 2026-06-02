@@ -15,23 +15,8 @@ data class UsuarioDto(//Datos del usuario devueltos por la api
     val email: String
 )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+data class RegisterRequest(   // la API espera { email, password, nombre? }
+    val email: String,
+    val password: String,
+    val nombre: String? = null   // opcional: si es null, la API usa la parte antes de la @
+)

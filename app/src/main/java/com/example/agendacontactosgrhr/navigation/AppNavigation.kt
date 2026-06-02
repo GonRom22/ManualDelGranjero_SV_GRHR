@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.agendacontactosgrhr.ui.screens.login.LoginScreen
+import com.example.agendacontactosgrhr.ui.screens.login.RegisterScreen
 import com.example.agendacontactosgrhr.ui.screens.HomeScreen
 import com.example.agendacontactosgrhr.ui.screens.npcs.DetailNpcScreen
 import com.example.agendacontactosgrhr.ui.screens.npcs.NpcScreen
@@ -34,6 +35,11 @@ fun AppNavigation() {
         // LOGIN
         composable(Screens.Login.route) {
             LoginScreen(navController)
+        }
+
+        // REGISTRO
+        composable(Screens.Register.route) {
+            RegisterScreen(navController)
         }
 
         // HOME

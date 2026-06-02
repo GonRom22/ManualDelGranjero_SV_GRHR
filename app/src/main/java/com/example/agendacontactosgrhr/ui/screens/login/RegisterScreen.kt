@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -35,16 +37,16 @@ import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.R
 import com.example.agendacontactosgrhr.navigation.Screens
 import com.example.agendacontactosgrhr.ui.theme.StardewGreen
-import com.example.agendacontactosgrhr.viewmodel.LoginViewModel
+import com.example.agendacontactosgrhr.viewmodel.RegisterViewModel
 
 /**
- * Pantalla de Login
+ * Pantalla de Registro
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     navController: NavHostController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -56,23 +58,36 @@ fun LoginScreen(
                 title = { Text("Manual del Granjero: Stardew Valley") }
             )
         }
-    )
-    { paddingValues ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //Título de pantalla
-            Row(modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically){
-
-                Text("Inicio de sesión",
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    "Crear cuenta",
                     fontSize = 32.sp,
-                    color = MaterialTheme.colorScheme.onBackground)
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             }
-            //modificamos para que coincida con los campos de la API
+            OutlinedTextField(
+                value = viewModel.nombre,
+                onValueChange = viewModel::onNombreChange,
+                modifier = Modifier.padding(16.dp),
+                label = { Text("Nombre (opcional)",
+                    fontSize = 24.sp) },
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    fontSize = 24.sp
+                ),
+                singleLine = true
+            )
+
             OutlinedTextField(
                 value = viewModel.email,
                 onValueChange = viewModel::onEmailChange,
@@ -85,29 +100,23 @@ fun LoginScreen(
                 singleLine = true
             )
 
-            //Contraseña
             OutlinedTextField(
                 value = viewModel.password,
                 onValueChange = viewModel::onPasswordChange,
-                label = {Text("Password",
-                    fontSize = 24.sp)},
+                label = { Text("Password",
+                    fontSize = 24.sp) },
                 textStyle = androidx.compose.ui.text.TextStyle(
                     fontSize = 24.sp
                 ),
                 modifier = Modifier.padding(16.dp),
                 singleLine = true,
                 visualTransformation =
-                    if(viewModel.showPassword) VisualTransformation.None
+                    if (viewModel.showPassword) VisualTransformation.None
                     else PasswordVisualTransformation(),
                 trailingIcon = {
-                    IconButton(
-                        onClick = {
-                            viewModel.togglePasswordVisibility()
-                        }
-                    ) {
+                    IconButton(onClick = { viewModel.togglePasswordVisibility() }) {
                         Icon(
-                            if (viewModel.showPassword)
-                                Icons.Default.Visibility
+                            if (viewModel.showPassword) Icons.Default.Visibility
                             else Icons.Default.VisibilityOff,
                             contentDescription = "Mostrar contraseña"
                         )
@@ -115,7 +124,21 @@ fun LoginScreen(
                 }
             )
 
-            //Muestra el error de la API (credenciales incorrectas, sin conexion, etc)
+            OutlinedTextField(
+                value = viewModel.confirmPassword,
+                onValueChange = viewModel::onConfirmPasswordChange,
+                label = { Text("Confirmar password",
+                    fontSize = 24.sp) },
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    fontSize = 24.sp
+                ),
+                modifier = Modifier.padding(16.dp),
+                singleLine = true,
+                visualTransformation =
+                    if (viewModel.showPassword) VisualTransformation.None
+                    else PasswordVisualTransformation()
+            )
+
             viewModel.errorMessage?.let { error ->
                 Text(
                     text = error,
@@ -124,34 +147,28 @@ fun LoginScreen(
                 )
             }
 
-            // Botón personalizado btn_login.png aumentado 1.5x (180*1.5=270, 60*1.5=90)
             Image(
-                painter = painterResource(id = R.drawable.btn_login),
-                contentDescription = "Login",
+                painter = painterResource(id = R.drawable.btn_registro),
+                contentDescription = "Registrarse",
                 modifier = Modifier
                     .padding(16.dp)
                     .width(270.dp)
                     .height(90.dp)
                     .clickable {
-                        viewModel.login {
-
+                        viewModel.register {
                             navController.navigate(Screens.HomeScreen.route) {
-                                popUpTo(Screens.Login.route) { inclusive =
-                                    true }
+                                popUpTo(Screens.Login.route) { inclusive = true }
                             }
                         }
                     }
             )
 
-            // Enlace a la pantalla de registro
             Text(
-                "¿No tienes cuenta? Regístrate",
+                "¿Ya tienes cuenta? Inicia sesión",
                 fontSize = 28.sp,
                 modifier = Modifier
-                    .padding(20.dp)
-                    .clickable {
-                        navController.navigate(Screens.Register.route)
-                    }
+                    .padding(8.dp)
+                    .clickable { navController.popBackStack() }
             )
         }
     }

@@ -42,9 +42,15 @@ fun HomeScreen(navController: NavHostController) {
         ) {
 
             Text(
-                text = "Bienvenidx a MGSV",
+                text = "Manual del Granjero:",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 24.dp)
+            )
+
+            Text(
+                text = "Stardew Valley",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 22.dp)
             )
 
             // NPC Screen Image Button

@@ -12,11 +12,13 @@ import retrofit2.Response //import para el JWT
  */
 interface ApiService {
 
-
-
     //Endpoint de autenticación: Envia mail y paswword, si estan bien devuelve el JWT
     @POST("auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+
+    //Endpoint de registro: crea un usuario nuevo. Devuelve 201 + token + usuario (igual que login)
+    @POST("auth/register")
+    suspend fun register(@Body request: RegisterRequest): Response<LoginResponse>
 
     @GET("api")
     suspend fun healthCheck(): Map<String, String>
