@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.agendacontactosgrhr.R
@@ -41,14 +42,17 @@ fun ProfileScreen(
 
             Text(
                 text = "Mi Perfil",
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium,
+                fontSize = 32.sp
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Nombre: ${userName ?: "Invitado"}")
+            Text("Nombre: ${userName ?: "Invitado"}",
+                fontSize = 24.sp)
             // Podríamos añadir más datos si el SessionManager los guardara
-            Text("Email: ${userName?.lowercase()?.replace(" ", ".")}@email.com")
+            Text("Email: ${userName?.lowercase()?.replace(" ", ".")}@email.com",
+                fontSize = 24.sp)
 
             Spacer(modifier = Modifier.height(24.dp))
 

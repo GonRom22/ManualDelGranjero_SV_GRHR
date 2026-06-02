@@ -69,7 +69,8 @@ fun SearcherScreen(navController: NavHostController) {
                 value = textoBusqueda,
                 onValueChange = { textoBusqueda = it },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Introduce lo que buscas...") },
+                placeholder = { Text("Introduce lo que buscas...",
+                    fontSize = 24.sp) },
                 leadingIcon = {
                     Icon(Icons.Default.Search, contentDescription = "Search Icon")
                 },
@@ -83,6 +84,7 @@ fun SearcherScreen(navController: NavHostController) {
             // Texto descriptivo añadido
             Text(
                 text = "Busca personajes por nombre o ubicación, y cultivos por nombre o temporada.",
+                fontSize = 24.sp,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp, start = 4.dp)
@@ -93,6 +95,7 @@ fun SearcherScreen(navController: NavHostController) {
             if (textoBusqueda.isNotEmpty() && resultados.isEmpty()) {
                 Text(
                     text = "No se encontraron personajes o cultivos para \"$textoBusqueda\"",
+                    fontSize = 22.sp,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(8.dp)
                 )
