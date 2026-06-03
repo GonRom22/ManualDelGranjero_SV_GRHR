@@ -161,7 +161,7 @@ fun DetailRow(label: String, value: String) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "$label:", fontWeight = FontWeight.SemiBold)
-        Text(text = value)
+        Text(text = "$label:", fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
+        Text(text = value, fontSize = 24.sp)
     }
 }

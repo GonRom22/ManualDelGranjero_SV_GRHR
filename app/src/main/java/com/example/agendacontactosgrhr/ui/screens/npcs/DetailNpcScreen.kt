@@ -69,7 +69,7 @@ fun DetailNpcScreen(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // --- IMAGEN ---
+                // IMAGEN
                 val drawableMap = mapOf(
                     "abigail" to R.drawable.abigail, "alex" to R.drawable.alex, "caroline" to R.drawable.caroline,
                     "clint" to R.drawable.clint, "demetrius" to R.drawable.demetrius, "dwarf" to R.drawable.dwarf,
@@ -113,7 +113,7 @@ fun DetailNpcScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // --- INFORMACIÓN GENERAL (Moved up for visibility) ---
+                // INFORMACIÓN GENERAL
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -143,8 +143,8 @@ fun DetailNpcScreen(
                         
                         DetailInfoRow(label = "💍 Estado civil", value = if (npc.esSoltero) "Soltero/a" else "Casado/a / Desconocido")
                         
-                        DetailInfoRow(label = "💖 Regalos amados", value = npc.regalosAmados.ifBlank { "Sincroniza datos en el Home" })
-                        DetailInfoRow(label = "💢 Regalos odiados", value = npc.regalosOdiados.ifBlank { "Sincroniza datos en el Home" })
+                        DetailInfoRow(label = "💖 Regalos amados", value = npc.regalosAmados.ifBlank { "Sincroniza datos desde la lista de personajes." })
+                        DetailInfoRow(label = "💢 Regalos odiados", value = npc.regalosOdiados.ifBlank { "Sincroniza datos desde la lista de personajes." })
                         
                         if (npc.posicion.isNotBlank()) {
                             DetailInfoRow(label = "🚶 Rutina", value = npc.posicion)
@@ -154,7 +154,7 @@ fun DetailNpcScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // --- SECCIÓN DE AMISTAD ---
+                // SECCIÓN DE AMISTAD
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -183,7 +183,7 @@ fun DetailNpcScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // --- SECCIÓN DE SEGUIMIENTO ---
+                //  SECCIÓN DE SEGUIMIENTO
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Card(
                         modifier = Modifier.weight(1f).clickable { viewModel.toggleHabladoHoy(npc.id) },
@@ -228,6 +228,7 @@ fun DetailNpcScreen(
     }
 }
 
+// INFO NPC SEGUIMIENTO
 @Composable
 fun DetailInfoRow(label: String, value: String) {
     Column(
@@ -237,11 +238,13 @@ fun DetailInfoRow(label: String, value: String) {
         Text(
             text = label,
             fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.secondary
         )
         Text(
             text = value,
+            fontSize = 16.sp,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             lineHeight = 20.sp

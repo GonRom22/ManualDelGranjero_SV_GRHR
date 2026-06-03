@@ -155,7 +155,7 @@ fun CropItem(crop: CropEntity, onClick: () -> Unit, onFavoriteClick: () -> Unit)
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = crop.nombre,
-                        fontSize = 20.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -165,6 +165,7 @@ fun CropItem(crop: CropEntity, onClick: () -> Unit, onFavoriteClick: () -> Unit)
                     ) {
                         Text(
                             text = crop.temporada,
+                            fontSize = 18.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -207,11 +208,13 @@ fun CropStat(label: String, value: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = label,
+            fontSize = 18.sp,
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = value,
+            fontSize = 18.sp,
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium
         )

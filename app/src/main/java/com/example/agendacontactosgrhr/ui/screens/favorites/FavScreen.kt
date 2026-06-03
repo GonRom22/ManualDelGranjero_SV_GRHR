@@ -92,6 +92,7 @@ fun FavScreen(navController: NavHostController) {
                     ) {
                         Text(
                             text = "No tienes favoritos aún. Agrega algunos desde las listas de NPCs o Cultivos.",
+                            fontSize = 24.sp,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
