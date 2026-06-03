@@ -14,14 +14,14 @@ import androidx.compose.ui.platform.LocalContext
 private val DarkColorScheme = darkColorScheme(
     primary = StardewLightBrown,
     secondary = StardewGreen,
-    tertiary = StardewCream,
+    tertiary = StardewTeal,
     background = StardewAppleGreen,
-    surface = StardewAppleGreen,
+    surface = Color(0xFFFFF9E6),
     onPrimary = Color.White,
     onSecondary = Color.White,
-    onTertiary = StardewBrown,
+    onTertiary = Color.White,
     onBackground = StardewBrown,
-    onSurface = StardewBrown
+    onSurface = StardewLightBrown
 )
 
 private val LightColorScheme = lightColorScheme(
