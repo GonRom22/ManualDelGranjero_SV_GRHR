@@ -167,11 +167,12 @@ fun NpcItem(npc: com.example.agendacontactosgrhr.data.local.entity.ContactoEntit
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = npc.name,
-                    fontSize = 18.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = npc.ubicacion,
+                    fontSize = 16.sp,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
