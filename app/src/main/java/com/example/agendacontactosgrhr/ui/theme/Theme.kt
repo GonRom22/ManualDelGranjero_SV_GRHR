@@ -20,8 +20,8 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = StardewBrown,
-    onBackground = StardewCream,
-    onSurface = StardewCream
+    onBackground = StardewBrown,
+    onSurface = StardewBrown
 )
 
 private val LightColorScheme = lightColorScheme(
