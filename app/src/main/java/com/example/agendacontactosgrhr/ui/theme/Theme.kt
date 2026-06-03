@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = StardewOrange,
-    secondary = StardewBlue,
+    primary = StardewLightBrown,
+    secondary = StardewGreen,
     tertiary = StardewCream,
     background = StardewAppleGreen,
     surface = StardewAppleGreen,

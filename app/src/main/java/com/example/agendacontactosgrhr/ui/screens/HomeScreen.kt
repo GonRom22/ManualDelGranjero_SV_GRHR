@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +38,8 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -44,13 +47,13 @@ fun HomeScreen(navController: NavHostController) {
             Text(
                 text = "Manual del Granjero:",
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = 14.dp)
             )
 
             Text(
                 text = "Stardew Valley",
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 22.dp)
+                modifier = Modifier.padding(bottom = 20.dp)
             )
 
             // NPC Screen Image Button
@@ -61,7 +64,7 @@ fun HomeScreen(navController: NavHostController) {
                 navController.navigate(Screens.NpcScreen.route)
             }
 
-            Spacer(modifier = Modifier.height(18.dp)) // 12 * 1.5 = 18
+            Spacer(modifier = Modifier.height(18.dp))
 
             // Building Calculator Image Button
             ImageMenuButton(
@@ -110,8 +113,8 @@ fun ImageMenuButton(resId: Int, contentDescription: String, onClick: () -> Unit)
         painter = painterResource(id = resId),
         contentDescription = contentDescription,
         modifier = Modifier
-            .width(270.dp) // 180 * 1.5 = 270 (Calculated from other screens' width)
-            .height(90.dp)  // 60 * 1.5 = 90
+            .width(270.dp)
+            .height(90.dp)
             .clickable(onClick = onClick)
     )
 }
