@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -56,6 +57,11 @@ fun CropCalculator(navController: NavHostController) {
     var expanded by remember { mutableStateOf(false) }
 
     PantallaBase(titulo = "Calculadora de Cultivos", navController = navController, acciones = {
+        if (itemsToCalculate.isNotEmpty()) {
+            IconButton(onClick = { itemsToCalculate.clear() }) {
+                Icon(Icons.Default.DeleteSweep, contentDescription = "Limpiar lista")
+            }
+        }
         IconButton(onClick = { cropsViewModel.syncCrops() }) {
             Icon(Icons.Default.Refresh, contentDescription = "Sincronizar Cultivos")
         }
